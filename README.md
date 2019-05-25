@@ -11,3 +11,5 @@ Backend einrichten:
 4. in zeile 10 in generate_database.py (engine = create_engine('mysql+pymysql://root:password@127.0.0.1')) ist der login für den mysql server
 
 5. es kann sein das beim ersten versuch die Zeile DROP SCHEMA test auskommentiert werden muss, falls es noch keine datenbank test gibt
+
+6. ausführen mit: \$ python database_controller.py
