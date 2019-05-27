@@ -26,7 +26,7 @@ def create_database():
         'game', meta,
         Column('gameID', Integer, primary_key=True, autoincrement=True),
         Column('date', Date),
-        Column('count', Integer, nullngable=False),
+        Column('count', Integer, nullable=False),
         Column('player1', Integer, ForeignKey(
             "player.playerID"), nullable=False),
         Column('player2', Integer, ForeignKey(
