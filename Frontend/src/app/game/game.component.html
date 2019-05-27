@@ -1,3 +1,31 @@
-<p>
-  game works!
-</p>
+<div class='game'>  
+  <!-- <div class='form'>
+    <mat-form-field>
+      <mat-label>Select a number of player</mat-label>
+    <mat-select  [(value)]='selected' (selectionChange)="onSelect($event.value)" >
+        <mat-option *ngFor="let num of nums" [value]="num.value" >
+          {{num.viewValue}}
+        </mat-option>
+      </mat-select>
+
+    </mat-form-field>
+  </div> -->
+
+  <!-- <div class="input-fields"  *ngFor="let i of temp_arr" >
+      <mat-form-field class="player-input-{{i}}">
+          <input #input matInput placeholder="Name Player {{i}}" (keyup.enter)="onUsernameInput(i, input.value)">
+        </mat-form-field>  
+    </div> -->
+
+    <div class="input">
+        <mat-form-field class="player-input">
+      <input #input matInput placeholder="Write your names to add em" 
+      (keyup.enter)="onUsernameInput(input.value)"
+      (blur)="onUsernameInput(input.value); input.value=''">
+        </mat-form-field>
+        <button (click)="onUsernameInput(input.value) ">Add</button>
+        <button (click)="removeUser() ">Remove</button>
+
+    </div>
+    <p *ngFor="let name of names">{{name}}</p>
+</div>

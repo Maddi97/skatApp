@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from './material.module';
 import { CardComponent } from './card/card.component';
@@ -26,7 +27,7 @@ const routes = [
     BodyComponent
   ],
   imports: [
-
+    BrowserAnimationsModule,
     MaterialModule,
     BrowserModule,
     RouterModule.forRoot(routes)
