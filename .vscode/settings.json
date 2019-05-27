@@ -1,3 +1,4 @@
 {
-    "python.linting.enabled": false
+    "python.linting.enabled": false,
+    "python.pythonPath": "C:\\Users\\sgdma\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe"
 }

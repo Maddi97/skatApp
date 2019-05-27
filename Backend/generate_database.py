@@ -7,7 +7,7 @@ def create_database():
     # ubuntu:password
     # windows:root
 
-    engine = create_engine('mysql+pymysql://root:password@127.0.0.1')
+    engine = create_engine('mysql+pymysql://root:root@127.0.0.1')
 
     # TODO Drop IF exists
     engine.execute("DROP SCHEMA test")
