@@ -19,11 +19,11 @@
 
     <div class="input">
         <mat-form-field class="player-input">
-      <input #input matInput placeholder="Write your names to add em" 
-      (keyup.enter)="onUsernameInput(input.value)"
-      (blur)="onUsernameInput(input.value); input.value=''">
+          <input #input matInput placeholder="Write your names to add em" 
+          (keyup.enter)="onUsernameInput(input.value); input.value=''"
+          >
         </mat-form-field>
-        <button (click)="onUsernameInput(input.value) ">Add</button>
+        <button (click)="onUsernameInput(input.value); input.value='' ">Add</button>
         <button (click)="removeUser() ">Remove</button>
 
     </div>
