@@ -21,13 +21,14 @@ class database_controller:
 # 3-5 player per game
 #date, count, p1, p2, p3, ( p4, p5)
         if(len(idList) == 3):
-            self.engine.execute("INSERT INTO game VALUES(null, '{}',{}, {},{},{}, null, null)".format(
+            self.engine.execute("INSERT INTO games VALUES(null, '{}',{}, {},{},{}, null, null)".format(
                 date, count, idList[0], idList[1], idList[2]))
+                
         elif(len(idList) == 4):
-            self.engine.execute("INSERT INTO game VALUES(null, '{}',{}, {},{},{},{}, null)".format(
+            self.engine.execute("INSERT INTO games VALUES(null, '{}',{}, {},{},{},{}, null)".format(
                 date, count, idList[0], idList[1], idList[2], idList[3]))
         elif(len(idList) == 5):
-            self.engine.execute("INSERT INTO game VALUES(null, '{}',{}, {},{},{},{},{})".format(
+            self.engine.execute("INSERT INTO games VALUES(null, '{}',{}, {},{},{},{},{})".format(
                 date, count, idList[0], idList[1], idList[2], idList[3], idList[4]))
         else:
             print("Unknown error occurd in add_game")
@@ -42,6 +43,12 @@ class database_controller:
 
         return result
 
+    def add_score(self, playerID, gameID, gameNum, score, color, unter, spec):
+        self.engine.execute("INSERT INTO game VALUES({}, {}, {}, {}, '{}', {}, '{}')".format(
+            playerID, gameID, gameNum, score, color, unter, spec
+        ))
+
+    
 
 x = database_controller()
 x.add_player('Maddi')
@@ -53,4 +60,6 @@ x.add_player('Jakob')
 
 x.add_game(5, datetime.now(), [
            'Maddi', 'Johann', 'Johan', 'Friedrich', 'Jakob'])
+
 x.add_game(36, datetime.now(), ['Johan', 'Friedrich', 'Jakob'])
+x.add_score(1,1, 1, 144, 'Grand', -1, 'no' )

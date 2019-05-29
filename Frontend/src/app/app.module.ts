@@ -1,10 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+
 
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from './material.module';
 import { CardComponent } from './card/card.component';
@@ -26,7 +29,9 @@ const routes = [
     BodyComponent
   ],
   imports: [
-
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
     MaterialModule,
     BrowserModule,
     RouterModule.forRoot(routes)
