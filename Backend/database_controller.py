@@ -23,6 +23,7 @@ class database_controller:
         if(len(idList) == 3):
             self.engine.execute("INSERT INTO games VALUES(null, '{}',{}, {},{},{}, null, null)".format(
                 date, count, idList[0], idList[1], idList[2]))
+                
         elif(len(idList) == 4):
             self.engine.execute("INSERT INTO games VALUES(null, '{}',{}, {},{},{},{}, null)".format(
                 date, count, idList[0], idList[1], idList[2], idList[3]))
