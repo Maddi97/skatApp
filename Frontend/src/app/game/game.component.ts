@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {MatTableDataSource} from "@angular/material"
+import { HttpClient } from '@angular/common/http';
+import { RestComService } from '../rest-com.service';
 
 export interface Number {
   value: number;
@@ -14,6 +16,7 @@ export interface Number {
 })
 export class GameComponent implements OnInit {
 
+  
   specs_form = new FormControl();
   specs: string[] = ['Hand', 'Schneider', 'Schwarz', 'Ouvert']
 
@@ -38,9 +41,13 @@ export class GameComponent implements OnInit {
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
  
 
-  constructor() {  }
+  constructor(private restCom: RestComService) { 
+    
+   }
 
   ngOnInit() {
+    this.getServerHello()
+    this.sendServerHello()
   }
 
 
@@ -117,9 +124,16 @@ export class GameComponent implements OnInit {
     if(farbe !== 'Null' || farbe != 'Ramsch'){
       score = wert * mult
     }
-    console.log(score)
     return score;
 
+  }
+
+  getServerHello(){
+    console.log(this.restCom.getServerHello())
+  }
+
+  sendServerHello(){
+    console.log(this.restCom.sendServerHello().subscribe())
   }
   
 }

@@ -8,6 +8,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+
 
 import { MaterialModule } from './material.module';
 import { CardComponent } from './card/card.component';
@@ -29,6 +31,7 @@ const routes = [
     BodyComponent
   ],
   imports: [
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
