@@ -30,9 +30,23 @@ export class RestComService {
     });
   }
 
-  sendServerHello(): Observable<string>{
-    this.serverData = JSON.parse(JSON.stringify({text: 'HelloWorld'}))
+  sendServerDataRow(DATA_ROW): Observable<string>{
+    this.serverData = JSON.parse(JSON.stringify(DATA_ROW))
     return this.http.post<string>('http://127.0.0.1:5000/postmethod', this.serverData, httpOptions)
+  
+  }
+
+  addPlayerOnServer(name): Observable<string>{
+    this.serverData = JSON.parse(JSON.stringify(name))
+    return this.http.post<string>('http://127.0.0.1:5000/addPlayer', this.serverData, httpOptions)
+  }
+  addGameOnServer(gameData): Observable<string>{
+    this.serverData = JSON.parse(JSON.stringify(gameData))
+    return this.http.post<string>('http://127.0.0.1:5000/addGame', this.serverData, httpOptions)
+  }
+  addGameDetailsOnServer(gameData): Observable<string>{
+    this.serverData = JSON.parse(JSON.stringify(gameData))
+    return this.http.post<string>('http://127.0.0.1:5000/addGameDetails', this.serverData, httpOptions)
   
   }
 }

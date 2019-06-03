@@ -4,10 +4,9 @@ import {MatTableDataSource} from "@angular/material"
 import { HttpClient } from '@angular/common/http';
 import { RestComService } from '../rest-com.service';
 
-export interface Number {
-  value: number;
-  viewValue: string;
-}
+//constants import
+
+import { SPECS, COLUMNS, FARBE, UNTER, data_row, INITIAL_DATA_ROW } from '../env'
 
 @Component({
   selector: 'app-game',
@@ -16,27 +15,23 @@ export interface Number {
 })
 export class GameComponent implements OnInit {
 
-  
+  // constant definitions
   specs_form = new FormControl();
-  specs: string[] = ['Hand', 'Schneider', 'Schwarz', 'Ouvert']
-
+  specs = SPECS;
+  columns = COLUMNS;
+  farbe = FARBE;
+  unter = UNTER;
+ 
   displayedColumns: string[];
   names: string[] = Array();
 
 
-  columns: string[] = ['Unter', 'Farbe', 'Specs', 'Bock', 'Gespielt']
-  farbe: string[] = ['Eichel', 'Grün', 'Rot', 'Schell', 'Grand', 'Null', 'Ramsch']
-  unter: string[] = ['Mit 1', 'Mit 2', 'Mit 3', 'Mit 4', 'Ohne 1', 'Ohne 2', 'Ohne 3', 'Ohne 4']
-
   selected_player: string;
 
-  DATA_ROW={
-    No: 0, Unter: '', Farbe: '', Specs:[], Bock: false, Gespielt: ''
-  }
+  DATA_ROW: data_row = INITIAL_DATA_ROW;
+  DATA_ROW_temp: data_row = INITIAL_DATA_ROW;
 
-
-  
-  ELEMENT_DATA=[] 
+  ELEMENT_DATA: data_row[] = []; 
 
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
  
@@ -46,8 +41,6 @@ export class GameComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.getServerHello()
-    this.sendServerHello()
   }
 
 
@@ -55,20 +48,22 @@ export class GameComponent implements OnInit {
     this.names.push(name)
     this.DATA_ROW[name]=0;
     this.displayedColumns = ['No'].concat(this.names.concat(this.columns));
+    
+    this.restCom.addPlayerOnServer({playerName: name}).subscribe()
 
   }
 
   game_select(cat: string, value){
-    this.DATA_ROW[cat]=value;
-    console.log(this.DATA_ROW)
+    this.DATA_ROW_temp[cat]=value;
   }
   removeUser(){
     this.names.pop()
   }
 
   form_submit(){
+    this.DATA_ROW=this.DATA_ROW_temp;
 
-    
+
     if(this.DATA_ROW.Unter =='' || this.DATA_ROW.Gespielt == '' || this.DATA_ROW.Farbe==''){
       
      //TODO
@@ -76,19 +71,21 @@ export class GameComponent implements OnInit {
      console.log("Error empty form fields")
     }
     else{
+        
         this.DATA_ROW.No = this.dataSource.data.length +1 
-
         let score = this.calc_score(this.DATA_ROW.Farbe, this.DATA_ROW.Unter, this.DATA_ROW.Specs,this.DATA_ROW.Bock)
         this.DATA_ROW[this.DATA_ROW.Gespielt] = score;
-        const data = this.dataSource.data;
-        data.push(this.DATA_ROW);
+        let data = this.dataSource.data;
         this.dataSource.data = data
+        
+        if(this.DATA_ROW.No==1){
+          this.restCom.addGameOnServer({playerList: this.names}).subscribe()
+        }
 
+        this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe()
 
         //Todooooo Reset Data ROw
-        this.DATA_ROW = {
-          No: 0,  Unter: '', Farbe: '', Specs:[], Bock: false, Gespielt: ''
-        }
+        this.DATA_ROW = INITIAL_DATA_ROW;
     }
   }
 
@@ -129,11 +126,21 @@ export class GameComponent implements OnInit {
   }
 
   getServerHello(){
-    console.log(this.restCom.getServerHello())
+    this.restCom.getServerHello()
   }
 
-  sendServerHello(){
-    console.log(this.restCom.sendServerHello().subscribe())
+  sendServerDataRow(DATA_ROW){
+    console.log(this.restCom.sendServerDataRow(DATA_ROW).subscribe())
+  }
+
+  resetDataRow(){
+    this.DATA_ROW.No=0;
+    this.DATA_ROW.Unter='';
+    this.DATA_ROW.Farbe='';
+    this.DATA_ROW.Gespielt='';
+    this.DATA_ROW.Specs=[];
+    this.DATA_ROW.Bock=false;
+
   }
   
 }

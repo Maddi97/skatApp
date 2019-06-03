@@ -46,8 +46,14 @@ def create_database():
         Column('gameNum', Integer, nullable=False),
         Column('score', Integer, nullable=False),
         Column('color', String(35)),
-        Column('unter', Integer),
-        Column('spec', String(35)),
+        Column('unter', String(35)),
+        Column('Hand', Boolean),
+        Column('Schneider', Boolean),
+        Column('Schwarz', Boolean),
+        Column('Schneider angesagt', Boolean),
+        Column('Schwarz angesagt', Boolean),
+        Column('Ouvert', Boolean),
+        Column('Ouvert', Boolean),
         PrimaryKeyConstraint('playerID', 'gameID', 'gameNum', name='pk_game')
     )
 

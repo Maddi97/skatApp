@@ -6,7 +6,7 @@ from generate_database import create_database
 class database_controller:
     def __init__(self):
         self.engine = create_database()
-
+        self.engine.execute("USE test")
     def add_player(self, name):
         self.engine.execute(
             "INSERT INTO player VALUES(null, '{}')".format(name))
@@ -43,23 +43,33 @@ class database_controller:
 
         return result
 
-    def add_score(self, playerID, gameID, gameNum, score, color, unter, spec):
-        self.engine.execute("INSERT INTO game VALUES({}, {}, {}, {}, '{}', {}, '{}')".format(
-            playerID, gameID, gameNum, score, color, unter, spec
+    def get_last_game_id(self):
+        result = None
+        id = self.engine.execute(
+            "SELECT MAX(gameID) from games"
+        )
+        for x in id:
+            result = x[0]
+
+        return result
+
+    def add_score(self, playerID, gameID, gameNum, score, color, unter, bock,  hand, schneider, schwarz, schneider_angesagt, schwarz_angesagt, ouvert ):
+        self.engine.execute("INSERT INTO game VALUES({}, {}, {}, {}, '{}', '{}', {}, {}, {}, {}, {}, {})".format(
+            playerID, gameID, gameNum, score, color, unter,bock, hand, schneider, schwarz, schneider_angesagt, schwarz_angesagt, ouvert
         ))
 
     
 
-x = database_controller()
-x.add_player('Maddi')
-x.add_player('Johann')
-x.add_player('Johan')
-x.add_player('Friedrich')
-x.add_player('Jakob')
+# x = database_controller()
+# x.add_player('Maddi')
+# x.add_player('Johann')
+# x.add_player('Johan')
+# x.add_player('Friedrich')
+# x.add_player('Jakob')
 
 
-x.add_game(5, datetime.now(), [
-           'Maddi', 'Johann', 'Johan', 'Friedrich', 'Jakob'])
+# x.add_game(5, datetime.now(), [
+#            'Maddi', 'Johann', 'Johan', 'Friedrich', 'Jakob'])
 
-x.add_game(36, datetime.now(), ['Johan', 'Friedrich', 'Jakob'])
-x.add_score(1,1, 1, 144, 'Grand', -1, 'no' )
+# x.add_game(36, datetime.now(), ['Johan', 'Friedrich', 'Jakob'])
+# x.add_score(1,1, 1, 144, 'Grand', -1, 'no' )
