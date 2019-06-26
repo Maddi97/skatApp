@@ -7,7 +7,7 @@ def create_database():
     # ubuntu:password
     # windows:root
 
-    engine = create_engine('mysql+pymysql://root:password@127.0.0.1')
+    engine = create_engine('mysql+pymysql://root:root@127.0.0.1')
 
     # TODO Drop IF exists
     engine.execute("DROP SCHEMA test")
@@ -22,8 +22,8 @@ def create_database():
         Column('name', String(35), unique=True),
     )
 
-    game = Table(
-        'game', meta,
+    games = Table(
+        'games', meta,
         Column('gameID', Integer, primary_key=True, autoincrement=True),
         Column('date', Date),
         Column('count', Integer, nullable=False),
@@ -39,10 +39,22 @@ def create_database():
             "player.playerID"), nullable=True),
     )
 
+    game = Table(
+        'game', meta,
+        Column('playerID', Integer, ForeignKey('player.playerID')),
+        Column('gameID', Integer, ForeignKey('games.gameID')),
+        Column('gameNum', Integer, nullable=False),
+        Column('score', Integer, nullable=False),
+        Column('color', String(35)),
+        Column('unter', Integer),
+        Column('spec', String(35)),
+        PrimaryKeyConstraint('playerID', 'gameID', 'gameNum', name='pk_game')
+    )
+
     score = Table(
         'score', meta,
         Column('playerID', Integer, ForeignKey('player.playerID')),
-        Column('gameID', Integer, ForeignKey('game.gameID')),
+        Column('gameID', Integer, ForeignKey('games.gameID')),
         Column('score', Integer, nullable=False),
         PrimaryKeyConstraint('playerID', 'gameID', name='pk')
     )
