@@ -7,7 +7,7 @@ def create_database():
     # ubuntu:password
     # windows:root
 
-    engine = create_engine('mysql+pymysql://root:root@127.0.0.1')
+    engine = create_engine('mysql+pymysql://root:password@127.0.0.1')
 
     # TODO Drop IF exists
     engine.execute("DROP SCHEMA test")
@@ -16,47 +16,37 @@ def create_database():
 
     meta = MetaData()
 
-    player = Table(
-        'player', meta,
+    Player = Table(
+        'Player', meta,
         Column('playerID', Integer, primary_key=True, autoincrement=True),
         Column('name', String(35), unique=True),
     )
 
-    games = Table(
-        'games', meta,
+    Game = Table(
+        'Game', meta,
         Column('gameID', Integer, primary_key=True, autoincrement=True),
-        Column('date', Date),
-        Column('count', Integer, nullable=False),
-        Column('player1', Integer, ForeignKey(
-            "player.playerID"), nullable=False),
-        Column('player2', Integer, ForeignKey(
-            "player.playerID"), nullable=False),
-        Column('player3', Integer, ForeignKey(
-            "player.playerID"), nullable=False),
-        Column('player4', Integer, ForeignKey(
-            "player.playerID"), nullable=True),
-        Column('player5', Integer, ForeignKey(
-            "player.playerID"), nullable=True),
+        Column('date', String(35)),
+        Column('gameRoundAmount', Integer, nullable=False),
+        Column('playerAmount', Integer, nullable=False),
     )
 
-    game = Table(
-        'game', meta,
-        Column('playerID', Integer, ForeignKey('player.playerID')),
-        Column('gameID', Integer, ForeignKey('games.gameID')),
-        Column('gameNum', Integer, nullable=False),
+    GameDetails = Table(
+        'GameDetails', meta,
+        Column('gameRound', Integer, nullable=False),
+        Column('gameID', Integer, ForeignKey('Game.gameID')),
+        Column('playerID', Integer, ForeignKey('Player.playerID')),
         Column('score', Integer, nullable=False),
+        Column('scoreSum', Integer),
         Column('color', String(35)),
-        Column('unter', Integer),
-        Column('spec', String(35)),
-        PrimaryKeyConstraint('playerID', 'gameID', 'gameNum', name='pk_game')
-    )
-
-    score = Table(
-        'score', meta,
-        Column('playerID', Integer, ForeignKey('player.playerID')),
-        Column('gameID', Integer, ForeignKey('games.gameID')),
-        Column('score', Integer, nullable=False),
-        PrimaryKeyConstraint('playerID', 'gameID', name='pk')
+        Column('unter', String(35)),
+        Column('Hand', Boolean),
+        Column('Schneider', Boolean),
+        Column('Schwarz', Boolean),
+        Column('Schneider angesagt', Boolean),
+        Column('Schwarz angesagt', Boolean),
+        Column('Ouvert', Boolean),
+        Column('Bock', Boolean),
+        PrimaryKeyConstraint('gameID', 'gameRound', name='gameDetails')
     )
 
     meta.create_all(engine)
