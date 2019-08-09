@@ -86,7 +86,7 @@ export class GameComponent implements OnInit {
         this.restCom.addGameOnServer({ playerList: this.names }).subscribe();
       }
 
-      //this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe()  ####add game details aufruf!!1!11!1
+      //this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
 
       //Todooooo Reset Data ROw
       this.DATA_ROW = INITIAL_DATA_ROW;
