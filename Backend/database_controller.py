@@ -13,6 +13,8 @@ class database_controller:
             "INSERT INTO Player VALUES(null, '{}')".format(name))
 
     def add_gameDetails(self, gameRound, gameID, playerID, score, color, unter,  hand, schneider, schwarz, schneider_angesagt, schwarz_angesagt, ouvert, bock):
+        print(gameRound, gameID, playerID, score, color, unter,  hand,
+              schneider, schwarz, schneider_angesagt, schwarz_angesagt, ouvert, bock)
         self.engine.execute(
             "INSERT INTO GameDetails Values({}, {}, {}, {}, {}, '{}', '{}', {}, {}, {}, {}, {}, {}, {})".format(
                 gameRound, gameID, playerID, score, self.get_scoreSum(gameID, gameRound, playerID)+score, str(color), str(unter),  hand, schneider, schwarz, schneider_angesagt, schwarz_angesagt, ouvert, bock)
@@ -69,39 +71,41 @@ class database_controller:
         return result
 
 
-x = database_controller()
-x.add_player('Maddi')
-x.add_player('Johann')
-x.add_player('Johan')
-x.add_player('Friedrich')
-x.add_player('Jakob')
+# x = database_controller()
+# x.add_player('Maddi')
+# x.add_player('Johann')
+# x.add_player('Johan')
+# x.add_player('Friedrich')
+# x.add_player('Jakob')
 
-x.add_game(str(datetime.now()).split(" ")[0], 1, 4)
-x.add_gameDetails(1, 1, 1, 144, 'Grand',
-                  'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-x.add_gameDetails(x.get_last_round_num(1)+1, 1, 3, 1344, 'Grün',
-                  'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-x.add_gameDetails(x.get_last_round_num(1)+1, 1, 4, 423, 'Rot',
-                  'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-x.add_gameDetails(x.get_last_round_num(1)+1, 1, 2, 144, 'Null',
-                  'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-x.add_gameDetails(x.get_last_round_num(1)+1, 1, 2, 1344, 'Grand',
-                  'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-x.add_gameDetails(x.get_last_round_num(1)+1, 1, 1, 423, 'Grand',
-                  'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+# x.add_game(str(datetime.now()).split(" ")[0], 1, 4)
+# x.add_gameDetails(1, 1, 1, 144, 'Grand',
+#                   'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+# x.add_gameDetails(x.get_last_round_num(1)+1, 1, 3, 1344, 'Grün',
+#                   'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+# x.add_gameDetails(x.get_last_round_num(1)+1, 1, 4, 423, 'Rot',
+#                   'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+# x.add_gameDetails(x.get_last_round_num(1)+1, 1, 2, 144, 'Null',
+#                   'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+# x.add_gameDetails(x.get_last_round_num(1)+1, 1, 2, 1344, 'Grand',
+#                   'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+# x.add_gameDetails(x.get_last_round_num(1)+1, 1, 1, 423, 'Grand',
+#                   'Mit 4', 1, 0, 0, 1, 1, 0, 1)
 
-x.add_game(str(datetime.now()).split(" ")[0], 1, 4)
+# x.add_game(str(datetime.now()).split(" ")[0], 1, 4)
 
-x.add_gameDetails(1, 2, 1, 1344, 'Grand',
-                  'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-x.add_gameDetails(2, 2, 1, 423, 'Grand',
-                  'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-x.add_gameDetails(3, 2, 2, 432, 'Null',
-                  'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-x.add_gameDetails(4, 2, 4, 32, 'Grand',
-                  'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-x.add_gameDetails(5, 2, 5, 122, 'Grand',
-                  'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+# x.add_gameDetails(1, 2, 1, 1344, 'Grand',
+#                   'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+# x.add_gameDetails(2, 2, 1, 423, 'Grand',
+#                   'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+# x.add_gameDetails(3, 2, 2, 432, 'Null',
+#                   'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+# x.add_gameDetails(4, 2, 4, 32, 'Grand',
+#                   'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+# x.add_gameDetails(5, 2, 5, 122, 'Grand',
+#                   'Mit 4', 1, 0, 0, 1, 1, 0, 1)
 
-# x.add_game(36, datetime.now(), ['Johan', 'Friedrich', 'Jakob'])
-# x.add_score(1,1, 1, 144, 'Grand', -1, 'no' )
+# # x.add_game(36, datetime.now(), ['Johan', 'Friedrich', 'Jakob'])
+# # x.add_score(1,1, 1, 144, 'Grand', -1, 'no' )
+# print(str(datetime.now()).split(" ")[0])
+# print(str(datetime.now()).split(" "))
