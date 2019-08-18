@@ -59,7 +59,7 @@ export class GameComponent implements OnInit {
     this.names.pop();
   }
 
-  form_submit() {
+  async form_submit() {
     this.DATA_ROW = this.DATA_ROW_temp;
 
     if (
@@ -79,15 +79,23 @@ export class GameComponent implements OnInit {
         this.DATA_ROW.Bock
       );
       this.DATA_ROW[this.DATA_ROW.Gespielt] = score;
-      let data = this.dataSource.data;
-      this.dataSource.data = data;
+      let gameRound = this.DATA_ROW.No;
 
       if (this.DATA_ROW.No == 1) {
         this.restCom.addGameOnServer({ playerList: this.names }).subscribe();
       }
 
-      //this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
+      //---------------------------------------------------------------------------------------------------------
+      this.ELEMENT_DATA.push(this.DATA_ROW); //--> hier ist der fail, vllt komplette tabelle aus DB holen und hier rein, weil in db ist tabeelle richtig
+      //  this.dataSource.data = this.ELEMENT_DATA;
+      this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
+      console.log(this.ELEMENT_DATA);
 
+      let gameDetails = await this.restCom.getGameDetailsCurrentGame(); // --> muss erst auf antowrt warten da sonst auf gameDetails=undefined gearbeitet wird
+
+      console.log(gameDetails);
+      this.dataSource.data = this.setElementData(gameDetails);
+      //---------------------------------------------------------------------------------------------------------
       //Todooooo Reset Data ROw
       this.DATA_ROW = INITIAL_DATA_ROW;
     }
@@ -129,14 +137,10 @@ export class GameComponent implements OnInit {
     if (specs.length > 0) mult += specs.length;
     if (bock == true) mult *= 2;
 
-    if (farbe !== "Null" || farbe != "Ramsch") {
+    if (farbe !== "Null" || farbe !== "Ramsch") {
       score = wert * mult;
     }
     return score;
-  }
-
-  getServerHello() {
-    this.restCom.getServerHello();
   }
 
   sendServerDataRow(DATA_ROW) {
@@ -150,5 +154,14 @@ export class GameComponent implements OnInit {
     this.DATA_ROW.Gespielt = "";
     this.DATA_ROW.Specs = [];
     this.DATA_ROW.Bock = false;
+  }
+
+  setElementData(gameDetailsAsDict) {
+    var detailsAsList = [];
+    console.log(gameDetailsAsDict);
+    for (var key in gameDetailsAsDict["currentGameDetails"]) {
+      detailsAsList.push(gameDetailsAsDict["currentGameDetails"][key]);
+    }
+    return detailsAsList;
   }
 }
