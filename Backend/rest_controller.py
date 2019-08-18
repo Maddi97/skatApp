@@ -30,12 +30,12 @@ def add_new_game():
 def add_game_details():
     time.sleep(1)
     jsdata = request.json
-    print(jsdata)
+   # print(jsdata)
     game_data = game_details_datasctrucutre(jsdata)
     gameID = db_controller.get_last_game_id()
     playerID = db_controller.get_player_id(game_data['Gespielt'])
 
-    print("game_data= {}".format(game_data))
+   # print("game_data= {}".format(game_data))
 
     db_controller.add_gameDetails(game_data['No'], gameID, playerID, game_data[game_data['Gespielt']], game_data['Farbe'], game_data['Unter'],
                                   game_data['Hand'], game_data['Schneider'], game_data['Schwarz'], game_data['Schneider_angesagt'], game_data['Schwarz_angesagt'], game_data['Ouvert'], game_data['Bock'])
@@ -48,6 +48,15 @@ def add_new_player():
     jsdata = request.json
     db_controller.add_player(jsdata['playerName'])
     return (jsonify({'success': 'true'}))
+
+
+@app.route('/getGameDetailsCurrentGame', methods=['GET'])
+def get_gameDetailsCurrentGame():
+    time.sleep(2)
+    gameID = db_controller.get_last_game_id()
+    gameDetails = db_controller.get_gameDetails(gameID)
+
+    return jsonify({'currentGameDetails': gameDetails})
 
 
 def game_details_datasctrucutre(game_details):

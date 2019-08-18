@@ -1,4 +1,5 @@
 from datetime import datetime
+from flask import jsonify
 
 from generate_database import create_database
 
@@ -39,10 +40,10 @@ class database_controller:
 
     def get_last_game_id(self):
         result = None
-        id = self.engine.execute(
+        gameID = self.engine.execute(
             "SELECT MAX(gameID) from Game"
         )
-        for x in id:
+        for x in gameID:
             result = x[0]
 
         return result
@@ -70,8 +71,20 @@ class database_controller:
 
         return result
 
+    def get_gameDetails(self, gameID):
+        result = None
+        details = self.engine.execute(
+            "SELECT * FROM GameDetails WHERE gameID={}".format(gameID))
+
+        currentDetailsAsDict = {}
+        for x in details:
+            currentDetailsAsDict[x[0]] = (dict(x))
+
+        return currentDetailsAsDict
+
 
 # x = database_controller()
+
 # x.add_player('Maddi')
 # x.add_player('Johann')
 # x.add_player('Johan')
@@ -105,7 +118,12 @@ class database_controller:
 # x.add_gameDetails(5, 2, 5, 122, 'Grand',
 #                   'Mit 4', 1, 0, 0, 1, 1, 0, 1)
 
-# # x.add_game(36, datetime.now(), ['Johan', 'Friedrich', 'Jakob'])
-# # x.add_score(1,1, 1, 144, 'Grand', -1, 'no' )
+# x.add_game(36, datetime.now(), ['Johan', 'Friedrich', 'Jakob'])
+# x.add_score(1,1, 1, 144, 'Grand', -1, 'no' )
+
+# b = x.get_last_game_id()
+# print(b)
+
+# x.get_gameDetails(b)
 # print(str(datetime.now()).split(" ")[0])
 # print(str(datetime.now()).split(" "))
