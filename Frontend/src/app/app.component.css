@@ -6,10 +6,10 @@
 }
 
 .title{
-    font-size: 28px;
+    font-size: 3rem;
     color: aliceblue;
     justify-content: center;
-    font-family: 'Franklin Gothic Medium';
+    font-family: 'Monaco';
 }
 .display-4{
     margin: auto;
