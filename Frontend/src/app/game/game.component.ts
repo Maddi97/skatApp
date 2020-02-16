@@ -15,6 +15,7 @@ import {
   data_row,
   INITIAL_DATA_ROW
 } from "../env";
+import { scheduleMicroTask } from '@angular/core/src/util';
 
 @Component({
   selector: "app-game",
@@ -35,7 +36,7 @@ export class GameComponent implements OnInit {
   selected_player: string;
   gameDetails: any;
   data: any;
-  highscores: any;
+  highscore: number = 0;
 
   DATA_ROW: data_row = INITIAL_DATA_ROW;
   DATA_ROW_temp: data_row = INITIAL_DATA_ROW;
@@ -66,13 +67,13 @@ export class GameComponent implements OnInit {
   }
 
   onUsernameInput(name: string) {
+    if(this.names.length < 5 ){
     this.names.push(name);
     this.DATA_ROW[name] = 0;
     this.displayedColumns = ["No"].concat(this.names.concat(["Bock"]));
     // this.displayedColumns = this.names.concat(["Bock"]);
-
-
     this.restCom.addPlayerOnServer({ playerName: name }).subscribe();
+    }
   }
 
   game_select(cat: string, value) {
@@ -99,7 +100,9 @@ export class GameComponent implements OnInit {
         this.DATA_ROW.Bock
       );
       this.DATA_ROW[this.DATA_ROW.Gespielt] = score;
-
+      if (score > this.highscore ){
+        this.highscore = score;
+      }
       this.data = this.dataSource.data; //dont know what these lines do but its important
       this.data.push(this.DATA_ROW); 
       this.dataSource.data = this.data;
@@ -122,12 +125,12 @@ export class GameComponent implements OnInit {
     }
   }
 
-  highscore(){
-    this.restCom.getHighScoreCurrentGame().subscribe(data => {
-      this.highscores = data;
-    });
+  // highscore(){
+  //   this.restCom.getHighScoreCurrentGame().subscribe(data => {
+  //     this.highscores = data;
+  //   });
 
-  }
+  // }
 
   calc_score(farbe, unter, specs, bock) {
     let wert = 0;
