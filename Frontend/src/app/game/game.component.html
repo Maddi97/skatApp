@@ -18,9 +18,12 @@
   <mat-tab label="Table">
     <div *ngIf="submit">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; background-color: rgb(243, 242, 233);">
-        <div *ngFor="let name of displayedColumns">
+        <div *ngFor="let name of displayedColumns; i as index">
           <ng-container matColumnDef="{{name}}" sticky>
-            <th mat-header-cell *matHeaderCellDef> <h5 style="font-family: Monaco; padding-left: 1rem;">{{name}}</h5> </th>
+            <th mat-header-cell *matHeaderCellDef> 
+              <h5 style="font-family: Monaco; padding-left: 1rem;" *ngIf="!edit">
+              {{name}}</h5> 
+            </th>
             <td mat-cell *matCellDef="let element" style="font-family: Monaco; padding-left: 1rem;"> {{element[name]}}</td>
           </ng-container>
         </div>
@@ -104,5 +107,5 @@
       <tr mat-header-row *matHeaderRowDef="COLUMNS"></tr>
       <tr mat-row *matRowDef="let row; columns: COLUMNS"></tr>
   </table>
-
+  <p style="font-family: Monaco; color: red;"> {{errorMessage}}</p>
 </div>

@@ -37,6 +37,7 @@ export class GameComponent implements OnInit {
   gameDetails: any;
   data: any;
   highscore: number = 0;
+  errorMessage: string = '';
 
   DATA_ROW: data_row = INITIAL_DATA_ROW;
   DATA_ROW_temp: data_row = INITIAL_DATA_ROW;
@@ -46,6 +47,7 @@ export class GameComponent implements OnInit {
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
   submit: boolean = false;
+  edit: boolean = false;
 
   constructor(
     private restCom: RestComService,
@@ -75,6 +77,10 @@ export class GameComponent implements OnInit {
     this.restCom.addPlayerOnServer({ playerName: name }).subscribe();
     }
   }
+  editName(i: string, newName: string){
+    this.names[i] = newName;
+    console.log('hier bin ich');
+  }
 
   game_select(cat: string, value) {
     this.DATA_ROW_temp[cat] = value;
@@ -91,6 +97,7 @@ export class GameComponent implements OnInit {
       this.DATA_ROW.Farbe == ""
     ) {
       console.log("Error empty form fields");
+      this.errorMessage = 'Fill in empty form fields!';
     } else {
       this.DATA_ROW.No = this.dataSource.data.length + 1;
       let score = this.calc_score(
@@ -122,6 +129,7 @@ export class GameComponent implements OnInit {
       //Todooooo Reset Data ROw
       this.DATA_ROW = this.DATA_ROW_temp = {No: 0, Unter: '', Farbe: '', Specs:[], Bock: false, Gespielt: ''};
       this.submit = true;
+      this.errorMessage = '';
     }
   }
 
@@ -131,6 +139,7 @@ export class GameComponent implements OnInit {
   //   });
 
   // }
+
 
   calc_score(farbe, unter, specs, bock) {
     let wert = 0;
