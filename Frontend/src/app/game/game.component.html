@@ -1,108 +1,93 @@
 <div class='game'>  
   <h1 class="display-5" style="color: rgb(97, 100, 102); font-family: Monaco;"> let us play</h1>
-<div>
-  <div class="input-group">
-    <input #input type="text" class="form-control" placeholder="Write your names to add em"aria-describedby="button-addon4" (keyup.enter)="onUsernameInput(input.value); input.value=''" style="font-family: Monaco;">
-    <div class="input-group-append" id="button-addon4">
-      <button class="btn btn-outline-secondary" type="button" (click)="onUsernameInput(input.value); input.value='' " style="font-family: Monaco;">Add</button>
-      <button class="btn btn-outline-secondary" type="button" (click)="removeUser() " style="font-family: Monaco;">Remove</button>
+  <div>
+    <div class="input-group">
+      <input #input type="text" class="form-control" placeholder="Write your names to add em"aria-describedby="button-addon4" (keyup.enter)="onUsernameInput(input.value); input.value=''" style="font-family: Monaco;">
+      <div class="input-group-append" id="button-addon4">
+        <button class="btn btn-outline-secondary" type="button" (click)="onUsernameInput(input.value); input.value='' " style="font-family: Monaco;">Add</button>
+        <button class="btn btn-outline-secondary" type="button" (click)="removeUser() " style="font-family: Monaco;">Remove</button>
+      </div>
+    </div>
+    <div class="highscore">
+      <!-- TO DO: Highscore anzeigen nebeneinander. -->
+      HIGHSCORE: {{highscore}}
     </div>
   </div>
-  <div class="highscore">
-    <!-- TO DO: Highscore anzeigen nebeneinander. -->
-    HIGHSCORE: {{highscore}}
-  </div>
-</div>
 
-<mat-tab-group class="shadow rounded" style="width: 100%; background-color: #71698d;">
-  <mat-tab label="Table">
-    <div *ngIf="submit">
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; background-color: rgb(243, 242, 233);">
-        <div *ngFor="let name of displayedColumns">
-          <ng-container matColumnDef="{{name}}" sticky>
-            <th mat-header-cell *matHeaderCellDef> <h5 style="font-family: Monaco; padding-left: 1rem;">{{name}}</h5> </th>
-            <td mat-cell *matCellDef="let element" style="font-family: Monaco; padding-left: 1rem;"> {{element[name]}}</td>
-          </ng-container>
-        </div>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
+  <mat-tab-group class="shadow rounded" style="width: 100%; background-color: #71698d;">
+    <mat-tab label="Table">
+      <div *ngIf="submit">
+        <app-table [(dataSource)]="dataSource" [(displayedColumns)]="displayedColumns"></app-table>
+      </div>
+    </mat-tab>
+    <mat-tab label="Charts">
+      <app-charts [(table)]="gameTable"></app-charts>
+    </mat-tab>
+  </mat-tab-group>
+  
+  <table mat-table class="" style="width: 100%;">
+    <div>
+      <ng-container matColumnDef="footer-gespielt">
+        <th mat-footer-cell *matFooterCellDef> 
+          <mat-form-field>
+            <mat-label style="font-family: Monaco;">Gespielt:</mat-label>
+            <mat-select [(value)]="DATA_ROW_temp.Gespielt">
+              <mat-option *ngFor="let name of names" [value]="name" style="font-family: Monaco;">
+                {{name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="footer-farbe">
+        <th mat-footer-cell *matFooterCellDef> 
+          <mat-form-field>
+            <mat-label style="font-family: Monaco;">Farbe:</mat-label>
+            <mat-select [(value)]="DATA_ROW_temp.Farbe">
+              <mat-option *ngFor="let color of farbe" [value]="color" style="font-family: Monaco;">
+                {{color}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="footer-unter">
+        <th mat-footer-cell *matFooterCellDef>
+          <mat-form-field>
+            <mat-label style="font-family: Monaco;">Unter</mat-label>
+            <mat-select [(value)]="DATA_ROW_temp.Unter">
+              <mat-option *ngFor="let u of unter" [value]="u" style="font-family: Monaco;">
+                {{u}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="footer-specs">
+        <th mat-footer-cell *matFooterCellDef> 
+          <mat-form-field>
+            <mat-label style="font-family: Monaco;">Specs:</mat-label>
+            <mat-select [formControl]="specs_form" multiple (selectionChange)="game_select('Specs', $event.value)">
+              <mat-option *ngFor="let sp of specs" [value]="sp" style="font-family: Monaco;">
+                {{sp}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> 
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="footer-bock">
+        <th mat-footer-cell *matFooterCellDef style="padding-top:1rem;">
+          <mat-checkbox (change)="game_select('Bock', $event.checked)" style="font-family: Monaco;">Bock</mat-checkbox>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="footer-submit">
+        <th mat-footer-cell *matFooterCellDef style="float: right; padding-top: 1rem; padding-right: 1rem;"> 
+          <button class="btn btn-info" style="background-color: rgb(69, 105, 62); border-color: rgb(69, 105, 62);font-family: Monaco;" (click)="form_submit() " >Submit</button>
+        </th>
+      </ng-container>
     </div>
-  </mat-tab>
-  <mat-tab label="Charts">
-    <img src="https://static.anychart.com/images/gallery/v8/line-charts-line-chart.png" style="width: 100%; height:200px; overflow: cropped;">
-  </mat-tab>
-</mat-tab-group>
-  
-  
-    <table mat-table class="" style="width: 100%;">
-        <div>
-        <ng-container matColumnDef="footer-gespielt">
-            <th mat-footer-cell *matFooterCellDef> 
-                <mat-form-field>
-                  <mat-label style="font-family: Monaco;">Gespielt:</mat-label>
-                  <mat-select [(value)]="DATA_ROW_temp.Gespielt">
-                    <mat-option *ngFor="let name of names" [value]="name" style="font-family: Monaco;">
-                      {{name}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-             </th>
-        </ng-container>
-        
-        <ng-container matColumnDef="footer-farbe">
-          <th mat-footer-cell *matFooterCellDef> 
-              <mat-form-field>
-                  <mat-label style="font-family: Monaco;">Farbe:</mat-label>
-                  <mat-select [(value)]="DATA_ROW_temp.Farbe">
-                    <mat-option *ngFor="let color of farbe" [value]="color" style="font-family: Monaco;">
-                      {{color}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-               </th>
-        </ng-container>
-  
-        <ng-container matColumnDef="footer-unter">
-            <th mat-footer-cell *matFooterCellDef>
-                <mat-form-field>
-                    <mat-label style="font-family: Monaco;">Unter</mat-label>
-                    <mat-select [(value)]="DATA_ROW_temp.Unter">
-                      <mat-option *ngFor="let u of unter" [value]="u" style="font-family: Monaco;">
-                        {{u}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                 </th>
-          </ng-container>
-            
-        <ng-container matColumnDef="footer-specs">
-          <th mat-footer-cell *matFooterCellDef> 
-            <mat-form-field>
-              <mat-label style="font-family: Monaco;">Specs:</mat-label>
-              <mat-select [formControl]="specs_form" multiple (selectionChange)="game_select('Specs', $event.value)">
-                <mat-option *ngFor="let sp of specs" [value]="sp" style="font-family: Monaco;">
-                  {{sp}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>  </th>
-        </ng-container>
-        
-        <ng-container matColumnDef="footer-bock">
-            <th mat-footer-cell *matFooterCellDef style="padding-top:1rem;">
-              <mat-checkbox (change)="game_select('Bock', $event.checked)" style="font-family: Monaco;">Bock</mat-checkbox>
-            </th>
-        </ng-container>
-        <ng-container matColumnDef="footer-submit">
-            <th mat-footer-cell *matFooterCellDef style="float: right; padding-top: 1rem; padding-right: 1rem;"> 
-                <button class="btn btn-info" style="background-color: rgb(69, 105, 62); border-color: rgb(69, 105, 62);font-family: Monaco;" (click)="form_submit() " >Submit</button>
-            </th>
-        </ng-container>
-    </div>
-    
-      <tr mat-footer-row *matFooterRowDef="['footer-gespielt', 'footer-farbe', 'footer-unter', 'footer-specs', 'footer-bock', 'footer-submit']" class="footer_row"></tr>
-      <tr mat-header-row *matHeaderRowDef="COLUMNS"></tr>
-      <tr mat-row *matRowDef="let row; columns: COLUMNS"></tr>
+    <tr mat-footer-row *matFooterRowDef="['footer-gespielt', 'footer-farbe', 'footer-unter', 'footer-specs', 'footer-bock', 'footer-submit']" class="footer_row"></tr>
+    <tr mat-header-row *matHeaderRowDef="COLUMNS"></tr>
+    <tr mat-row *matRowDef="let row; columns: COLUMNS"></tr>
   </table>
-
 </div>

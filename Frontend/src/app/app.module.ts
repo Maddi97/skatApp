@@ -14,8 +14,11 @@ import { MaterialModule } from './material.module';
 import { CardComponent } from './card/card.component';
 import { GameComponent } from './game/game.component';
 import { BodyComponent } from './body/body.component';
+import { ChartsComponent } from './game/charts/charts.component';
+import { TableComponent } from './game/table/table.component';
 
 //Charts
+import { ChartsModule } from 'ng2-charts';
 
 const routes = [
   { path: 'game', component: GameComponent },
@@ -29,7 +32,9 @@ const routes = [
     AppComponent,
     CardComponent,
     GameComponent,
-    BodyComponent
+    BodyComponent,
+    ChartsComponent,
+    TableComponent
   ],
   imports: [
     HttpClientModule,
@@ -39,6 +44,7 @@ const routes = [
     MaterialModule,
     BrowserModule,
     RouterModule.forRoot(routes),
+    ChartsModule
   ],
   exports: [
     RouterModule

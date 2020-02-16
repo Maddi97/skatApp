@@ -15,6 +15,7 @@ import {
   data_row,
   INITIAL_DATA_ROW
 } from "../env";
+
 import { scheduleMicroTask } from '@angular/core/src/util';
 
 @Component({
@@ -37,6 +38,9 @@ export class GameComponent implements OnInit {
   gameDetails: any;
   data: any;
   highscore: number = 0;
+  gameTable: number[] = [];
+  counter: number = 0;
+  i: number = 0;
 
   DATA_ROW: data_row = INITIAL_DATA_ROW;
   DATA_ROW_temp: data_row = INITIAL_DATA_ROW;
@@ -52,17 +56,6 @@ export class GameComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-      // const promis = this.restCom.getGameDetailsCurrentGame().toPromise();
-      // console.log(promis);
-      // promis.then((data) => {
-      //   this.gameDetails = data;
-      //   console.log("success", data);
-      // });
-      // promis.catch((error) => {
-      //   console.log(error);
-      // });
-      // this.dataSource = this.gameDetails;
-      // console.log(this.dataSource);
       console.log(this.dataSource.data)
   }
 
@@ -115,11 +108,12 @@ export class GameComponent implements OnInit {
       this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
 
 
-      this.restCom.getGameDetailsCurrentGame().toPromise().then(data => {
-        this.gameDetails = data; console.log(this.gameDetails)
-      });
+      // this.restCom.getGameDetailsCurrentGame().toPromise().then(data => {
+      //   this.gameDetails = data; console.log(this.gameDetails)
+      // });
       //---------------------------------------------------------------------------------------------------------
       //Todooooo Reset Data ROw
+      this.createGameTable();
       this.DATA_ROW = this.DATA_ROW_temp = {No: 0, Unter: '', Farbe: '', Specs:[], Bock: false, Gespielt: ''};
       this.submit = true;
     }
@@ -194,5 +188,16 @@ export class GameComponent implements OnInit {
       detailsAsList.push(gameDetailsAsDict["currentGameDetails"][key]);
     }
     return detailsAsList;
+  }
+  createGameTable(){
+    this.names.forEach(element => {
+      if(element == 'No' || element == 'Bock'){}
+      else {
+        this.DATA_ROW[element];
+        console.log(element);
+        this.gameTable[this.counter] = this.DATA_ROW[element];
+      }
+    });
+    this.counter+=1;
   }
 }
