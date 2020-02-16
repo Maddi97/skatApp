@@ -1,3 +1,11 @@
-table {
-    width: 100%;
+
+
+.input-group {
+    width: 50%;
+    padding-bottom: 1rem;
   }
+
+.game {
+  width: 90%;
+  margin: auto;
+}

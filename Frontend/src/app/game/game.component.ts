@@ -4,6 +4,7 @@ import { MatTableDataSource } from "@angular/material";
 import { HttpClient } from "@angular/common/http";
 import { RestComService } from "../rest-com.service";
 
+
 //constants import
 
 import {
@@ -32,6 +33,8 @@ export class GameComponent implements OnInit {
   names: string[] = Array();
 
   selected_player: string;
+  gameDetails: any;
+  data: any;
 
   DATA_ROW: data_row = INITIAL_DATA_ROW;
   DATA_ROW_temp: data_row = INITIAL_DATA_ROW;
@@ -40,14 +43,33 @@ export class GameComponent implements OnInit {
 
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
-  constructor(private restCom: RestComService) {}
+  submit: boolean = false;
 
-  ngOnInit() {}
+  constructor(
+    private restCom: RestComService,
+    ) {}
+
+  ngOnInit() {
+      // const promis = this.restCom.getGameDetailsCurrentGame().toPromise();
+      // console.log(promis);
+      // promis.then((data) => {
+      //   this.gameDetails = data;
+      //   console.log("success", data);
+      // });
+      // promis.catch((error) => {
+      //   console.log(error);
+      // });
+      // this.dataSource = this.gameDetails;
+      // console.log(this.dataSource);
+      console.log(this.dataSource.data)
+  }
 
   onUsernameInput(name: string) {
     this.names.push(name);
     this.DATA_ROW[name] = 0;
-    this.displayedColumns = ["No"].concat(this.names.concat(this.columns));
+    this.displayedColumns = ["No"].concat(this.names.concat(["Bock"]));
+    // this.displayedColumns = this.names.concat(["Bock"]);
+
 
     this.restCom.addPlayerOnServer({ playerName: name }).subscribe();
   }
@@ -59,16 +81,13 @@ export class GameComponent implements OnInit {
     this.names.pop();
   }
 
-  async form_submit() {
+  form_submit() {
     this.DATA_ROW = this.DATA_ROW_temp;
-
     if (
       this.DATA_ROW.Unter == "" ||
       this.DATA_ROW.Gespielt == "" ||
       this.DATA_ROW.Farbe == ""
     ) {
-      //TODO
-
       console.log("Error empty form fields");
     } else {
       this.DATA_ROW.No = this.dataSource.data.length + 1;
@@ -79,26 +98,25 @@ export class GameComponent implements OnInit {
         this.DATA_ROW.Bock
       );
       this.DATA_ROW[this.DATA_ROW.Gespielt] = score;
-      let gameRound = this.DATA_ROW.No;
+      this.data = this.dataSource.data;
+      this.data.push(this.DATA_ROW);
+      this.dataSource.data = this.data;
+      console.log(this.dataSource.data.values)
 
       if (this.DATA_ROW.No == 1) {
         this.restCom.addGameOnServer({ playerList: this.names }).subscribe();
       }
 
-      //---------------------------------------------------------------------------------------------------------
-      this.ELEMENT_DATA.push(this.DATA_ROW); //--> hier ist der fail, vllt komplette tabelle aus DB holen und hier rein, weil in db ist tabeelle richtig
-      //  this.dataSource.data = this.ELEMENT_DATA;
       this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
       console.log(this.ELEMENT_DATA);
-
-      let gameDetails = await this.restCom.getGameDetailsCurrentGame(); // --> muss erst auf antowrt warten da sonst auf gameDetails=undefined gearbeitet wird
-
-      console.log(gameDetails);
-      this.dataSource.data = this.setElementData(gameDetails);
       //---------------------------------------------------------------------------------------------------------
       //Todooooo Reset Data ROw
-      this.DATA_ROW = INITIAL_DATA_ROW;
+      this.DATA_ROW = this.DATA_ROW_temp = {No: 0, Unter: '', Farbe: '', Specs:[], Bock: false, Gespielt: ''};
+      this.submit = true;
     }
+  }
+
+  table(){
   }
 
   calc_score(farbe, unter, specs, bock) {

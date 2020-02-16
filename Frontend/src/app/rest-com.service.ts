@@ -63,11 +63,15 @@ export class RestComService {
     );
   }
   getGameDetailsCurrentGame() {
-    this.http
-      .get("http://127.0.0.1:5000/getGameDetailsCurrentGame")
-      .subscribe(data => {
-        this.serverData = data as JSON;
-        console.log(this.serverData);
-      });
+      return this.http.get("http://127.0.0.1:5000/getGameDetailsCurrentGame");
   }
+  // async getGameDetailsCurrentGame() {
+  //   this.http
+  //     .get("http://127.0.0.1:5000/getGameDetailsCurrentGame")
+  //     .toPromise()
+  //     .then(data => {
+  //       this.serverData = data as JSON;
+  //       console.log(this.serverData);
+  //     });
+  // }
 }
