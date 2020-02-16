@@ -35,6 +35,7 @@ export class GameComponent implements OnInit {
   selected_player: string;
   gameDetails: any;
   data: any;
+  highscores: any;
 
   DATA_ROW: data_row = INITIAL_DATA_ROW;
   DATA_ROW_temp: data_row = INITIAL_DATA_ROW;
@@ -98,17 +99,22 @@ export class GameComponent implements OnInit {
         this.DATA_ROW.Bock
       );
       this.DATA_ROW[this.DATA_ROW.Gespielt] = score;
-      this.data = this.dataSource.data;
-      this.data.push(this.DATA_ROW);
+
+      this.data = this.dataSource.data; //dont know what these lines do but its important
+      this.data.push(this.DATA_ROW); 
       this.dataSource.data = this.data;
-      console.log(this.dataSource.data.values)
+
 
       if (this.DATA_ROW.No == 1) {
         this.restCom.addGameOnServer({ playerList: this.names }).subscribe();
       }
 
       this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
-      console.log(this.ELEMENT_DATA);
+
+
+      this.restCom.getGameDetailsCurrentGame().toPromise().then(data => {
+        this.gameDetails = data; console.log(this.gameDetails)
+      });
       //---------------------------------------------------------------------------------------------------------
       //Todooooo Reset Data ROw
       this.DATA_ROW = this.DATA_ROW_temp = {No: 0, Unter: '', Farbe: '', Specs:[], Bock: false, Gespielt: ''};
@@ -116,7 +122,11 @@ export class GameComponent implements OnInit {
     }
   }
 
-  table(){
+  highscore(){
+    this.restCom.getHighScoreCurrentGame().subscribe(data => {
+      this.highscores = data;
+    });
+
   }
 
   calc_score(farbe, unter, specs, bock) {

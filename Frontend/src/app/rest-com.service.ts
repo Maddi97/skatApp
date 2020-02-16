@@ -74,4 +74,8 @@ export class RestComService {
   //       console.log(this.serverData);
   //     });
   // }
+
+  getHighScoreCurrentGame(){
+    return this.http.get('http://127.0.0.1:5000/getHighScoreCurrentGame');
+  }
 }

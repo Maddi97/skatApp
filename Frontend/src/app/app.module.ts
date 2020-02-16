@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -15,6 +14,7 @@ import { MaterialModule } from './material.module';
 import { CardComponent } from './card/card.component';
 import { GameComponent } from './game/game.component';
 import { BodyComponent } from './body/body.component';
+
 
 const routes = [
   { path: 'game', component: GameComponent },
