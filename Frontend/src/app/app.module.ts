@@ -15,6 +15,7 @@ import { CardComponent } from './card/card.component';
 import { GameComponent } from './game/game.component';
 import { BodyComponent } from './body/body.component';
 
+//Charts
 
 const routes = [
   { path: 'game', component: GameComponent },
@@ -37,7 +38,7 @@ const routes = [
     BrowserAnimationsModule,
     MaterialModule,
     BrowserModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
   ],
   exports: [
     RouterModule
