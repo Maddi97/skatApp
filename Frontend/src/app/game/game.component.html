@@ -14,18 +14,18 @@
     </div>
   </div>
 
-  <mat-tab-group class="shadow rounded" style="width: 100%; background-color: #71698d;">
+  <mat-tab-group class="shadow rounded" style="width: 100%; color: #71698d;">
     <mat-tab label="Table">
       <div *ngIf="submit">
-        <app-table [(dataSource)]="dataSource" [(displayedColumns)]="displayedColumns"></app-table>
+        <app-table [(displayedColumns)]="displayedColumns"></app-table>
       </div>
     </mat-tab>
     <mat-tab label="Charts">
-      <app-charts [(table)]="gameTable"></app-charts>
+      <app-charts></app-charts>
     </mat-tab>
   </mat-tab-group>
   
-  <table mat-table class="" style="width: 100%;">
+  <table mat-table style="width: 100%;">
     <div>
       <ng-container matColumnDef="footer-gespielt">
         <th mat-footer-cell *matFooterCellDef> 

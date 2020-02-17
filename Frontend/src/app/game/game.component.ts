@@ -17,6 +17,7 @@ import {
 } from "../env";
 
 import { scheduleMicroTask } from '@angular/core/src/util';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: "app-game",
@@ -39,8 +40,6 @@ export class GameComponent implements OnInit {
   data: any;
   highscore: number = 0;
   gameTable: number[] = [];
-  counter: number = 0;
-  i: number = 0;
 
   DATA_ROW: data_row = INITIAL_DATA_ROW;
   DATA_ROW_temp: data_row = INITIAL_DATA_ROW;
@@ -56,7 +55,6 @@ export class GameComponent implements OnInit {
     ) {}
 
   ngOnInit() {
-      console.log(this.dataSource.data)
   }
 
   onUsernameInput(name: string) {
@@ -96,9 +94,14 @@ export class GameComponent implements OnInit {
       if (score > this.highscore ){
         this.highscore = score;
       }
-      this.data = this.dataSource.data; //dont know what these lines do but its important
-      this.data.push(this.DATA_ROW); 
-      this.dataSource.data = this.data;
+
+      this.gameTable.push(score);
+
+      this.ELEMENT_DATA.push(this.DATA_ROW);
+      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); //ELEMENT_DATA goes to sourceData for table
+      
+      console.log(this.dataSource);
+      this.setTableData();
 
 
       if (this.DATA_ROW.No == 1) {
@@ -106,6 +109,7 @@ export class GameComponent implements OnInit {
       }
 
       this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
+      this.restCom.getGameDetailsCurrentGame();
 
 
       // this.restCom.getGameDetailsCurrentGame().toPromise().then(data => {
@@ -190,14 +194,10 @@ export class GameComponent implements OnInit {
     return detailsAsList;
   }
   createGameTable(){
-    this.names.forEach(element => {
-      if(element == 'No' || element == 'Bock'){}
-      else {
-        this.DATA_ROW[element];
-        console.log(element);
-        this.gameTable[this.counter] = this.DATA_ROW[element];
-      }
-    });
-    this.counter+=1;
+    this.restCom.setGameTable(this.gameTable);
+  }
+
+  setTableData(){
+    this.restCom.setTableData(this.dataSource);
   }
 }
