@@ -16,9 +16,7 @@
 
   <mat-tab-group class="shadow rounded" style="width: 100%; color: #71698d;">
     <mat-tab label="Table">
-      <div *ngIf="submit">
         <app-table [(displayedColumns)]="displayedColumns"></app-table>
-      </div>
     </mat-tab>
     <mat-tab label="Charts">
       <app-charts></app-charts>

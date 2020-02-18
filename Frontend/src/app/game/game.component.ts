@@ -16,8 +16,7 @@ import {
   INITIAL_DATA_ROW
 } from "../env";
 
-import { scheduleMicroTask } from '@angular/core/src/util';
-import { BehaviorSubject } from 'rxjs';
+import { scheduleMicroTask } from '@angular/core/src/util';   
 
 @Component({
   selector: "app-game",
