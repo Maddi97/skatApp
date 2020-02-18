@@ -2,7 +2,10 @@
     display: flex;
     width: 100%;
     padding: 1rem;
-    background-color: rgb(69, 105, 62);
+    /* background-color: rgb(69, 105, 62); */
+    /* background-color: #729f98; */
+    /* background-color: #3fb0ac; */
+    background-color: rgb(146, 146, 146);
 }
 
 .title{

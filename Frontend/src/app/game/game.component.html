@@ -1,5 +1,5 @@
 <div class='game'>  
-  <h1 class="display-5" style="color: rgb(97, 100, 102); font-family: Monaco;"> let us play</h1>
+  <h1 class="display-5" style="color: #2ECC40; font-family: Monaco;"> let us play</h1>
   <div>
     <div class="input-group">
       <input #input type="text" class="form-control" placeholder="Write your names to add em"aria-describedby="button-addon4" (keyup.enter)="onUsernameInput(input.value); input.value=''" style="font-family: Monaco;">
@@ -14,9 +14,9 @@
     </div>
   </div>
 
-  <mat-tab-group class="shadow rounded" style="width: 100%; color: #71698d;">
+  <mat-tab-group class="shadow rounded" style="width: 100%; color: #2ECC40;">
     <mat-tab label="Table">
-        <app-table [(displayedColumns)]="displayedColumns"></app-table>
+      <app-table [(displayedColumns)]="displayedColumns"></app-table>
     </mat-tab>
     <mat-tab label="Charts">
       <app-charts></app-charts>
@@ -80,7 +80,7 @@
       </ng-container>
       <ng-container matColumnDef="footer-submit">
         <th mat-footer-cell *matFooterCellDef style="float: right; padding-top: 1rem; padding-right: 1rem;"> 
-          <button class="btn btn-info" style="background-color: rgb(69, 105, 62); border-color: rgb(69, 105, 62);font-family: Monaco;" (click)="form_submit() " >Submit</button>
+          <button class="btn btn-info" style="background-color: #2ECC40; border-color: #2ECC40;font-family: Monaco;" (click)="form_submit() " >Submit</button>
         </th>
       </ng-container>
     </div>
@@ -88,4 +88,6 @@
     <tr mat-header-row *matHeaderRowDef="COLUMNS"></tr>
     <tr mat-row *matRowDef="let row; columns: COLUMNS"></tr>
   </table>
+
+  <p style="color: red; font-family: Monaco;"> {{ errorMessage }}</p>
 </div>

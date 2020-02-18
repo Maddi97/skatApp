@@ -39,6 +39,7 @@ export class GameComponent implements OnInit {
   data: any;
   highscore: number = 0;
   gameTable: number[] = [];
+  errorMessage: string = '';
 
   DATA_ROW: data_row = INITIAL_DATA_ROW;
   DATA_ROW_temp: data_row = INITIAL_DATA_ROW;
@@ -81,6 +82,7 @@ export class GameComponent implements OnInit {
       this.DATA_ROW.Farbe == ""
     ) {
       console.log("Error empty form fields");
+      this.errorMessage = 'Please fill in all fields!';
     } else {
       this.DATA_ROW.No = this.dataSource.data.length + 1;
       let score = this.calc_score(
@@ -119,6 +121,7 @@ export class GameComponent implements OnInit {
       this.createGameTable();
       this.DATA_ROW = this.DATA_ROW_temp = {No: 0, Unter: '', Farbe: '', Specs:[], Bock: false, Gespielt: ''};
       this.submit = true;
+      this.errorMessage = '';
     }
   }
 
