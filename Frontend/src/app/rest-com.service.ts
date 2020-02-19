@@ -100,4 +100,9 @@ export class RestComService {
   setTableData(dataSource: any){
     this.dataSource.next(dataSource);
   }
+  getAllRoundsOfAllPlayerPerGame(){
+    return [{"Johann":[22,55,-321, 11, 43, 420]},{"Maddi":[22,-312,-1211, 23, 40,0,0,3, 18]},{"Johan":[0,0,0,55,-321, -42, 321, 121,]}]
+  }
 }
+
+  
