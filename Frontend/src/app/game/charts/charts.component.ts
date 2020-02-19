@@ -36,6 +36,8 @@ export class ChartsComponent implements OnInit {
   lineChartPlugins = [];
   lineChartType = "line";
 
+  dataType: any;
+
   constructor(private restCom: RestComService) {}
 
   ngOnInit() {
@@ -53,14 +55,18 @@ export class ChartsComponent implements OnInit {
     for (var index in keyList) {
       console.log("player: " + keyList[index]);
       console.log(keyList[index] + ": " + dictionary[keyList[index]]);
+      this.dataType = { data: dictionary[keyList[index]] };
+      this.lineChartData.push(this.dataType);
     }
 
-    this.restCom.currentGameTable.subscribe(data => {
-      this.table = data;
-      console.log("3", this.table);
-      this.lineChartData = [{ data: this.table }];
-      this.lineChartLabels.push(this.counter.toString());
-      this.counter++;
-    });
+    this.lineChartLabels = ['1','2','3','4','5','6','7','8','9','10'];
+
+    // this.restCom.currentGameTable.subscribe(data => {
+    //   this.table = data;
+    //   console.log("3", this.table);
+    //   this.lineChartData = [{ data: this.table }];
+    //   this.lineChartLabels.push(this.counter.toString());
+    //   this.counter++;
+    // });
   }
 }
