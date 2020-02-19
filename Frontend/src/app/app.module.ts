@@ -16,6 +16,7 @@ import { GameComponent } from './game/game.component';
 import { BodyComponent } from './body/body.component';
 import { ChartsComponent } from './game/charts/charts.component';
 import { TableComponent } from './game/table/table.component';
+import { HighscoreComponent } from './highscore/highscore.component'
 
 //Charts
 import { ChartsModule } from 'ng2-charts';
@@ -23,6 +24,7 @@ import { ChartsModule } from 'ng2-charts';
 const routes = [
   { path: 'game', component: GameComponent },
   { path: 'index', component: BodyComponent },
+  { path: 'highscore', component: HighscoreComponent },
   { path: '**', redirectTo: 'index' }
 
 ]
@@ -34,7 +36,8 @@ const routes = [
     GameComponent,
     BodyComponent,
     ChartsComponent,
-    TableComponent
+    TableComponent,
+    HighscoreComponent
   ],
   imports: [
     HttpClientModule,
