@@ -6,6 +6,8 @@
     /* background-color: #729f98; */
     /* background-color: #3fb0ac; */
     background-color: rgb(146, 146, 146);
+    position: fixed;
+    top: 0;
 }
 
 .title{
@@ -17,4 +19,8 @@
 .display-4{
     margin: auto;
     color: rgb(221, 221, 221);
+}
+
+.navbar {
+    box-shadow:  0px 5px 30px 5px #343a40;
 }

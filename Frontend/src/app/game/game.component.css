@@ -7,8 +7,11 @@
   }
 
 .game {
-  width: 90%;
+  width: 95%;
   margin: auto;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 2px 2px 30px 2px rgb(92, 92, 92);
 }
 
 

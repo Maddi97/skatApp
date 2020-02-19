@@ -31,7 +31,7 @@ export class ChartsComponent implements OnInit {
 
   lineChartColors: Color[] = [
     {
-      borderColor: 'black',
+      borderColor: '#343a40',
       backgroundColor: 'rgba(255,255,0,0.28)',
     },
   ];

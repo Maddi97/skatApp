@@ -1,10 +1,16 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<nav class="header" [routerLink]="['/main']">
-  <p class="display-4 title" style="margin: auto;">
-    Welcome to the {{ title }}!
-  </p>
-  <mat-divider></mat-divider>
-</nav>
-<div class="shadow rounded" style="background-color: white; margin-left: 5%; margin-right: 5%; margin-top: 3%;">
-  <router-outlet></router-outlet>
-</div>
+
+  <nav class="navbar navbar-dark bg-dark fixed-top" [routerLink]="['/main']">
+    <div class="display-4 title" style="margin: auto; color: #c7c7c7;">
+      Welcome to the <span style="color: #fae73d;" > {{ title }}! </span>
+    </div>
+    <mat-divider></mat-divider>
+  </nav>
+  <div style="margin-top: 3%; padding-top: 4rem;">
+      <router-outlet></router-outlet>
+  </div>
+  <footer>
+    <div style="width: auto; height: 40rem; background-color: #84aed6; text-align: center; margin-top: 3rem;">
+      <p style="color: #fae73d; padding-top: 35rem;"> Copyrights Skat-limited </p>
+      <p style="color: rgb(117, 117, 117);"> owner1: 'Maximilian Schaller', owner2: 'Johann Schneider' </p>
+    </div>
+  </footer>
