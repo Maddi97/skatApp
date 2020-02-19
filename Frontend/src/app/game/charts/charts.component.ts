@@ -55,7 +55,7 @@ export class ChartsComponent implements OnInit {
     for (var index in keyList) {
       console.log("player: " + keyList[index]);
       console.log(keyList[index] + ": " + dictionary[keyList[index]]);
-      this.dataType = { data: dictionary[keyList[index]] };
+      this.dataType = { label: keyList[index], data: dictionary[keyList[index]] };
       this.lineChartData.push(this.dataType);
     }
 
