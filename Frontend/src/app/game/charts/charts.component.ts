@@ -10,56 +10,94 @@ import { data_row } from "../../env";
   styleUrls: ["./charts.component.css"]
 })
 export class ChartsComponent implements OnInit {
-  // @Input() table: number[] = [];
+  @Input() dataOption: String = '';
+
   table: number[];
   gameData: data_row[];
   ELEMENT_DATA: data_row[] = [];
   counter: number = 0;
 
   tables: any;
-  lineChartData: ChartDataSets[] = [{ label: "Points" }];
+  chartOpLine: boolean = false;
+  chartOpRadar: boolean = false;
+  chartData: ChartDataSets[] = [{ }];
 
-  lineChartLabels: Label[] = [];
+  chartLabels: Label[] = [];
 
-  lineChartOptions = {
+  chartOptions = {
     responsive: true
   };
 
-  lineChartColors: Color[] = [
+  chartColors: Color[] = [
     {
       borderColor: "#343a40",
       backgroundColor: "rgba(255,255,0,0.28)"
     }
   ];
 
-  lineChartLegend = true;
-  lineChartPlugins = [];
-  lineChartType = "line";
+  chartType = "line";
 
   dataType: any;
 
   constructor(private restCom: RestComService) {}
 
   ngOnInit() {
-    // console.log('1',this.table);
-    // console.log('2',this.lineChartData);
-    // this.restCom.currentGameDetails.subscribe(data => {
-    //   this.ELEMENT_DATA.push(data);
-    //   this.lineChartData = [{ data: this.ELEMENT_DATA[this.counter]['johann'] }];
-    //  });
+    switch (this.dataOption) {
+      case "HighestScoresOfAllTime":
+        this.chartOpLine=true;
+        var highestScoresOfAllTime = this.restCom.getHighestScoresOfAllTime();
+        var keyList = Object.keys(highestScoresOfAllTime);
+    
+        for (var index in keyList) {
+          console.log("player: " + keyList[index]);
+          console.log(keyList[index] + ": " + highestScoresOfAllTime[keyList[index]]);
+          this.dataType = { label: keyList[index], data: highestScoresOfAllTime[keyList[index]] };
+          this.chartData.push(this.dataType);
+          this.chartLabels = ['1','2','3','4','5','6','7','8','9','10'];
+        }
+      break;
+      case "BestPlayer":
+        this.chartOpLine=true;
+        var bestPlayer = this.restCom.getBestPlayerScores();
+        var keyList = Object.keys(bestPlayer);
+    
+        for (var index in keyList) {
+          console.log("player: " + keyList[index]);
+          console.log(keyList[index] + ": " + bestPlayer[keyList[index]]);
+          this.dataType = { label: keyList[index], data: bestPlayer[keyList[index]] };
+          this.chartData.push(this.dataType);
+          this.chartLabels = ['1','2','3','4','5','6','7','8','9','10'];
+        }
+        break;
+      case "MostPlayedHands":
+        this.chartOpRadar = true;
+        this.chartType = 'radar';
+        var mostPlayedHands = this.restCom.getMostPlayedHands();
+        var keyList = Object.keys(mostPlayedHands);
+    
+        for (var index in keyList) {
+          console.log("player: " + keyList[index]);
+          console.log(keyList[index] + ": " + mostPlayedHands[keyList[index]]);
+          this.dataType = { label: keyList[index], data: mostPlayedHands[keyList[index]] };
+          this.chartData.push(this.dataType);
+          this.chartLabels = ['rot','eichel','grün','schell','grand','null','ramsch'];
+        }
+        console.log(this.chartData.length);
+        break;
+      case "HighscoreCurrentGame":
+        this.chartOpLine = true;
+          var highscoreCurrentGame = this.restCom.getAllRoundsOfAllPlayerPerGame();
+          var keyList = Object.keys(highscoreCurrentGame);
+          for (var index in keyList) {
+            console.log("player: " + keyList[index]);
+            console.log(keyList[index] + ": " + highscoreCurrentGame[keyList[index]]);
+            this.dataType = { label: keyList[index], data: highscoreCurrentGame[keyList[index]] };
+            this.chartData.push(this.dataType);
 
-    var dictionary = this.restCom.getAllRoundsOfAllPlayerPerGame();
-    console.log(dictionary);
-    var keyList = Object.keys(dictionary);
-
-    for (var index in keyList) {
-      console.log("player: " + keyList[index]);
-      console.log(keyList[index] + ": " + dictionary[keyList[index]]);
-      this.dataType = { label: keyList[index], data: dictionary[keyList[index]] };
-      this.lineChartData.push(this.dataType);
+            this.chartLabels = ['1','2','3','4','5','6','7','8','9','10'];
+          }
+        break;
     }
-
-    this.lineChartLabels = ['1','2','3','4','5','6','7','8','9','10'];
 
     // this.restCom.currentGameTable.subscribe(data => {
     //   this.table = data;

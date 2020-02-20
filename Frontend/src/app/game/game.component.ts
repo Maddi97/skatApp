@@ -31,6 +31,8 @@ export class GameComponent implements OnInit {
   farbe = FARBE;
   unter = UNTER;
 
+  chartOption: string[] = ["HighscoreCurrentGame"];
+
   displayedColumns: string[];
   names: string[] = Array();
 
