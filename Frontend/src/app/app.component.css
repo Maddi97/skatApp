@@ -24,3 +24,11 @@
 .navbar {
     box-shadow:  0px 5px 30px 5px #343a40;
 }
+
+.foot {
+    width: auto;
+    height: 40rem; 
+    background: linear-gradient(#84aed6, black 80%); 
+    text-align: center; 
+    margin-top: 3rem;
+}

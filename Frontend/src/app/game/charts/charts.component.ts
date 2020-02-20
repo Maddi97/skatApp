@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { ChartDataSets, ChartOptions } from "chart.js";
+import { ChartDataSets, ChartOptions, RadialChartOptions } from "chart.js";
 import { Color, Label } from "ng2-charts";
 import { RestComService } from "../../rest-com.service";
 import { data_row } from "../../env";
@@ -19,12 +19,11 @@ export class ChartsComponent implements OnInit {
 
   tables: any;
   chartOpLine: boolean = false;
-  chartOpRadar: boolean = false;
   chartData: ChartDataSets[] = [{ }];
 
   chartLabels: Label[] = [];
 
-  chartOptions = {
+  chartOptions: RadialChartOptions = {
     responsive: true
   };
 
@@ -70,7 +69,7 @@ export class ChartsComponent implements OnInit {
         }
         break;
       case "MostPlayedHands":
-        this.chartOpRadar = true;
+        this.chartOpLine = true;
         this.chartType = 'radar';
         var mostPlayedHands = this.restCom.getMostPlayedHands();
         var keyList = Object.keys(mostPlayedHands);
@@ -78,7 +77,7 @@ export class ChartsComponent implements OnInit {
         for (var index in keyList) {
           console.log("player: " + keyList[index]);
           console.log(keyList[index] + ": " + mostPlayedHands[keyList[index]]);
-          this.dataType = { label: keyList[index], data: mostPlayedHands[keyList[index]] };
+          this.dataType = { data: mostPlayedHands[keyList[index]], label: keyList[index] };
           this.chartData.push(this.dataType);
           this.chartLabels = ['rot','eichel','grün','schell','grand','null','ramsch'];
         }
