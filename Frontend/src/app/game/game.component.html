@@ -20,19 +20,23 @@
       <div style="float: left; width: 50%;">
       <app-table [(displayedColumns)]="displayedColumns"></app-table>
       </div>
-      <div style="float: right; width: 50%;">
-        <app-charts [dataOption]=chartOption[0]></app-charts>
-      </div>
+        <div style="float: right; width: 50%;">
+          <app-charts [dataOption]=chartOption[0]></app-charts>
+        </div>
     </mat-tab>
     <mat-tab label="Charts">
-      <app-charts [dataOption]=chartOption[0]></app-charts>
+      <div style="float: left; width: 50%;">
+        <app-charts [dataOption]=chartOption[0]></app-charts>
+      </div>
+      <div style="float: right; width: 50%;">
+        <app-charts [dataOption]=chartOption[1] [isLabel]="false"></app-charts>
+      </div>
     </mat-tab>
   </mat-tab-group>
   
-  <table mat-table style="width: 100%;">
+  <div style="display: flex; flex-direction: column; width: 100%;">
     <div>
-      <ng-container matColumnDef="footer-gespielt">
-        <th mat-footer-cell *matFooterCellDef> 
+      <ng-container>
           <mat-form-field color="accent">
             <mat-label style="font-family: Monaco;">Gespielt:</mat-label>
             <mat-select [(value)]="DATA_ROW_temp.Gespielt">
@@ -41,10 +45,8 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </th>
       </ng-container>
-      <ng-container matColumnDef="footer-farbe">
-        <th mat-footer-cell *matFooterCellDef> 
+      <ng-container>
           <mat-form-field color="accent">
             <mat-label style="font-family: Monaco;">Farbe:</mat-label>
             <mat-select [(value)]="DATA_ROW_temp.Farbe">
@@ -53,10 +55,8 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </th>
       </ng-container>
-      <ng-container matColumnDef="footer-unter">
-        <th mat-footer-cell *matFooterCellDef>
+      <ng-container>
           <mat-form-field color="accent">
             <mat-label style="font-family: Monaco;">Unter</mat-label>
             <mat-select [(value)]="DATA_ROW_temp.Unter">
@@ -65,10 +65,8 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </th>
       </ng-container>
-      <ng-container matColumnDef="footer-specs">
-        <th mat-footer-cell *matFooterCellDef> 
+      <ng-container>
           <mat-form-field color="accent">
             <mat-label style="font-family: Monaco;">Specs:</mat-label>
             <mat-select [formControl]="specs_form" multiple (selectionChange)="game_select('Specs', $event.value)">
@@ -77,24 +75,15 @@
               </mat-option>
             </mat-select>
           </mat-form-field> 
-        </th>
       </ng-container>
-      <ng-container matColumnDef="footer-bock">
-        <th mat-footer-cell *matFooterCellDef style="padding-top:1rem;">
-          <mat-checkbox (change)="game_select('Bock', $event.checked)" style="font-family: Monaco;">Bock</mat-checkbox>
-        </th>
+      <ng-container>
+          <mat-checkbox (change)="game_select('Bock', $event.checked)" style="font-family: Monaco; margin: 1%">Bock</mat-checkbox>
       </ng-container>
-      <ng-container matColumnDef="footer-submit">
-        <th mat-footer-cell *matFooterCellDef style="float: right; padding-top: 1rem; padding-right: 1rem;"> 
+      <ng-container>
           <button class="btn btn-info" style="background-color: #fae73d; border-color: #fae73d;font-family: Monaco; color: black;" (click)="form_submit() " >Submit</button>
-        </th>
       </ng-container>
     </div>
-    <tr mat-footer-row *matFooterRowDef="['footer-gespielt', 'footer-farbe', 'footer-unter', 'footer-specs', 'footer-bock', 'footer-submit']" class="footer_row"></tr>
-    <tr mat-header-row *matHeaderRowDef="COLUMNS"></tr>
-    <tr mat-row *matRowDef="let row; columns: COLUMNS"></tr>
-  </table>
-
+  </div>
   <p style="color: red; font-family: Monaco;"> {{ errorMessage }}</p>
 </div>
 </div>

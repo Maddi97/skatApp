@@ -124,9 +124,9 @@ export class RestComService {
   }
   getMostPlayedHands(){
     var data ={
-      Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
-      Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
-      Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
+      Johann: [22, 55, 31, 11, 43, 20, 34],
+      Maddi: [22, 32, 21, 23, 40, 40, 10],
+      Johan: [55, 31, 42, 21, 12, 24, 12]
     };
     return data;
   }

@@ -11,6 +11,7 @@
 }
 
 .title{
+    /* flex-wrap: wrap; */
     font-size: 3rem;
     color: aliceblue;
     justify-content: center;
@@ -24,7 +25,7 @@
 .navbar {
     box-shadow:  0px 5px 30px 5px #343a40;
 }
-
+/* #343a40 */
 .foot {
     width: auto;
     height: 40rem; 

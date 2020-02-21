@@ -1,18 +1,18 @@
 <!-- <img src="https://static.anychart.com/images/gallery/v8/line-charts-line-chart.png" style="width: 100%; height:200px; overflow: cropped;"> -->
 
-<div *ngIf="chartOpLine" class="chart-wrapper" style="width: 100%; background-color: #d8d8d8;">
+<div *ngIf="chartOpLine" class="chart-wrapper" style="width: 100%; background-color: #ffffff;">
   <canvas baseChart 
       [datasets]="chartData" 
       [labels]="chartLabels" 
       [options]="chartOptions"
       [colors]="chartColors" 
-      [legend]="true" 
+      [legend]="isLabel" 
       [chartType]="chartType">
   </canvas>
 </div>
 
 <!-- round chart -->
-<div *ngIf="chartOpRadar" class="chart-wrapper">  
+<div *ngIf="chartOpRadar" class="chart-wrapper" >  
     <canvas baseChart
     [datasets]="chartData"
     [options]="chartOptions"

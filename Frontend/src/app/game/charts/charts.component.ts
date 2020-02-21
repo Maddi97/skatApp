@@ -11,6 +11,7 @@ import { data_row } from "../../env";
 })
 export class ChartsComponent implements OnInit {
   @Input() dataOption: String = '';
+  @Input() isLabel: boolean = true;
 
   table: number[];
   gameData: data_row[];

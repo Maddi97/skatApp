@@ -30,8 +30,9 @@ export class GameComponent implements OnInit {
   columns = COLUMNS;
   farbe = FARBE;
   unter = UNTER;
+  
 
-  chartOption: string[] = ["HighscoreCurrentGame"];
+  chartOption: string[] = ["HighscoreCurrentGame", "MostPlayedHands"];
 
   displayedColumns: string[];
   names: string[] = Array();
