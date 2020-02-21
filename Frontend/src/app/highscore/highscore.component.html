@@ -1,3 +1,8 @@
-<p>
-  In the Future u will see here the highest scores 
-</p>
+<div class="highscore">
+  <p style="font-family: Monaco; font-size: 2rem;"> Highscore of all time</p>
+  <app-charts [dataOption]=option[0]></app-charts>
+  <p style="font-family: Monaco; font-size: 2rem;"> Last scores of Best player </p>
+  <app-charts [dataOption]=option[1]></app-charts>
+  <p style="font-family: Monaco; font-size: 2rem;"> Most Played Hands </p> <!-- Different chart -->
+  <app-charts [dataOption]=option[2]></app-charts>
+</div>

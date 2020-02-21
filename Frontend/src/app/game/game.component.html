@@ -17,10 +17,15 @@
 
   <mat-tab-group class="shadow rounded" style="width: 100%;" color="accent">
     <mat-tab label="Table">
+      <div style="float: left; width: 50%;">
       <app-table [(displayedColumns)]="displayedColumns"></app-table>
+      </div>
+      <div style="float: right; width: 50%;">
+        <app-charts [dataOption]=chartOption[0]></app-charts>
+      </div>
     </mat-tab>
     <mat-tab label="Charts">
-      <app-charts></app-charts>
+      <app-charts [dataOption]=chartOption[0]></app-charts>
     </mat-tab>
   </mat-tab-group>
   

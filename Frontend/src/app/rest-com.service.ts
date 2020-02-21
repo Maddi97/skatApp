@@ -5,7 +5,7 @@ import { HttpHeaders } from "@angular/common/http";
 import { Observable, throwError, BehaviorSubject } from "rxjs";
 import { catchError, retry } from "rxjs/operators";
 import { stringify } from "@angular/compiler/src/util";
-import { data_row } from './env';
+import { data_row } from "./env";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -29,7 +29,6 @@ export class RestComService {
 
   private dataSource = new BehaviorSubject<any>(null);
   currentDataSource = this.dataSource.asObservable();
-
 
   constructor(private http: HttpClient) {}
 
@@ -74,9 +73,11 @@ export class RestComService {
     );
   }
   getGameDetailsCurrentGame() {
-      this.http.get("http://127.0.0.1:5000/getGameDetailsCurrentGame").subscribe(data => {
+    this.http
+      .get("http://127.0.0.1:5000/getGameDetailsCurrentGame")
+      .subscribe(data => {
         this.serverData = data as JSON;
-        console.log(this.serverData)
+        console.log(this.serverData);
       });
   }
   // async getGameDetailsCurrentGame() {
@@ -89,20 +90,44 @@ export class RestComService {
   //     });
   // }
 
-  getHighScoreCurrentGame(){
-    return this.http.get('http://127.0.0.1:5000/getHighScoreCurrentGame');
+  getHighScoreCurrentGame() {
+    return this.http.get("http://127.0.0.1:5000/getHighScoreCurrentGame");
   }
 
-  setGameTable(table: number[]){
+  setGameTable(table: number[]) {
     this.gameTable.next(table);
   }
 
-  setTableData(dataSource: any){
+  setTableData(dataSource: any) {
     this.dataSource.next(dataSource);
   }
-  getAllRoundsOfAllPlayerPerGame(){
-    return [{"Johann":[22,55,-321, 11, 43, 420]},{"Maddi":[22,-312,-1211, 23, 40,0,0,3, 18]},{"Johan":[0,0,0,55,-321, -42, 321, 121,]}]
+  getAllRoundsOfAllPlayerPerGame() {
+    return {
+      Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
+      Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
+      Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
+    };
+  }
+  getHighestScoresOfAllTime(){
+    return {
+      Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
+      Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
+      Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
+    };
+  }
+  getBestPlayerScores(){
+    return {
+      Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
+      Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
+      Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
+    };
+  }
+  getMostPlayedHands(){
+    var data ={
+      Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
+      Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
+      Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
+    };
+    return data;
   }
 }
-
-  
