@@ -94,6 +94,15 @@ export class RestComService {
     return this.http.get("http://127.0.0.1:5000/getHighScoreCurrentGame");
   }
 
+  getPlayerCurrentGame() {
+    this.http
+      .get("http://127.0.0.1:5000/getPlayerOfCurrentGame")
+      .subscribe(data => {
+        this.serverData = data as JSON;
+        console.log(data);
+      });
+  }
+
   setGameTable(table: number[]) {
     this.gameTable.next(table);
   }
@@ -108,22 +117,22 @@ export class RestComService {
       Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
     };
   }
-  getHighestScoresOfAllTime(){
+  getHighestScoresOfAllTime() {
     return {
       Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
       Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
       Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
     };
   }
-  getBestPlayerScores(){
+  getBestPlayerScores() {
     return {
       Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
       Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
       Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
     };
   }
-  getMostPlayedHands(){
-    var data ={
+  getMostPlayedHands() {
+    var data = {
       Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
       Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
       Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]

@@ -10,7 +10,7 @@ import { data_row } from "../../env";
   styleUrls: ["./charts.component.css"]
 })
 export class ChartsComponent implements OnInit {
-  @Input() dataOption: String = '';
+  @Input() dataOption: String = "";
 
   table: number[];
   gameData: data_row[];
@@ -19,7 +19,7 @@ export class ChartsComponent implements OnInit {
 
   tables: any;
   chartOpLine: boolean = false;
-  chartData: ChartDataSets[] = [{ }];
+  chartData: ChartDataSets[] = [{}];
 
   chartLabels: Label[] = [];
 
@@ -37,64 +37,123 @@ export class ChartsComponent implements OnInit {
   chartType = "line";
 
   dataType: any;
+  keyList: string[];
 
   constructor(private restCom: RestComService) {}
 
   ngOnInit() {
+    console.log(this.restCom.getPlayerCurrentGame());
     switch (this.dataOption) {
       case "HighestScoresOfAllTime":
-        this.chartOpLine=true;
+        this.chartOpLine = true;
         var highestScoresOfAllTime = this.restCom.getHighestScoresOfAllTime();
-        var keyList = Object.keys(highestScoresOfAllTime);
-    
+        var keyList = this.restCom.getPlayerCurrentGame()["playerList"]; //Object.keys(highestScoresOfAllTime);
+
         for (var index in keyList) {
           console.log("player: " + keyList[index]);
-          console.log(keyList[index] + ": " + highestScoresOfAllTime[keyList[index]]);
-          this.dataType = { label: keyList[index], data: highestScoresOfAllTime[keyList[index]] };
+          console.log(
+            keyList[index] + ": " + highestScoresOfAllTime[keyList[index]]
+          );
+          this.dataType = {
+            label: keyList[index],
+            data: highestScoresOfAllTime[keyList[index]]
+          };
           this.chartData.push(this.dataType);
-          this.chartLabels = ['1','2','3','4','5','6','7','8','9','10'];
+          this.chartLabels = [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ];
         }
-      break;
+        break;
       case "BestPlayer":
-        this.chartOpLine=true;
+        this.chartOpLine = true;
         var bestPlayer = this.restCom.getBestPlayerScores();
-        var keyList = Object.keys(bestPlayer);
-    
+        var keyList = this.restCom.getPlayerCurrentGame()["playerList"]; //Object.keys(bestPlayer);
+
         for (var index in keyList) {
           console.log("player: " + keyList[index]);
           console.log(keyList[index] + ": " + bestPlayer[keyList[index]]);
-          this.dataType = { label: keyList[index], data: bestPlayer[keyList[index]] };
+          this.dataType = {
+            label: keyList[index],
+            data: bestPlayer[keyList[index]]
+          };
           this.chartData.push(this.dataType);
-          this.chartLabels = ['1','2','3','4','5','6','7','8','9','10'];
+          this.chartLabels = [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ];
         }
         break;
       case "MostPlayedHands":
         this.chartOpLine = true;
-        this.chartType = 'radar';
+        this.chartType = "radar";
         var mostPlayedHands = this.restCom.getMostPlayedHands();
         var keyList = Object.keys(mostPlayedHands);
-    
+
         for (var index in keyList) {
           console.log("player: " + keyList[index]);
           console.log(keyList[index] + ": " + mostPlayedHands[keyList[index]]);
-          this.dataType = { data: mostPlayedHands[keyList[index]], label: keyList[index] };
+          this.dataType = {
+            data: mostPlayedHands[keyList[index]],
+            label: keyList[index]
+          };
           this.chartData.push(this.dataType);
-          this.chartLabels = ['rot','eichel','grün','schell','grand','null','ramsch'];
+          this.chartLabels = [
+            "rot",
+            "eichel",
+            "grün",
+            "schell",
+            "grand",
+            "null",
+            "ramsch"
+          ];
         }
         console.log(this.chartData.length);
         break;
       case "HighscoreCurrentGame":
         this.chartOpLine = true;
-          var highscoreCurrentGame = this.restCom.getAllRoundsOfAllPlayerPerGame();
-          var keyList = Object.keys(highscoreCurrentGame);
-          for (var index in keyList) {
-            console.log("player: " + keyList[index]);
-            console.log(keyList[index] + ": " + highscoreCurrentGame[keyList[index]]);
-            this.dataType = { label: keyList[index], data: highscoreCurrentGame[keyList[index]] };
-            this.chartData.push(this.dataType);
+        var highscoreCurrentGame = this.restCom.getAllRoundsOfAllPlayerPerGame();
+        var keyList = Object.keys(highscoreCurrentGame);
+        for (var index in keyList) {
+          console.log("player: " + keyList[index]);
+          console.log(
+            keyList[index] + ": " + highscoreCurrentGame[keyList[index]]
+          );
+          this.dataType = {
+            label: keyList[index],
+            data: highscoreCurrentGame[keyList[index]]
+          };
+          this.chartData.push(this.dataType);
 
-            this.chartLabels = ['1','2','3','4','5','6','7','8','9','10'];
-          }
+          this.chartLabels = [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ];
+        }
         break;
     }
 
