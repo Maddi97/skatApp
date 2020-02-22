@@ -31,6 +31,7 @@
     "rxjs": "^6.5.4",
     "rxjs-compat": "^6.5.4",
     "tslib": "^1.9.0",
+    "web-animations-js": "^2.3.2",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
