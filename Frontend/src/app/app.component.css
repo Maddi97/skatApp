@@ -16,6 +16,8 @@
     color: aliceblue;
     justify-content: center;
     font-family: 'Monaco';
+    padding-bottom: 1%;
+    padding-top: 1%;
 }
 .display-4{
     margin: auto;
