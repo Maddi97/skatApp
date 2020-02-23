@@ -2,22 +2,18 @@
     display: flex;
     width: 100%;
     padding: 1rem;
-    /* background-color: rgb(69, 105, 62); */
-    /* background-color: #729f98; */
-    /* background-color: #3fb0ac; */
     background-color: rgb(146, 146, 146);
     position: fixed;
     top: 0;
 }
 
 .title{
-    /* flex-wrap: wrap; */
-    font-size: 3rem;
+    font-size: 5vw;
     color: aliceblue;
     justify-content: center;
     font-family: 'Monaco';
-    padding-bottom: 1%;
-    padding-top: 1%;
+    padding-bottom: 0.5%;
+    padding-top: 0.5%;
 }
 .display-4{
     margin: auto;
@@ -27,7 +23,7 @@
 .navbar {
     box-shadow:  0px 5px 30px 5px #343a40;
 }
-/* #343a40 */
+
 .foot {
     width: auto;
     height: 40rem; 

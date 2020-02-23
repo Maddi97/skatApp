@@ -3,7 +3,7 @@ import { FormControl } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material";
 import { HttpClient } from "@angular/common/http";
 import { RestComService } from "../rest-com.service";
-
+import { GradientButtonComponent } from '../gradient-button/gradient-button.component'; 
 
 //constants import
 

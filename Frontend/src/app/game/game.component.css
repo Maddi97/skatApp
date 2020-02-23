@@ -22,3 +22,7 @@
   font-size: larger;
   float: right;
 }
+
+app-gradient-button {
+  width: 100%;
+}

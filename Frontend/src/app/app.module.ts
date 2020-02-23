@@ -16,7 +16,8 @@ import { GameComponent } from './game/game.component';
 import { BodyComponent } from './body/body.component';
 import { ChartsComponent } from './game/charts/charts.component';
 import { TableComponent } from './game/table/table.component';
-import { HighscoreComponent } from './highscore/highscore.component'
+import { HighscoreComponent } from './highscore/highscore.component';
+import { GradientButtonComponent } from './gradient-button/gradient-button.component';
 
 //Charts
 import { ChartsModule } from 'ng2-charts';
@@ -37,7 +38,8 @@ const routes = [
     BodyComponent,
     ChartsComponent,
     TableComponent,
-    HighscoreComponent
+    HighscoreComponent,
+    GradientButtonComponent
   ],
   imports: [
     HttpClientModule,

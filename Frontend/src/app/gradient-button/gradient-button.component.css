@@ -1,0 +1,26 @@
+:host {
+    width: 100%;
+    position: relative;
+    text-align: center;
+    appearance: none;
+    background: #fae73d;
+    padding: 0.5em;
+    border: none;
+    color: black;
+    font-size: 1.2em;
+    font-family: Monaco;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    border-radius: 20px;
+  }
+  .content {
+    position: relative;
+    pointer-events: none;
+  }
+  .gradient {
+    position: absolute;
+    background: radial-gradient(circle closest-side, rgb(255, 78, 108), transparent);
+    transform: translate(-50%, -50%);
+    transition: width 0.2s ease, height 0.2s ease;
+  }

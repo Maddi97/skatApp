@@ -79,11 +79,13 @@
       <ng-container>
           <mat-checkbox (change)="game_select('Bock', $event.checked)" style="font-family: Monaco; margin: 1%">Bock</mat-checkbox>
       </ng-container>
-      <ng-container>
-          <button class="btn btn-info" style="background-color: #fae73d; border-color: #fae73d;font-family: Monaco; color: black;" (click)="form_submit() " >Submit</button>
-      </ng-container>
+      <p style="color: red; font-family: Monaco;"> {{ errorMessage }}</p>
+        <span style="display: flex; padding-bottom: 1rem;">
+          <app-gradient-button (click)="form_submit()">
+            Submit
+          </app-gradient-button>
+        </span>
     </div>
   </div>
-  <p style="color: red; font-family: Monaco;"> {{ errorMessage }}</p>
 </div>
 </div>
