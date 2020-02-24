@@ -13,30 +13,21 @@ export class ChartsComponent implements OnInit {
   @Input() dataOption: String = '';
   @Input() isLabel: boolean = true;
 
-  table: number[];
-  gameData: data_row[];
-  ELEMENT_DATA: data_row[] = [];
-  counter: number = 0;
-
-  tables: any;
+  //chart variables
   chartOpLine: boolean = false;
   chartData: ChartDataSets[] = [{ }];
-
   chartLabels: Label[] = [];
-
   chartOptions: RadialChartOptions = {
     responsive: true
   };
-
   chartColors: Color[] = [
     {
       borderColor: "#343a40",
       backgroundColor: "rgba(255,255,0,0.28)"
     }
   ];
-
   chartType = "line";
-
+  //data
   dataType: any;
 
   constructor(private restCom: RestComService) {}
@@ -98,13 +89,5 @@ export class ChartsComponent implements OnInit {
           }
         break;
     }
-
-    // this.restCom.currentGameTable.subscribe(data => {
-    //   this.table = data;
-    //   console.log("3", this.table);
-    //   this.lineChartData = [{ data: this.table }];
-    //   this.lineChartLabels.push(this.counter.toString());
-    //   this.counter++;
-    // });
   }
 }

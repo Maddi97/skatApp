@@ -8,14 +8,6 @@ import { Component, Input } from '@angular/core';
 export class AppComponent {
   title = 'Skat App';
 
-  scrollTop = 0;
-  hideNav = false;
-
-  onScroll(event) {
-  this.hideNav = this.scrollTop < event.target.scrollTop;
-  this.scrollTop = event.target.scrollTop;
-}
-
   ngOnInit(){
   }
 
