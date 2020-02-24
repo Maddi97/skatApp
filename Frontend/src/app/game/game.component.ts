@@ -16,7 +16,6 @@ import {
   INITIAL_DATA_ROW
 } from "../env";
 
-import { scheduleMicroTask } from '@angular/core/src/util';   
 
 @Component({
   selector: "app-game",
@@ -29,6 +28,8 @@ export class GameComponent implements OnInit {
   columns = COLUMNS;
   farbe = FARBE;
   unter = UNTER;
+
+  mobile: boolean;
   
   chartOption: string[] = ["HighscoreCurrentGame", "MostPlayedHands"];
 
@@ -55,6 +56,14 @@ export class GameComponent implements OnInit {
     ) {}
 
   ngOnInit() {
+    if(window.screen.width <= 600 ){
+      this.mobile = true;
+    }
+  }
+  ngOnChange(){
+    if(window.screen.width <= 600 ){
+      this.mobile = true;
+    }
   }
 
   onUsernameInput(name: string) {

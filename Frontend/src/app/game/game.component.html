@@ -2,14 +2,21 @@
   <div style="width: 90%; margin: auto; padding-top: 2rem;">
   <h1 class="display-5" style="color: #343a40; font-family: Monaco;"> let us play</h1>
   <div>
-    <div class="input-group">
+    <div *ngIf="!mobile" class="input-group" style="width: 60%;">
       <input #input type="text" class="form-control" placeholder="Write your names to add em"aria-describedby="button-addon4" (keyup.enter)="onUsernameInput(input.value); input.value=''" style="font-family: Monaco;">
       <div class="input-group-append" id="button-addon4">
         <button class="btn btn-outline-secondary" type="button" (click)="onUsernameInput(input.value); input.value='' " style="font-family: Monaco;">Add</button>
         <button class="btn btn-outline-secondary" type="button" (click)="removeUser() " style="font-family: Monaco;">Remove</button>
       </div>
     </div>
-    <div class="highscore">
+    <div *ngIf="mobile">
+      <input #input type="text" class="form-control" placeholder="Write your names to add em"aria-describedby="button-addon4" (keyup.enter)="onUsernameInput(input.value); input.value=''" style="font-family: Monaco;">
+      <div class="input-group-append" id="button-addon4">
+        <button class="btn btn-outline-secondary" type="button" (click)="onUsernameInput(input.value); input.value='' " style="font-family: Monaco;">Add</button>
+        <button class="btn btn-outline-secondary" type="button" (click)="removeUser() " style="font-family: Monaco;">Remove</button>
+      </div>
+    </div>
+    <div *ngIf="!mobile" class="highscore">
       <!-- TO DO: Highscore anzeigen nebeneinander. -->
       HIGHSCORE: {{highscore}}
     </div>
@@ -17,24 +24,43 @@
 
   <mat-tab-group class="shadow rounded" style="width: 100%;" color="accent">
     <mat-tab label="Table">
-      <div style="float: left; width: 50%;">
-      <app-table [(displayedColumns)]="displayedColumns"></app-table>
+      <div *ngIf="!mobile" >
+        <div style="float: left; width: 50%;">
+          <app-table [(displayedColumns)]="displayedColumns"></app-table>
+          </div>
+          <div style="float: right; width: 50%;">
+            <app-charts [dataOption]=chartOption[0]></app-charts>
+          </div>
       </div>
-        <div style="float: right; width: 50%;">
-          <app-charts [dataOption]=chartOption[0]></app-charts>
+      <div *ngIf="mobile">
+        <div style="width: 100%;">
+          <app-table [(displayedColumns)]="displayedColumns"></app-table>
         </div>
+      </div>
     </mat-tab>
     <mat-tab label="Charts">
-      <div style="float: left; width: 50%;">
-        <app-charts [dataOption]=chartOption[0]></app-charts>
+      <div *ngIf="!mobile">
+        <div style="display: flex;">
+          <div style="width: 50%;">
+            <app-charts [dataOption]=chartOption[0]></app-charts>
+          </div>
+          <div style="width: 50%">
+            <app-charts [dataOption]=chartOption[1] [isLabel]="false"></app-charts>
+          </div>
+        </div>
       </div>
-      <div style="float: right; width: 50%;">
-        <app-charts [dataOption]=chartOption[1] [isLabel]="false"></app-charts>
+      <div *ngIf="mobile">
+          <div style="width: 100%;">
+            <app-charts [dataOption]=chartOption[0]></app-charts>
+          </div>
+          <div style="width: 100%">
+            <app-charts [dataOption]=chartOption[1] [isLabel]="false"></app-charts>
+          </div>
       </div>
     </mat-tab>
   </mat-tab-group>
   
-  <div style="display: flex; flex-direction: column; width: 100%;">
+  <div style="display: flex; flex-direction: column; width: 100%; margin-top: 1rem;">
     <div>
       <ng-container>
           <mat-form-field color="accent">
