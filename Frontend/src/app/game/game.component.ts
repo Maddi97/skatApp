@@ -60,11 +60,6 @@ export class GameComponent implements OnInit {
       this.mobile = true;
     }
   }
-  ngOnChange(){
-    if(window.screen.width <= 600 ){
-      this.mobile = true;
-    }
-  }
 
   onUsernameInput(name: string) {
     if(this.names.length < 5 ){

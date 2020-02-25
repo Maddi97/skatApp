@@ -1,6 +1,8 @@
 <div class='game'>  
   <div style="width: 90%; margin: auto; padding-top: 2rem;">
-  <h1 class="display-5" style="color: #343a40; font-family: Monaco;"> let us play</h1>
+    <!-- <p> {{title}}</p> meine idee: hier einen sich wechselnden satz einbauen. zb in jeder runde anzeigen wer dran ist mit ausgeben.
+    wäre aber auch lustig einfach random sprüche zu haben. vllt welche die im backend gespeichert sind.
+  so sachen wie: sieben neune unter, da kommt keiner drunter. oder Ey, johan spiel mal ne runde :D-->
   <div>
     <div *ngIf="!mobile" class="input-group" style="width: 60%;">
       <input #input type="text" class="form-control" placeholder="Write your names to add em"aria-describedby="button-addon4" (keyup.enter)="onUsernameInput(input.value); input.value=''" style="font-family: Monaco;">
@@ -60,7 +62,7 @@
     </mat-tab>
   </mat-tab-group>
   
-  <div style="display: flex; flex-direction: column; width: 100%; margin-top: 1rem;">
+  <div class="game-input">
     <div>
       <ng-container>
           <mat-form-field color="accent">
@@ -106,7 +108,7 @@
           <mat-checkbox (change)="game_select('Bock', $event.checked)" style="font-family: Monaco; margin: 1%">Bock</mat-checkbox>
       </ng-container>
       <p style="color: red; font-family: Monaco;"> {{ errorMessage }}</p>
-        <span style="display: flex; padding-bottom: 1rem;">
+        <span style="display: flex;">
           <app-gradient-button (click)="form_submit()">
             Submit
           </app-gradient-button>

@@ -1,9 +1,9 @@
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; background-color: #f3f3f3;">
     <div *ngFor="let name of displayedColumns">
-      <ng-container matColumnDef="{{name}}" style="padding-top: 0; padding-bottom: 0;">
-        <th @fade mat-header-cell *matHeaderCellDef> <h5 style="font-family: Monaco; padding-left: 1rem; color: #343a40; font-size: 2vw;">{{name}}</h5> </th>
-        <td @fade mat-cell *matCellDef="let element" style="font-family: Monaco; padding-left: 1rem; color: #343a40; font-size: 1vw;"> {{element[name]}}</td>
+      <ng-container matColumnDef="{{name}}">
+        <th @fade mat-header-cell *matHeaderCellDef> <h5 style="font-family: Monaco; color: #343a40; font-size: 11;">{{name}}</h5> </th>
+        <td @fade mat-cell *matCellDef="let element" style=" font-family: Monaco; color: #343a40; font-size: 9;"> {{element[name]}}</td>
       </ng-container>
     </div>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

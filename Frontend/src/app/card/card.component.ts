@@ -28,6 +28,7 @@ export class CardComponent implements OnInit {
   @Input() source: string;
 
   ani: string;
+  mobile: boolean = false;
 
   constructor() { }
 
@@ -43,5 +44,8 @@ export class CardComponent implements OnInit {
   }
   
   ngOnInit() {
+    if(window.screen.width < 600 ) {
+      this.mobile = true;
+    }
   }
 }
