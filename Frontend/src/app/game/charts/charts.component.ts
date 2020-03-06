@@ -10,32 +10,33 @@ import { data_row } from "../../env";
   styleUrls: ["./charts.component.css"]
 })
 export class ChartsComponent implements OnInit {
+<<<<<<< HEAD
   @Input() dataOption: String = "";
+=======
+  @Input() dataOption: String = '';
+  @Input() isLabel: boolean = true;
+>>>>>>> b58183e81c1142e1ffdbaf5d0c4a9d7ac72fb423
 
-  table: number[];
-  gameData: data_row[];
-  ELEMENT_DATA: data_row[] = [];
-  counter: number = 0;
-
-  tables: any;
+  //chart variables
   chartOpLine: boolean = false;
+<<<<<<< HEAD
   chartData: ChartDataSets[] = [{}];
 
+=======
+  chartData: ChartDataSets[] = [{ }];
+>>>>>>> b58183e81c1142e1ffdbaf5d0c4a9d7ac72fb423
   chartLabels: Label[] = [];
-
   chartOptions: RadialChartOptions = {
     responsive: true
   };
-
   chartColors: Color[] = [
     {
       borderColor: "#343a40",
       backgroundColor: "rgba(255,255,0,0.28)"
     }
   ];
-
   chartType = "line";
-
+  //data
   dataType: any;
   keyList: string[];
 
@@ -156,13 +157,5 @@ export class ChartsComponent implements OnInit {
         }
         break;
     }
-
-    // this.restCom.currentGameTable.subscribe(data => {
-    //   this.table = data;
-    //   console.log("3", this.table);
-    //   this.lineChartData = [{ data: this.table }];
-    //   this.lineChartLabels.push(this.counter.toString());
-    //   this.counter++;
-    // });
   }
 }

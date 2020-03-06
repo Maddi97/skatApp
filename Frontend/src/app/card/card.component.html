@@ -1,10 +1,11 @@
-<mat-card class="example-card" style="box-shadow: 5px 5px 20px 5px #496177;">
-  <button mat-button style="padding: 0;">
+<mat-card [@rotate]="ani" class="example-card" style="box-shadow: 5px 5px 20px 5px #496177;">
+  <button mat-button style="padding: 0; margin: auto;">
 
     <mat-card-header>
-      <mat-card-title style="font-family: Monaco; color: #343a40; font-size: 2rem;">{{option}}</mat-card-title>
+      <mat-card-title style="font-family: color_basics; color: #343a40; font-size: 11;">{{option}}</mat-card-title>
     </mat-card-header>
-    <img mat-card-image [src]="source" style="width: 30rem; height: 30rem; overflow: hidden;"alt="Photo of a Shiba Inu">
-
+    <img *ngIf="!mobile" mat-card-image [src]="source" style="width: 30rem; height: 30rem; overflow: hidden;"alt="Photo of a Shiba Inu">
+    <img *ngIf="mobile" mat-card-image [src]="source" style="width: 300px; height: 300px; overflow: hidden;"alt="Photo of a Shiba Inu">
   </button>
 </mat-card>
+

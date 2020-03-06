@@ -131,11 +131,19 @@ export class RestComService {
       Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
     };
   }
+<<<<<<< HEAD
   getMostPlayedHands() {
     var data = {
       Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
       Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
       Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
+=======
+  getMostPlayedHands(){
+    var data ={
+      Johann: [22, 55, 31, 11, 43, 20, 34],
+      Maddi: [22, 32, 21, 23, 40, 40, 10],
+      Johan: [55, 31, 42, 21, 12, 24, 12]
+>>>>>>> b58183e81c1142e1ffdbaf5d0c4a9d7ac72fb423
     };
     return data;
   }

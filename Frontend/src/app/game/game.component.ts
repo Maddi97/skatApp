@@ -3,7 +3,7 @@ import { FormControl } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material";
 import { HttpClient } from "@angular/common/http";
 import { RestComService } from "../rest-com.service";
-
+import { GradientButtonComponent } from '../gradient-button/gradient-button.component'; 
 
 //constants import
 
@@ -16,7 +16,6 @@ import {
   INITIAL_DATA_ROW
 } from "../env";
 
-import { scheduleMicroTask } from '@angular/core/src/util';   
 
 @Component({
   selector: "app-game",
@@ -25,18 +24,18 @@ import { scheduleMicroTask } from '@angular/core/src/util';
 })
 export class GameComponent implements OnInit {
   // constant definitions
-  specs_form = new FormControl();
   specs = SPECS;
   columns = COLUMNS;
   farbe = FARBE;
   unter = UNTER;
 
-  chartOption: string[] = ["HighscoreCurrentGame"];
+  mobile: boolean;
+  
+  chartOption: string[] = ["HighscoreCurrentGame", "MostPlayedHands"];
 
   displayedColumns: string[];
   names: string[] = Array();
 
-  selected_player: string;
   gameDetails: any;
   data: any;
   highscore: number = 0;
@@ -57,6 +56,9 @@ export class GameComponent implements OnInit {
     ) {}
 
   ngOnInit() {
+    if(window.screen.width <= 600 ){
+      this.mobile = true;
+    }
   }
 
   onUsernameInput(name: string) {
@@ -64,7 +66,6 @@ export class GameComponent implements OnInit {
     this.names.push(name);
     this.DATA_ROW[name] = 0;
     this.displayedColumns = ["No"].concat(this.names.concat(["Bock"]));
-    // this.displayedColumns = this.names.concat(["Bock"]);
     this.restCom.addPlayerOnServer({ playerName: name }).subscribe();
     }
   }
@@ -72,6 +73,7 @@ export class GameComponent implements OnInit {
   game_select(cat: string, value) {
     this.DATA_ROW_temp[cat] = value;
   }
+  
   removeUser() {
     this.names.pop();
   }
