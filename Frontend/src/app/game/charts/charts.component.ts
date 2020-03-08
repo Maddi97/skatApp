@@ -10,21 +10,12 @@ import { data_row } from "../../env";
   styleUrls: ["./charts.component.css"]
 })
 export class ChartsComponent implements OnInit {
-<<<<<<< HEAD
   @Input() dataOption: String = "";
-=======
-  @Input() dataOption: String = '';
   @Input() isLabel: boolean = true;
->>>>>>> b58183e81c1142e1ffdbaf5d0c4a9d7ac72fb423
 
   //chart variables
   chartOpLine: boolean = false;
-<<<<<<< HEAD
-  chartData: ChartDataSets[] = [{}];
-
-=======
-  chartData: ChartDataSets[] = [{ }];
->>>>>>> b58183e81c1142e1ffdbaf5d0c4a9d7ac72fb423
+  chartData: ChartDataSets[] = [];
   chartLabels: Label[] = [];
   chartOptions: RadialChartOptions = {
     responsive: true
@@ -38,28 +29,39 @@ export class ChartsComponent implements OnInit {
   chartType = "line";
   //data
   dataType: any;
-  keyList: string[];
+  keyList: string[] = [];
 
   constructor(private restCom: RestComService) {}
 
   ngOnInit() {
-    console.log(this.restCom.getPlayerCurrentGame());
     switch (this.dataOption) {
       case "HighestScoresOfAllTime":
         this.chartOpLine = true;
-        var highestScoresOfAllTime = this.restCom.getHighestScoresOfAllTime();
-        var keyList = this.restCom.getPlayerCurrentGame()["playerList"]; //Object.keys(highestScoresOfAllTime);
-
+        try {
+          var highestScoresOfAllTime = this.restCom.getHighestScoresOfAllTime();
+        } catch (error) {
+          console.log("Error call on  getHighestScoresOfAllTime: " + error);
+        }
+        try {
+          var keyList = this.restCom.getPlayerCurrentGame()["playerList"]; //Object.keys(highestScoresOfAllTime);
+        } catch (error) {
+          console.log("Error call on  getPlayerCurrentGame(): " + error);
+          keyList = ["Johann", "Maddi", "Johan"];
+        }
         for (var index in keyList) {
-          console.log("player: " + keyList[index]);
-          console.log(
-            keyList[index] + ": " + highestScoresOfAllTime[keyList[index]]
-          );
+          // console.log("player: " + keyList[index]);
+          // console.log(
+          //   keyList[index] + ": " + highestScoresOfAllTime[keyList[index]]
+          // );
           this.dataType = {
             label: keyList[index],
             data: highestScoresOfAllTime[keyList[index]]
           };
-          this.chartData.push(this.dataType);
+          if (this.chartData.length > 0) {
+            this.chartData.push(this.dataType);
+          } else {
+            this.chartData = [this.dataType];
+          }
           this.chartLabels = [
             "1",
             "2",
@@ -76,17 +78,29 @@ export class ChartsComponent implements OnInit {
         break;
       case "BestPlayer":
         this.chartOpLine = true;
-        var bestPlayer = this.restCom.getBestPlayerScores();
-        var keyList = this.restCom.getPlayerCurrentGame()["playerList"]; //Object.keys(bestPlayer);
-
+        try {
+          var bestPlayer = this.restCom.getBestPlayerScores();
+        } catch (error) {
+          console.log("Error call on getBestPlayerScores: " + error);
+        }
+        try {
+          var keyList = this.restCom.getPlayerCurrentGame()["playerList"]; //Object.keys(bestPlayer);
+        } catch (error) {
+          console.log("Error call on getPlayerCurrentGame: " + error);
+          keyList = ["Johann", "Maddi", "Johan"];
+        }
         for (var index in keyList) {
-          console.log("player: " + keyList[index]);
-          console.log(keyList[index] + ": " + bestPlayer[keyList[index]]);
+          // console.log("player: " + keyList[index]);
+          // console.log(keyList[index] + ": " + bestPlayer[keyList[index]]);
           this.dataType = {
             label: keyList[index],
             data: bestPlayer[keyList[index]]
           };
-          this.chartData.push(this.dataType);
+          if (this.chartData.length > 0) {
+            this.chartData.push(this.dataType);
+          } else {
+            this.chartData = [this.dataType];
+          }
           this.chartLabels = [
             "1",
             "2",
@@ -108,13 +122,15 @@ export class ChartsComponent implements OnInit {
         var keyList = Object.keys(mostPlayedHands);
 
         for (var index in keyList) {
-          console.log("player: " + keyList[index]);
-          console.log(keyList[index] + ": " + mostPlayedHands[keyList[index]]);
           this.dataType = {
-            data: mostPlayedHands[keyList[index]],
-            label: keyList[index]
+            label: keyList[index],
+            data: mostPlayedHands[keyList[index]]
           };
-          this.chartData.push(this.dataType);
+          if (this.chartData.length > 0) {
+            this.chartData.push(this.dataType);
+          } else {
+            this.chartData = [this.dataType];
+          }
           this.chartLabels = [
             "rot",
             "eichel",
@@ -125,23 +141,25 @@ export class ChartsComponent implements OnInit {
             "ramsch"
           ];
         }
-        console.log(this.chartData.length);
         break;
       case "HighscoreCurrentGame":
         this.chartOpLine = true;
         var highscoreCurrentGame = this.restCom.getAllRoundsOfAllPlayerPerGame();
         var keyList = Object.keys(highscoreCurrentGame);
         for (var index in keyList) {
-          console.log("player: " + keyList[index]);
-          console.log(
-            keyList[index] + ": " + highscoreCurrentGame[keyList[index]]
-          );
+          //console.log("player: " + keyList[index]);
+          // console.log(
+          // keyList[index] + ": " + highscoreCurrentGame[keyList[index]]
+          // );
           this.dataType = {
             label: keyList[index],
             data: highscoreCurrentGame[keyList[index]]
           };
-          this.chartData.push(this.dataType);
-
+          if (this.chartData.length > 0) {
+            this.chartData.push(this.dataType);
+          } else {
+            this.chartData = [this.dataType];
+          }
           this.chartLabels = [
             "1",
             "2",
