@@ -4,3 +4,8 @@ body {
     margin: 0;
 
 }
+
+@font-face {
+    font-family: color_basic;
+    src: url(assets/fonts/Fipps_Regular.otf) format(opentype);
+}

@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -15,10 +14,18 @@ import { MaterialModule } from './material.module';
 import { CardComponent } from './card/card.component';
 import { GameComponent } from './game/game.component';
 import { BodyComponent } from './body/body.component';
+import { ChartsComponent } from './game/charts/charts.component';
+import { TableComponent } from './game/table/table.component';
+import { HighscoreComponent } from './highscore/highscore.component';
+import { GradientButtonComponent } from './gradient-button/gradient-button.component';
+
+//Charts
+import { ChartsModule } from 'ng2-charts';
 
 const routes = [
   { path: 'game', component: GameComponent },
   { path: 'index', component: BodyComponent },
+  { path: 'highscore', component: HighscoreComponent },
   { path: '**', redirectTo: 'index' }
 
 ]
@@ -28,7 +35,11 @@ const routes = [
     AppComponent,
     CardComponent,
     GameComponent,
-    BodyComponent
+    BodyComponent,
+    ChartsComponent,
+    TableComponent,
+    HighscoreComponent,
+    GradientButtonComponent
   ],
   imports: [
     HttpClientModule,
@@ -37,7 +48,8 @@ const routes = [
     BrowserAnimationsModule,
     MaterialModule,
     BrowserModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    ChartsModule
   ],
   exports: [
     RouterModule

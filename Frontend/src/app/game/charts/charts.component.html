@@ -1,0 +1,20 @@
+<div *ngIf="chartOpLine" class="chart-wrapper" style="width: 100%; background-color: #ffffff;">
+  <canvas baseChart 
+      [datasets]="chartData" 
+      [labels]="chartLabels" 
+      [options]="chartOptions"
+      [colors]="chartColors" 
+      [legend]="isLabel" 
+      [chartType]="chartType">
+  </canvas>
+</div>
+
+<!-- round chart -->
+<div *ngIf="chartOpRadar" class="chart-wrapper" >  
+    <canvas baseChart
+    [datasets]="chartData"
+    [options]="chartOptions"
+    [labels]="chartLabels"
+    [chartType]="chartType">
+    </canvas>
+</div>

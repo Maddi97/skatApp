@@ -1,0 +1,16 @@
+.mat-table-sticky {
+    border-right: 1px solid #e0e0e0;
+  }
+
+  .mat-row {
+    height: auto;
+  }
+  
+  .mat-cell {
+    padding: 8px 8px 8px 0;
+  }
+
+  .mat-header-row {
+    height: auto;
+    padding: 8px 8px 8px 0;
+  }

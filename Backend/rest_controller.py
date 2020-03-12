@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin
 from flask import jsonify
 from flask import request
 from datetime import datetime
+import time
 
 from database_controller import database_controller
 db_controller = database_controller()
@@ -27,14 +28,18 @@ def add_new_game():
 
 @app.route('/addGameDetails', methods=['POST'])
 def add_game_details():
+    time.sleep(1)
     jsdata = request.json
-
+   # print(jsdata)
     game_data = game_details_datasctrucutre(jsdata)
     gameID = db_controller.get_last_game_id()
     playerID = db_controller.get_player_id(game_data['Gespielt'])
-    print("game_data= {}".format(game_data))
-    db_controller.add_gameDetails(game_data['No'], gameID, playerID, game_data[game_data['Gespielt']], game_data['color'], game_data['unter'],
-                                  game_data['hand'], game_data['schneider'], game_data['schwarz'], game_data['schneider_angesagt'], game_data['schwarz_angesagt'], game_data['ouvert'], game_data['bock'])
+
+   # print("game_data= {}".format(game_data))
+
+    db_controller.add_gameDetails(game_data['No'], gameID, playerID, game_data[game_data['Gespielt']], game_data['Farbe'], game_data['Unter'],
+                                  game_data['Hand'], game_data['Schneider'], game_data['Schwarz'], game_data['Schneider_angesagt'], game_data['Schwarz_angesagt'], game_data['Ouvert'], game_data['Bock'])
+
     return (jsonify({'success': 'true'}))
 
 
@@ -45,8 +50,31 @@ def add_new_player():
     return (jsonify({'success': 'true'}))
 
 
+@app.route('/getGameDetailsCurrentGame', methods=['GET'])
+def get_gameDetailsCurrentGame():
+    time.sleep(2)
+    gameID = db_controller.get_last_game_id()
+    gameDetails = db_controller.get_gameDetails(gameID)
+
+    return jsonify({'currentGameDetails': gameDetails})
+
+
 def game_details_datasctrucutre(game_details):
-    # TODO
+
+    specs = game_details['Specs']
+    game_details.pop('Specs', None)
+    game_details['Hand'] = 0
+    game_details['Schneider'] = 0
+    game_details['Schwarz'] = 0
+    game_details['Schneider_angesagt'] = 0
+    game_details['Schwarz_angesagt'] = 0
+    game_details['Ouvert'] = 0
+    for i in specs:
+        game_details[i] = 1
+
+    if (game_details['Bock'] == True):
+        game_details['Bock'] = 1
+
     return game_details
 
 
