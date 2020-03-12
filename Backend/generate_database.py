@@ -30,6 +30,13 @@ def create_database():
         Column('playerAmount', Integer, nullable=False),
     )
 
+    Game_Participants = Table(
+        'GameParticipants', meta,
+        Column('gameID', Integer, ForeignKey("Game.gameID")),
+        Column('playerID', Integer, ForeignKey("Player.playerID")),
+        PrimaryKeyConstraint("gameID", "playerID", name="gameParticipants")
+    )
+
     GameDetails = Table(
         'GameDetails', meta,
         Column('gameRound', Integer, nullable=False),

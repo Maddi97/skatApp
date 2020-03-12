@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { HttpHeaders } from "@angular/common/http";
 
-import { Observable, throwError, BehaviorSubject } from "rxjs";
-import { catchError, retry } from "rxjs/operators";
+import { Observable, throwError, BehaviorSubject, of } from "rxjs";
+import { catchError, retry, tap } from "rxjs/operators";
 import { stringify } from "@angular/compiler/src/util";
 import { data_row } from "./env";
 
@@ -58,12 +58,14 @@ export class RestComService {
   }
   addGameOnServer(gameData): Observable<string> {
     this.serverData = JSON.parse(JSON.stringify(gameData));
+
     return this.http.post<string>(
       "http://127.0.0.1:5000/addGame",
       this.serverData,
       httpOptions
-    );
+    )
   }
+
   addGameDetailsOnServer(gameData): Observable<string> {
     this.serverData = JSON.parse(JSON.stringify(gameData));
     return this.http.post<string>(
@@ -110,26 +112,34 @@ export class RestComService {
   setTableData(dataSource: any) {
     this.dataSource.next(dataSource);
   }
+
   getAllRoundsOfAllPlayerPerGame() {
-    return {
-      Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
-      Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
-      Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
-    };
+    this.http
+      .get(`${this.URL}/getGameDetailsCurrentGame`)
+      .pipe(catchError(() =>  of({})))
+      .subscribe(console.log)
+    return dummyData
   }
+
+  getLatestGameId() {
+    return this.http.get(
+      `${this.URL}/latestGameID`
+    ).pipe(
+      catchError(() => of({})),
+    )
+  }
+
+  addGameParticipants(gameID: string, players: number[]) {
+    var params = new HttpParams()
+    params = params.append("gameID", gameID)
+    return this.http.post(`${this.URL}/addGameParticipants`,players)
+  }
+
   getHighestScoresOfAllTime() {
-    return {
-      Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
-      Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
-      Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
-    };
+    return dummyData
   }
   getBestPlayerScores() {
-    return {
-      Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
-      Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
-      Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
-    };
+    return dummyData
   }
   getMostPlayedHands() {
     var data = {
@@ -140,3 +150,10 @@ export class RestComService {
     return data;
   }
 }
+
+
+const dummyData = {
+  Johann: [22, 55, -321, 11, 43, 420, 34, 100, 0],
+  Maddi: [22, -312, -1211, 23, 40, 0, 0, 3, 18, 14],
+  Johan: [0, 0, 0, 55, -321, -42, 321, 121, 0, 24, 12]
+};
