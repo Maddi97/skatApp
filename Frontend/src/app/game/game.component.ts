@@ -3,7 +3,7 @@ import { FormControl } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material";
 import { HttpClient } from "@angular/common/http";
 import { RestComService } from "../rest-com.service";
-
+import { GradientButtonComponent } from '../gradient-button/gradient-button.component'; 
 
 //constants import
 
@@ -15,8 +15,7 @@ import {
   data_row,
   INITIAL_DATA_ROW
 } from "../env";
-
-import { scheduleMicroTask } from '@angular/core/src/util';   
+ 
 
 @Component({
   selector: "app-game",
@@ -25,20 +24,25 @@ import { scheduleMicroTask } from '@angular/core/src/util';
 })
 export class GameComponent implements OnInit {
   // constant definitions
-  specs_form = new FormControl();
   specs = SPECS;
   columns = COLUMNS;
   farbe = FARBE;
   unter = UNTER;
 
+  mobile: boolean;
+  
+  chartOption: string[] = ["HighscoreCurrentGame", "MostPlayedHands"];
+
   displayedColumns: string[];
+  
+  //holds all names of added players!!
   names: string[] = Array();
 
-  selected_player: string;
   gameDetails: any;
   data: any;
   highscore: number = 0;
   gameTable: number[] = [];
+  errorMessage: string = '';
 
   DATA_ROW: data_row = INITIAL_DATA_ROW;
   DATA_ROW_temp: data_row = INITIAL_DATA_ROW;
@@ -54,6 +58,9 @@ export class GameComponent implements OnInit {
     ) {}
 
   ngOnInit() {
+    if(window.screen.width <= 600 ){
+      this.mobile = true;
+    }
   }
 
   onUsernameInput(name: string) {
@@ -61,7 +68,6 @@ export class GameComponent implements OnInit {
     this.names.push(name);
     this.DATA_ROW[name] = 0;
     this.displayedColumns = ["No"].concat(this.names.concat(["Bock"]));
-    // this.displayedColumns = this.names.concat(["Bock"]);
     this.restCom.addPlayerOnServer({ playerName: name }).subscribe();
     }
   }
@@ -69,6 +75,7 @@ export class GameComponent implements OnInit {
   game_select(cat: string, value) {
     this.DATA_ROW_temp[cat] = value;
   }
+  
   removeUser() {
     this.names.pop();
   }
@@ -81,6 +88,7 @@ export class GameComponent implements OnInit {
       this.DATA_ROW.Farbe == ""
     ) {
       console.log("Error empty form fields");
+      this.errorMessage = 'Please fill in all fields!';
     } else {
       this.DATA_ROW.No = this.dataSource.data.length + 1;
       let score = this.calc_score(
@@ -89,6 +97,13 @@ export class GameComponent implements OnInit {
         this.DATA_ROW.Specs,
         this.DATA_ROW.Bock
       );
+
+      //set score of other players to 0
+      for(var index in this.names){
+        this.DATA_ROW[this.names[index]]=0;
+      }
+
+      //set score to player who has played the game
       this.DATA_ROW[this.DATA_ROW.Gespielt] = score;
       if (score > this.highscore ){
         this.highscore = score;
@@ -98,8 +113,6 @@ export class GameComponent implements OnInit {
 
       this.ELEMENT_DATA.push(this.DATA_ROW);
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); //ELEMENT_DATA goes to sourceData for table
-      
-      console.log(this.dataSource);
       this.setTableData();
 
 
@@ -119,6 +132,7 @@ export class GameComponent implements OnInit {
       this.createGameTable();
       this.DATA_ROW = this.DATA_ROW_temp = {No: 0, Unter: '', Farbe: '', Specs:[], Bock: false, Gespielt: ''};
       this.submit = true;
+      this.errorMessage = '';
     }
   }
 

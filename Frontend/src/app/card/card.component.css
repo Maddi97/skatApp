@@ -1,12 +1,10 @@
 .example-card {
     max-width: 500px;
     margin-bottom: 20px;
+    border-radius: 20px;
+    background: linear-gradient( #84aed6, pink);
   }
   
-  .example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
-  }
 
   .mat-card-header {
     display: flex;

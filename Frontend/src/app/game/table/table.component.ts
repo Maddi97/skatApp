@@ -1,6 +1,7 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, HostListener } from "@angular/core";
 import { MatTableDataSource } from "@angular/material";
-import { RestComService } from '../../rest-com.service';
+import { RestComService } from "../../rest-com.service";
+import { trigger, transition, state, style, animate } from '@angular/animations';
 
 import {
   SPECS,
@@ -12,30 +13,34 @@ import {
 } from "../../env";
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+  selector: "app-table",
+  templateUrl: "./table.component.html",
+  styleUrls: ["./table.component.css"],
+  animations: [
+    trigger('fade', [
+      transition('void => *', [
+      style({
+        opacity: 0
+      }),
+      animate('500ms')
+      ]),
+      transition('* => *', animate('500ms')),
+    ])
+  ]
 })
 export class TableComponent implements OnInit {
-
-  // @Input() dataSource: any;
   @Input() displayedColumns: string[];
 
   dataSource: any;
 
-  ngOnChange() {
-  }
+  ngOnChange() {}
+  
 
-
-  constructor(
-    private restCom: RestComService
-  ) { }
+  constructor(private restCom: RestComService) {}
 
   ngOnInit() {
     this.restCom.currentDataSource.subscribe(data => {
       this.dataSource = data;
     });
   }
-
-
 }

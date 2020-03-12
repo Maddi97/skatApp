@@ -11,4 +11,5 @@ h2 {
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
+    padding-top: 2rem;
 }
