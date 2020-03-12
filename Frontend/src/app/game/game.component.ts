@@ -15,7 +15,7 @@ import {
   data_row,
   INITIAL_DATA_ROW
 } from "../env";
-
+ 
 
 @Component({
   selector: "app-game",
@@ -34,6 +34,8 @@ export class GameComponent implements OnInit {
   chartOption: string[] = ["HighscoreCurrentGame", "MostPlayedHands"];
 
   displayedColumns: string[];
+  
+  //holds all names of added players!!
   names: string[] = Array();
 
   gameDetails: any;
@@ -95,6 +97,13 @@ export class GameComponent implements OnInit {
         this.DATA_ROW.Specs,
         this.DATA_ROW.Bock
       );
+
+      //set score of other players to 0
+      for(var index in this.names){
+        this.DATA_ROW[this.names[index]]=0;
+      }
+
+      //set score to player who has played the game
       this.DATA_ROW[this.DATA_ROW.Gespielt] = score;
       if (score > this.highscore ){
         this.highscore = score;
@@ -104,8 +113,6 @@ export class GameComponent implements OnInit {
 
       this.ELEMENT_DATA.push(this.DATA_ROW);
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); //ELEMENT_DATA goes to sourceData for table
-      
-      console.log(this.dataSource);
       this.setTableData();
 
 
