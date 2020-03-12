@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import jsonify
-
+from typing import List
 from generate_database import create_database
 
 
@@ -27,6 +27,17 @@ class database_controller:
                 date, gameRoundAmount, playerAmount
             )
         )
+
+    def add_game_participants(self, gameID: int, participants: List[int]):
+        for playerID in participants:
+            self.engine.execute(
+                '''
+                INSERT INTO GameParticipants
+                VALUES ({}, {})
+                '''.format(
+                    gameID, playerID
+                )
+            )    
 
     def get_player_id(self, name):
         result = None
@@ -81,6 +92,14 @@ class database_controller:
             currentDetailsAsDict[x[0]] = (dict(x))
 
         return currentDetailsAsDict
+
+    def get_GameParticipants(self, gameID):
+        self.engine.execute(
+            '''
+            SELECT distinct playerID 
+            FROM 
+            '''
+        )
 
 
 # x = database_controller()

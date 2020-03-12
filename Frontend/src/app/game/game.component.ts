@@ -15,6 +15,7 @@ import {
   data_row,
   INITIAL_DATA_ROW
 } from "../env";
+import { switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -110,7 +111,11 @@ export class GameComponent implements OnInit {
 
 
       if (this.DATA_ROW.No == 1) {
-        this.restCom.addGameOnServer({ playerList: this.names }).subscribe();
+        this.restCom.addGameOnServer({ playerList: this.names })
+        .pipe(
+          switchMap(() => this.restCom.getLatestGameId),
+          switchMap(id => this.restCom.addGameParticipants(id, [1,2,3]))
+        ).subscribe(console.log);
       }
 
       this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
