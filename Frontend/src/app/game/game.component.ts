@@ -16,6 +16,7 @@ import {
   data_row,
   INITIAL_DATA_ROW
 } from "../env";
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: "app-game",
@@ -37,6 +38,7 @@ export class GameComponent implements OnInit {
 
   //holds all names of added players!!
   names: string[] = Array();
+  player_ids: any =Array();
 
   gameDetails: any;
   data: any;
@@ -89,6 +91,9 @@ export class GameComponent implements OnInit {
   }
 
   form_submit() {
+    this.player_ids = forkJoin(this.names.map(name => this.restCom.getPlayerID(name)));
+    console.log(this.restCom.getPlayerID('Maddi').subscribe())
+   // this.player_ids.
     this.DATA_ROW = this.DATA_ROW_temp;
     if (
       this.DATA_ROW.Unter == "" ||
@@ -118,8 +123,11 @@ export class GameComponent implements OnInit {
       }
 
       this.gameTable.push(score);
+   
 
       this.ELEMENT_DATA.push(this.DATA_ROW);
+
+
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); //ELEMENT_DATA goes to sourceData for table
       this.setTableData();
 
@@ -128,9 +136,9 @@ export class GameComponent implements OnInit {
           .addGameOnServer({ playerList: this.names })
           .pipe(
             switchMap(() => this.restCom.getLatestGameId),
-            switchMap(id => this.restCom.addGameParticipants(id, [1, 2, 3]))
+            switchMap(id => this.restCom.addGameParticipants(id, this.player_ids))
           )
-          .subscribe(console.log);
+          .subscribe();
       }
 
       this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
@@ -205,7 +213,7 @@ export class GameComponent implements OnInit {
   }
 
   sendServerDataRow(DATA_ROW) {
-    console.log(this.restCom.sendServerDataRow(DATA_ROW).subscribe());
+    this.restCom.sendServerDataRow(DATA_ROW).subscribe(console.log);
   }
 
   //resets values of data row to initial
