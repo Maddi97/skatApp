@@ -3,6 +3,7 @@ from flask import jsonify
 from typing import List
 from generate_database import create_database
 from sqlalchemy.sql import select, insert
+from sqlalchemy import func
 
 class database_controller:
     def __init__(self):
@@ -51,7 +52,7 @@ class database_controller:
         result = self.engine.execute(
             "SELECT MAX(gameID) from Game"
         )
-
+        
         return result.scalar()
     def get_game_by_id(self, gameID):
         result = self.engine.execute(
@@ -154,12 +155,14 @@ class database_controller:
 
 if __name__ == "__main__":
      x = database_controller()
-    # pid1 = x.add_player("hanno")
-    # pid2 = x.add_player("bob")
-    # pid3 = x.add_player("bobi")
-    # gid = x.add_game("abc", 5,5)
-    # ids = x.add_game_participants(gid, [pid1,pid2,pid3])
-    # print(ids)
+     pid1 = x.add_player("hanno")
+     print(x.get_player_id("hanno"))
+    # print(pid1)
+    #  pid2 = x.add_player("bob")
+    #  pid3 = x.add_player("bobi")
+    #  gid = x.add_game("abc", 5,5)
+    #  ids = x.add_game_participants(gid, [pid1,pid2,pid3])
+    #  print(ids)
 
 
 

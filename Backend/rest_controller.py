@@ -6,8 +6,8 @@ from flask import request
 from datetime import datetime
 from typing import List
 import time
-
 from database_controller import database_controller
+
 db_controller = database_controller()
 db_controller.prefill_database_with_test_values()
 
@@ -31,7 +31,7 @@ def add_new_game():
 @app.route("/addGameParticipants", methods=["POST"])
 def add_game_participants():
     gameId = request.args.get('gameID')
-    playerList = request.data
+    playerList = request.json
     db_controller.add_game_participants(gameId,playerList)
     return (jsonify({'success': 'true'}))
 
