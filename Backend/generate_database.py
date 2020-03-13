@@ -47,13 +47,13 @@ def create_database():
         Column('scoreSum', Integer),
         Column('color', String(35)),
         Column('unter', String(35)),
-        Column('Hand', Boolean),
-        Column('Schneider', Boolean),
-        Column('Schwarz', Boolean),
-        Column('Schneider angesagt', Boolean),
-        Column('Schwarz angesagt', Boolean),
-        Column('Ouvert', Boolean),
-        Column('Bock', Boolean),
+        Column('hand', Boolean),
+        Column('schneider', Boolean),
+        Column('schwarz', Boolean),
+        Column('schneider_angesagt', Boolean),
+        Column('schwarz_angesagt', Boolean),
+        Column('ouvert', Boolean),
+        Column('bock', Boolean),
         PrimaryKeyConstraint('gameID', 'gameRound', name='gameDetails')
     )
 
