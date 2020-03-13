@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, HostListener } from "@angular/core";
+import { Component, OnInit, OnChanges, Input, HostListener, Output } from "@angular/core";
 import { MatTableDataSource } from "@angular/material";
 import { RestComService } from "../../rest-com.service";
 import { trigger, transition, state, style, animate } from '@angular/animations';

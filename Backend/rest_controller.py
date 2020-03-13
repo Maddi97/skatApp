@@ -4,6 +4,7 @@ from flask_cors import CORS, cross_origin
 from flask import jsonify
 from flask import request
 from datetime import datetime
+from typing import List
 import time
 
 from database_controller import database_controller
@@ -23,6 +24,13 @@ def add_new_game():
     print(jsdata)
     db_controller.add_game(str(datetime.now()).split(" ")[
                            0], 1, len(jsdata['playerList']))
+    return (jsonify({'success': 'true'}))
+
+@app.route("/addGameParticipants", methods=["POST"])
+def add_game_participants():
+    gameId = request.args.get('gameID')
+    playerList = request.data
+    db_controller.add_game_participants(gameId,playerList)
     return (jsonify({'success': 'true'}))
 
 
@@ -56,8 +64,17 @@ def get_gameDetailsCurrentGame():
     gameID = db_controller.get_last_game_id()
     gameDetails = db_controller.get_gameDetails(gameID)
 
+    scores =  {}
+
+    # for roundi in gameDetails:
+    #     scores.get(roundi.playerID, )
+
+    
     return jsonify({'currentGameDetails': gameDetails})
 
+@app.route("/latestGameID", methods=["GET"])
+def get_latestGameId():
+    return jsonify({'gameID':db_controller.get_last_game_id()})
 
 def game_details_datasctrucutre(game_details):
 
