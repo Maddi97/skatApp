@@ -124,18 +124,16 @@ export class GameComponent implements OnInit {
       this.setTableData();
 
       if (this.DATA_ROW.No == 1) {
-        this.restCom
-          .addGameOnServer({ playerList: this.names })
-          .pipe(
-            switchMap(() => this.restCom.getLatestGameId),
-            switchMap(id => this.restCom.addGameParticipants(id, [1, 2, 3]))
-          )
-          .subscribe(console.log);
+        // this.restCom
+        //   .addGameOnServer({ playerList: this.names })
+        //   .pipe(
+        //     switchMap(() => this.restCom.getLatestGameId),
+        //     switchMap(id => this.restCom.addGameParticipants(id, [1, 2, 3]))
+        //   )
+        //   .subscribe(console.log);
       }
-
       this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
       this.restCom.getGameDetailsCurrentGame();
-
       // this.restCom.getGameDetailsCurrentGame().toPromise().then(data => {
       //   this.gameDetails = data; console.log(this.gameDetails)
       // });
@@ -205,6 +203,7 @@ export class GameComponent implements OnInit {
   }
 
   sendServerDataRow(DATA_ROW) {
+    
     console.log(this.restCom.sendServerDataRow(DATA_ROW).subscribe());
   }
 

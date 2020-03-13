@@ -10,7 +10,8 @@ import { data_row } from "./env";
 const httpOptions = {
   headers: new HttpHeaders({
     "Content-Type": "application/json",
-    Authorization: "my-auth-token"
+    Authorization: "my-auth-token",
+    "Access-Control-Allow-Origin": "*",
   })
 };
 
@@ -117,7 +118,7 @@ export class RestComService {
     this.http
       .get(`${this.URL}/getGameDetailsCurrentGame`)
       .pipe(catchError(() =>  of({})))
-      .subscribe(console.log)
+      .subscribe(x => console.log(x))
     return dummyData
   }
 
