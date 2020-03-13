@@ -11,7 +11,6 @@ const httpOptions = {
   headers: new HttpHeaders({
     "Content-Type": "application/json",
     Authorization: "my-auth-token",
-    "Access-Control-Allow-Origin": "*",
   })
 };
 
@@ -43,7 +42,16 @@ export class RestComService {
   sendServerDataRow(DATA_ROW): Observable<string> {
     this.serverData = JSON.parse(JSON.stringify(DATA_ROW));
     return this.http.post<string>(
-      `${this.URL}/postmethod`,
+      `${this.URL}postmethod`,
+      this.serverData,
+      httpOptions
+    );
+  }
+
+  getPlayerID(playerName){
+    this.serverData = JSON.parse(JSON.stringify(playerName));
+    return this.http.post<string>(
+      `${this.URL}getPlayerID`,
       this.serverData,
       httpOptions
     );
@@ -52,7 +60,7 @@ export class RestComService {
   addPlayerOnServer(name): Observable<string> {
     this.serverData = JSON.parse(JSON.stringify(name));
     return this.http.post<string>(
-      `${this.URL}/addPlayer`,
+      `${this.URL}addPlayer`,
       this.serverData,
       httpOptions
     );
@@ -61,7 +69,7 @@ export class RestComService {
     this.serverData = JSON.parse(JSON.stringify(gameData));
 
     return this.http.post<string>(
-      `${this.URL}/addGame`,
+      `${this.URL}addGame`,
       this.serverData,
       httpOptions
     )
@@ -70,17 +78,16 @@ export class RestComService {
   addGameDetailsOnServer(gameData): Observable<string> {
     this.serverData = JSON.parse(JSON.stringify(gameData));
     return this.http.post<string>(
-      `${this.URL}/addGameDetails`,
+      `${this.URL}addGameDetails`,
       this.serverData,
       httpOptions
     );
   }
   getGameDetailsCurrentGame() {
     this.http
-      .get(`${this.URL}/getGameDetailsCurrentGame`)
+      .get(`${this.URL}getGameDetailsCurrentGame`)
       .subscribe(data => {
         this.serverData = data as JSON;
-        console.log("spacken " + this.serverData);
       });
   }
   // async getGameDetailsCurrentGame() {
@@ -94,12 +101,12 @@ export class RestComService {
   // }
 
   getHighScoreCurrentGame() {
-    return this.http.get(`${this.URL}/getHighScoreCurrentGame`);
+    return this.http.get(`${this.URL}getHighScoreCurrentGame`);
   }
 
   getPlayerCurrentGame() {
     this.http
-      .get(`${this.URL}/getPlayerOfCurrentGame`)
+      .get(`${this.URL}getPlayerOfCurrentGame`)
       .subscribe(data => {
         this.serverData = data as JSON;
         console.log(data);
@@ -116,7 +123,7 @@ export class RestComService {
 
   getAllRoundsOfAllPlayerPerGame() {
     this.http
-      .get(`${this.URL}/getGameDetailsCurrentGame`)
+      .get(`${this.URL}getGameDetailsCurrentGame`)
       .pipe(catchError(() =>  of({})))
       .subscribe(x => console.log(x))
     return dummyData
@@ -124,7 +131,7 @@ export class RestComService {
 
   getLatestGameId() {
     return this.http.get(
-      `${this.URL}/latestGameID`
+      `${this.URL}latestGameID`
     ).pipe(
       catchError(() => of({})),
     )
@@ -133,7 +140,7 @@ export class RestComService {
   addGameParticipants(gameID: string, players: number[]) {
     var params = new HttpParams()
     params = params.append("gameID", gameID)
-    return this.http.post(`${this.URL}/addGameParticipants`,players)
+    return this.http.post(`${this.URL}addGameParticipants`,players)
   }
 
   getHighestScoresOfAllTime() {

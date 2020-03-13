@@ -9,6 +9,7 @@ class database_controller:
     def __init__(self):
         self.engine, self.meta = create_database()
         self.tables = self.meta.tables
+        self.engine.execute("USE test")
         
     def add_player(self, name):
         insertion = insert(self.tables["Player"]).values(name=name)
@@ -157,6 +158,7 @@ if __name__ == "__main__":
      x = database_controller()
      pid1 = x.add_player("hanno")
      print(x.get_player_id("hanno"))
+     
     # print(pid1)
     #  pid2 = x.add_player("bob")
     #  pid3 = x.add_player("bobi")

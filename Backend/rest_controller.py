@@ -19,12 +19,17 @@ CORS(app)
 def index():
     return jsonify({'text': "Hello, World!"})
 
-
+@app.route('/getPlayerID', methods=['POST'])
+def get_player_id():
+    player_name = request.get_data()
+    playerID = db_controller.get_player_id(player_name)
+    return jsonify({'playerID': playerID})
+1
 @app.route('/addGame', methods=['POST'])
 def add_new_game():
     jsdata = request.json
     print(jsdata)
-    db_controller.add_game(str(datetime.now()).split(" ")[
+    db_controller.add_game(str(datetime.now()).split(" ")[ 
                            0], 1, len(jsdata['playerList']))
     return (jsonify({'success': 'true'}))
 
