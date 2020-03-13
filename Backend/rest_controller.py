@@ -9,6 +9,8 @@ import time
 
 from database_controller import database_controller
 db_controller = database_controller()
+db_controller.prefill_database_with_test_values()
+
 app = Flask(__name__)
 CORS(app)
 

@@ -42,7 +42,7 @@ export class RestComService {
   sendServerDataRow(DATA_ROW): Observable<string> {
     this.serverData = JSON.parse(JSON.stringify(DATA_ROW));
     return this.http.post<string>(
-      "http://127.0.0.1:5000/postmethod",
+      `${this.URL}/postmethod`,
       this.serverData,
       httpOptions
     );
@@ -51,7 +51,7 @@ export class RestComService {
   addPlayerOnServer(name): Observable<string> {
     this.serverData = JSON.parse(JSON.stringify(name));
     return this.http.post<string>(
-      "http://127.0.0.1:5000/addPlayer",
+      `${this.URL}/addPlayer`,
       this.serverData,
       httpOptions
     );
@@ -60,7 +60,7 @@ export class RestComService {
     this.serverData = JSON.parse(JSON.stringify(gameData));
 
     return this.http.post<string>(
-      "http://127.0.0.1:5000/addGame",
+      `${this.URL}/addGame`,
       this.serverData,
       httpOptions
     )
@@ -69,17 +69,17 @@ export class RestComService {
   addGameDetailsOnServer(gameData): Observable<string> {
     this.serverData = JSON.parse(JSON.stringify(gameData));
     return this.http.post<string>(
-      "http://127.0.0.1:5000/addGameDetails",
+      `${this.URL}/addGameDetails`,
       this.serverData,
       httpOptions
     );
   }
   getGameDetailsCurrentGame() {
     this.http
-      .get("http://127.0.0.1:5000/getGameDetailsCurrentGame")
+      .get(`${this.URL}/getGameDetailsCurrentGame`)
       .subscribe(data => {
         this.serverData = data as JSON;
-        console.log(this.serverData);
+        console.log("spacken " + this.serverData);
       });
   }
   // async getGameDetailsCurrentGame() {
@@ -93,12 +93,12 @@ export class RestComService {
   // }
 
   getHighScoreCurrentGame() {
-    return this.http.get("http://127.0.0.1:5000/getHighScoreCurrentGame");
+    return this.http.get(`${this.URL}/getHighScoreCurrentGame`);
   }
 
   getPlayerCurrentGame() {
     this.http
-      .get("http://127.0.0.1:5000/getPlayerOfCurrentGame")
+      .get(`${this.URL}/getPlayerOfCurrentGame`)
       .subscribe(data => {
         this.serverData = data as JSON;
         console.log(data);

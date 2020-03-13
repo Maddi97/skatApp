@@ -1,6 +1,7 @@
 from os import environ
-from sqlalchemy import *
+from sqlalchemy import create_engine, inspect, schema, MetaData, Table, Column, Integer, String, Boolean, PrimaryKeyConstraint, ForeignKey
 
+databaseName = "test"
 
 def create_database():
 
@@ -9,10 +10,10 @@ def create_database():
 
     engine = create_engine('mysql+pymysql://root:password@127.0.0.1')
 
-    # TODO Drop IF exists
-    engine.execute("DROP SCHEMA test")
-    engine.execute("CREATE DATABASE test")  # create db
-    engine.execute("USE test")  # select new db
+    if databaseName in inspect(engine).get_schema_names():
+        engine.execute(schema.DropSchema(databaseName))
+    engine.execute(schema.CreateSchema(databaseName))  # create db
+    engine.execute("USE {}".format(databaseName))  # select new db
 
     meta = MetaData()
 
@@ -46,15 +47,15 @@ def create_database():
         Column('scoreSum', Integer),
         Column('color', String(35)),
         Column('unter', String(35)),
-        Column('Hand', Boolean),
-        Column('Schneider', Boolean),
-        Column('Schwarz', Boolean),
-        Column('Schneider angesagt', Boolean),
-        Column('Schwarz angesagt', Boolean),
-        Column('Ouvert', Boolean),
-        Column('Bock', Boolean),
+        Column('hand', Boolean),
+        Column('schneider', Boolean),
+        Column('schwarz', Boolean),
+        Column('schneider_angesagt', Boolean),
+        Column('schwarz_angesagt', Boolean),
+        Column('ouvert', Boolean),
+        Column('bock', Boolean),
         PrimaryKeyConstraint('gameID', 'gameRound', name='gameDetails')
     )
 
     meta.create_all(engine)
-    return engine
+    return engine, meta

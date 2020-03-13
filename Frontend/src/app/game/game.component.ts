@@ -3,7 +3,8 @@ import { FormControl } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material";
 import { HttpClient } from "@angular/common/http";
 import { RestComService } from "../rest-com.service";
-import { GradientButtonComponent } from '../gradient-button/gradient-button.component'; 
+import { GradientButtonComponent } from "../gradient-button/gradient-button.component";
+import { switchMap } from "rxjs/operators";
 
 //constants import
 
@@ -15,8 +16,6 @@ import {
   data_row,
   INITIAL_DATA_ROW
 } from "../env";
-import { switchMap } from 'rxjs/operators';
-
 
 @Component({
   selector: "app-game",
@@ -31,11 +30,11 @@ export class GameComponent implements OnInit {
   unter = UNTER;
 
   mobile: boolean;
-  
+
   chartOption: string[] = ["HighscoreCurrentGame", "MostPlayedHands"];
 
   displayedColumns: string[];
-  
+
   //holds all names of added players!!
   names: string[] = Array();
 
@@ -43,7 +42,7 @@ export class GameComponent implements OnInit {
   data: any;
   highscore: number = 0;
   gameTable: number[] = [];
-  errorMessage: string = '';
+  errorMessage: string = "";
 
   DATA_ROW: data_row = INITIAL_DATA_ROW;
   DATA_ROW_temp: data_row = INITIAL_DATA_ROW;
@@ -54,29 +53,37 @@ export class GameComponent implements OnInit {
 
   submit: boolean = false;
 
-  constructor(
-    private restCom: RestComService,
-    ) {}
+  constructor(private restCom: RestComService) {}
 
   ngOnInit() {
-    if(window.screen.width <= 600 ){
+    if (window.screen.width <= 600) {
       this.mobile = true;
     }
   }
 
   onUsernameInput(name: string) {
-    if(this.names.length < 5 ){
-    this.names.push(name);
-    this.DATA_ROW[name] = 0;
-    this.displayedColumns = ["No"].concat(this.names.concat(["Bock"]));
-    this.restCom.addPlayerOnServer({ playerName: name }).subscribe();
-    }
+    if (this.names.length < 5) {
+      if (this.names.find(element => element == name) == name) {
+        //check if input name is dublicate
+        console.log("This name is already taken");
+        return 0;
+      } else {
+        this.names.push(name);
+        this.DATA_ROW[name] = 0;
+        this.displayedColumns = ["No"].concat(this.names.concat(["Bock"]));
+        try {
+          this.restCom.addPlayerOnServer({ playerName: name }).subscribe();
+        } catch (error) {
+          console.log("RequestError: " + error);
+        }
+      }
+    } else console.log("Too many players");
   }
 
   game_select(cat: string, value) {
     this.DATA_ROW_temp[cat] = value;
   }
-  
+
   removeUser() {
     this.names.pop();
   }
@@ -89,7 +96,7 @@ export class GameComponent implements OnInit {
       this.DATA_ROW.Farbe == ""
     ) {
       console.log("Error empty form fields");
-      this.errorMessage = 'Please fill in all fields!';
+      this.errorMessage = "Please fill in all fields!";
     } else {
       this.DATA_ROW.No = this.dataSource.data.length + 1;
       let score = this.calc_score(
@@ -100,13 +107,13 @@ export class GameComponent implements OnInit {
       );
 
       //set score of other players to 0
-      for(var index in this.names){
-        this.DATA_ROW[this.names[index]]=0;
+      for (var index in this.names) {
+        this.DATA_ROW[this.names[index]] = 0;
       }
 
       //set score to player who has played the game
       this.DATA_ROW[this.DATA_ROW.Gespielt] = score;
-      if (score > this.highscore ){
+      if (score > this.highscore) {
         this.highscore = score;
       }
 
@@ -116,18 +123,18 @@ export class GameComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); //ELEMENT_DATA goes to sourceData for table
       this.setTableData();
 
-
       if (this.DATA_ROW.No == 1) {
-        this.restCom.addGameOnServer({ playerList: this.names })
-        .pipe(
-          switchMap(() => this.restCom.getLatestGameId),
-          switchMap(id => this.restCom.addGameParticipants(id, [1,2,3]))
-        ).subscribe(console.log);
+        this.restCom
+          .addGameOnServer({ playerList: this.names })
+          .pipe(
+            switchMap(() => this.restCom.getLatestGameId),
+            switchMap(id => this.restCom.addGameParticipants(id, [1, 2, 3]))
+          )
+          .subscribe(console.log);
       }
 
       this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
       this.restCom.getGameDetailsCurrentGame();
-
 
       // this.restCom.getGameDetailsCurrentGame().toPromise().then(data => {
       //   this.gameDetails = data; console.log(this.gameDetails)
@@ -135,9 +142,16 @@ export class GameComponent implements OnInit {
       //---------------------------------------------------------------------------------------------------------
       //Todooooo Reset Data ROw
       this.createGameTable();
-      this.DATA_ROW = this.DATA_ROW_temp = {No: 0, Unter: '', Farbe: '', Specs:[], Bock: false, Gespielt: ''};
+      this.DATA_ROW = this.DATA_ROW_temp = {
+        No: 0,
+        Unter: "",
+        Farbe: "",
+        Specs: [],
+        Bock: false,
+        Gespielt: ""
+      };
       this.submit = true;
-      this.errorMessage = '';
+      this.errorMessage = "";
     }
   }
 
@@ -194,6 +208,7 @@ export class GameComponent implements OnInit {
     console.log(this.restCom.sendServerDataRow(DATA_ROW).subscribe());
   }
 
+  //resets values of data row to initial
   resetDataRow() {
     this.DATA_ROW.No = 0;
     this.DATA_ROW.Unter = "";
@@ -211,11 +226,12 @@ export class GameComponent implements OnInit {
     }
     return detailsAsList;
   }
-  createGameTable(){
+
+  createGameTable() {
     this.restCom.setGameTable(this.gameTable);
   }
 
-  setTableData(){
+  setTableData() {
     this.restCom.setTableData(this.dataSource);
   }
 }
