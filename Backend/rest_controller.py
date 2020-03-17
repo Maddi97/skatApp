@@ -22,7 +22,9 @@ def index():
 @app.route('/getPlayerID', methods=['POST'])
 def get_player_id():
     player_name = request.get_data()
+    print("trigggeeerrreeees: {}".format(player_name))
     playerID = db_controller.get_player_id(player_name)
+    print("PLLLLLLLLLLLLLLLLAAAAAYER: {}".format(playerID))
     return jsonify({'playerID': playerID})
 1
 @app.route('/addGame', methods=['POST'])
@@ -43,7 +45,7 @@ def add_game_participants():
 
 @app.route('/addGameDetails', methods=['POST'])
 def add_game_details():
-    time.sleep(1)
+    time.sleep(5)
     jsdata = request.json
    # print(jsdata)
     game_data = game_details_datasctrucutre(jsdata)
@@ -67,7 +69,6 @@ def add_new_player():
 
 @app.route('/getGameDetailsCurrentGame', methods=['GET'])
 def get_gameDetailsCurrentGame():
-    time.sleep(2)
     gameID = db_controller.get_last_game_id()
     gameDetails = db_controller.get_gameDetails(gameID)
 

@@ -91,9 +91,11 @@ export class GameComponent implements OnInit {
   }
 
   form_submit() {
-    this.player_ids = forkJoin(this.names.map(name => this.restCom.getPlayerID(name)));
-    this.player_ids.subscribe(x => console.log(x))
-   // this.player_ids.
+    //this.player_ids = forkJoin(this.names.map(name => this.restCom.getPlayerID(name)));
+    this.player_ids = this.getPlayerIds(this.names)
+    console.log(this.player_ids)
+
+    // this.player_ids.
     this.DATA_ROW = this.DATA_ROW_temp;
     if (
       this.DATA_ROW.Unter == "" ||
@@ -141,7 +143,7 @@ export class GameComponent implements OnInit {
           .subscribe(console.log);
       }
       this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
-      this.restCom.getGameDetailsCurrentGame();
+     // this.restCom.getGameDetailsCurrentGame();
       // this.restCom.getGameDetailsCurrentGame().toPromise().then(data => {
       //   this.gameDetails = data; console.log(this.gameDetails)
       // });
@@ -240,4 +242,13 @@ export class GameComponent implements OnInit {
   setTableData() {
     this.restCom.setTableData(this.dataSource);
   }
+
+  getPlayerIds(names){
+    var temp_players=[];
+    for (var index in names){
+      this.restCom.getPlayerID(names[index]).subscribe(x => temp_players.push(x))
+    }
+    return temp_players
+  }
+   
 }
