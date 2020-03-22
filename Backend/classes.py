@@ -30,10 +30,10 @@ class Round:
     def db_mapping(roundDetails: dict):
         return Round(roundDetails["gameID"], roundDetails["playerID"], roundDetails["gameRound"], roundDetails["score"], roundDetails["scoreSum"],
         roundDetails["color"], roundDetails["unter"], roundDetails["hand"], roundDetails["schneider"], roundDetails["schwarz"],
-        roundDetails["schneider_angesagt"], roundDetails["schwarz_angesagt"], roundDetails["ouvert"], roundDetails["bock"])
+        roundDetails["schneiderAngesagt"], roundDetails["schwarzAngesagt"], roundDetails["ouvert"], roundDetails["bock"])
 
     def __init__(self, gameID, playerID, gameRound, score, scoreSum, color, unter, hand, schneider, schwarz,
-        schneider_angesagt, schwarz_angesagt, ouvert, bock):
+        schneiderAngesagt, schwarzAngesagt, ouvert, bock):
 
         self.gameID = gameID
         self.gameRound = gameRound
@@ -45,7 +45,7 @@ class Round:
         self.hand = hand
         self.schneider = schneider
         self.schwarz = schwarz
-        self.schneider_angesagt = schneider_angesagt
-        self.schwarz_angesagt = schwarz_angesagt
+        self.schneiderAngesagt = schneiderAngesagt
+        self.schwarzAngesagt = schwarzAngesagt
         self.ouvert = ouvert
         self.bock = bock

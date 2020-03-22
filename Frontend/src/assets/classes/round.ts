@@ -13,8 +13,8 @@ export interface IRound {
     hand: boolean,
     schneider: boolean,
     schwarz: boolean,
-    schneider_angesagt: boolean,
-    schwarz_angesagt: boolean,
+    schneiderAngesagt: boolean,
+    schwarzAngesagt: boolean,
     ouvert: boolean,
     bock: boolean
 }
@@ -24,7 +24,7 @@ export class Round implements IRound {
     constructor(readonly gameID: number, readonly playerID: number, readonly gameRound: number,
         readonly score: number, readonly scoreSum: number, readonly color: Color,
         readonly unter: Unter, readonly hand: boolean, readonly schneider: boolean,
-        readonly schwarz: boolean, readonly schneider_angesagt: boolean, readonly schwarz_angesagt: boolean,
+        readonly schwarz: boolean, readonly schneiderAngesagt: boolean, readonly schwarzAngesagt: boolean,
         readonly ouvert: boolean, readonly bock: boolean) { }
 
 }

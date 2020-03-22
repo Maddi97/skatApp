@@ -50,8 +50,8 @@ def create_database():
         Column('hand', Boolean),
         Column('schneider', Boolean),
         Column('schwarz', Boolean),
-        Column('schneider_angesagt', Boolean),
-        Column('schwarz_angesagt', Boolean),
+        Column('schneiderAngesagt', Boolean),
+        Column('schwarzAngesagt', Boolean),
         Column('ouvert', Boolean),
         Column('bock', Boolean),
         PrimaryKeyConstraint('gameID', 'gameRound', name='gameDetails')
