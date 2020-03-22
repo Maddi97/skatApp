@@ -58,6 +58,7 @@ class database_controller:
 
         # 1 round -> all players play exactly once
         if gRound.gameRound/game.playerAmount > game.gameRoundAmount:
+            print("exceeded maximum game rounds")
             return -1
 
         insertion = insert(self.tGameDetails).values(
@@ -217,8 +218,8 @@ class database_controller:
 
 
 if __name__ == "__main__":
-     controller = database_controller()
-     controller.prefill_database_with_test_values()
+    # controller = database_controller()
+    # controller.prefill_database_with_test_values()
 
      
      
