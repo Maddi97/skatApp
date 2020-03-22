@@ -92,8 +92,8 @@ export class GameComponent implements OnInit {
 
   form_submit() {
     //this.player_ids = forkJoin(this.names.map(name => this.restCom.getPlayerID(name)));
-    this.player_ids = this.getPlayerIds(this.names)
-    console.log(this.player_ids)
+    //this.player_ids = this.getPlayerIds(this.names)
+    //console.log(this.player_ids)
 
     // this.player_ids.
     this.DATA_ROW = this.DATA_ROW_temp;
@@ -140,9 +140,9 @@ export class GameComponent implements OnInit {
         //     switchMap(() => this.restCom.getLatestGameId),
         //     switchMap(id => this.restCom.addGameParticipants(id, [1, 2, 3]))
         //   )
-          .subscribe(console.log);
+          .toPromise();
       }
-      this.restCom.addGameDetailsOnServer(this.DATA_ROW).subscribe();
+      this.restCom.addGameDetailsOnServer(this.DATA_ROW).toPromise();
      // this.restCom.getGameDetailsCurrentGame();
       // this.restCom.getGameDetailsCurrentGame().toPromise().then(data => {
       //   this.gameDetails = data; console.log(this.gameDetails)
@@ -246,7 +246,7 @@ export class GameComponent implements OnInit {
   getPlayerIds(names){
     var temp_players=[];
     for (var index in names){
-      this.restCom.getPlayerID(names[index]).subscribe(x => temp_players.push(x))
+      this.restCom.getPlayerID(names[index]).toPromise().then(x => temp_players.push(x))
     }
     return temp_players
   }

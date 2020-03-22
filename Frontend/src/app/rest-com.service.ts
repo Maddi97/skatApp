@@ -125,7 +125,6 @@ export class RestComService {
     this.http
       .get(`${this.URL}getGameDetailsCurrentGame`)
       .pipe(catchError(() =>  of({})))
-      .subscribe(x => console.log(x))
     return dummyData
   }
 
