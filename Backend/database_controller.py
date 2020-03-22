@@ -3,161 +3,226 @@ from flask import jsonify
 from typing import List
 from generate_database import create_database
 from sqlalchemy.sql import select, insert
-from sqlalchemy import func
+from sqlalchemy import func, and_
+from classes import *
 
 class database_controller:
     def __init__(self):
         self.engine, self.meta = create_database()
-        self.tables = self.meta.tables
+        tables = self.meta.tables
         self.engine.execute("USE test")
-        
-    def add_player(self, name):
-        insertion = insert(self.tables["Player"]).values(name=name)
+        self.tPlayers = tables["Player"]
+        self.tGame = tables["Game"]
+        self.tGameDetails = tables["GameDetails"]
+        self.tGameParticipants = tables["GameParticipants"]
+    
+    """
+    player CRUD
+    """
+    def add_player(self, player: Player) -> int:
+        insertion = insert(self.tPlayers).values(name=player.name)
         
         query = self.engine.execute(insertion)
         return query.inserted_primary_key[0]
 
-    def add_game(self, date, gameRoundAmount, playerAmount):
-        insertion = insert(self.tables["Game"]).values(date= date, gameRoundAmount= gameRoundAmount, playerAmount= playerAmount)
-        
+    def get_player(self, **kwargs) -> Player:
+        query = self.__defaultSelection(self.tPlayers, kwargs)
+
+        return Player.db_mapping(dict(query.first()))
+
+    """
+    game CRUD
+    """
+    def add_game(self, game: Game) -> int :
+        insertion = insert(self.tGame).values(date= game.date, gameRoundAmount= game.gameRoundAmount, playerAmount= len(game.players))
+
         query = self.engine.execute(insertion)
         return query.inserted_primary_key[0]
-                    
-    def add_gameDetails(self, gameRound, gameID, playerID, score, color, unter,  hand, schneider, schwarz, schneider_angesagt, schwarz_angesagt, ouvert, bock):
-        insertion = insert(self.tables["GameDetails"]).values(
-            gameRound= gameRound, gameID= gameID, playerID= playerID, score= score,
-            scoreSum= self.get_scoreSum(gameID, gameRound, playerID)+score,
-            color= color, unter= unter, hand= hand, schwarz= schwarz, schneider=schneider,
-            schwarz_angesagt = schwarz_angesagt, schneider_angesagt= schneider_angesagt,
-            ouvert= ouvert, bock= bock
+
+    def get_game(self, **kwargs) -> Game:
+        query = self.__defaultSelection(self.tGame, kwargs)
+
+        return Game.db_mapping(dict(query.first()))    
+
+    def get_last_game_id(self) -> int:
+        selection = select([func.max(self.tGame.c.gameID)])
+
+        query = self.engine.execute(selection)      
+        return query.scalar()
+
+    """
+    gameDetails CRUD
+    """
+    def add_game_details(self, gRound: Round) -> int:
+        game = self.get_game(gameID= gRound.gameID)
+
+        # 1 round -> all players play exactly once
+        if gRound.gameRound/game.playerAmount > game.gameRoundAmount:
+            return -1
+
+        insertion = insert(self.tGameDetails).values(
+            gameID= gRound.gameID, playerID= gRound.playerID,
+            gameRound= gRound.gameRound , score= gRound.score,
+            scoreSum= self.get_score_sum(gRound.gameID, gRound.gameRound, gRound.playerID)+gRound.score,
+            color= gRound.color, unter= gRound.unter, hand= gRound.hand, 
+            schwarz= gRound.schwarz, schneider= gRound.schneider,
+            schwarz_angesagt = gRound.schwarz_angesagt, schneider_angesagt= gRound.schneider_angesagt,
+            ouvert= gRound.ouvert, bock= gRound.bock
         )
 
         query = self.engine.execute(insertion)
         return query.inserted_primary_key[0]
 
-    def add_game_participants(self, gameID: int, participants: List[int]):
+    def get_game_details(self, **kwargs) -> Round:
+        query = self.__defaultSelection(self.tGameDetails,kwargs)
+
+        return Round.db_mapping(dict(query.first()))
+
+    def get_score_sum(self, gameID, gameRound, playerID) -> int:
+        selection = select([func.sum(self.tGameDetails.c.score)]).where(
+            and_(
+                self.tGameDetails.c.gameID == gameID,
+                self.tGameDetails.c.gameRound == gameRound,
+                self.tGameDetails.c.playerID == playerID
+            )
+        )
+        
+        query = self.engine.execute(selection)
+        scoreSum = query.scalar()
+        return scoreSum if scoreSum else 0
+
+    def get_last_round_num(self, gameID) -> int:
+        selection = select([func.max(self.tGameDetails.c.gameRound)]).where(self.tGameDetails.c.gameID == gameID)
+
+        query = self.engine.execute(selection)
+        roundNum = query.scalar()
+        return roundNum if roundNum else 0
+
+    """
+    gameParticipants CRUD
+    """
+    def add_game_participants(self, gameID: int, participants: List[int]) -> int:
         values = list(map(lambda playerID: {'gameID': gameID, 'playerID': playerID}, participants))
-        insertion = insert(self.tables["GameParticipants"]).values(values)
+        insertion = insert(self.tGameParticipants).values(values)
         
         query = self.engine.execute(insertion)
         return query.rowcount
 
-    def get_player_id(self, name):
-        players = self.tables["Player"]
-        selection = select([players.c.playerID]).where(players.c.name == name)
-        
+    def get_game_participants(self, gameID) -> List[Player]:
+        participants = self.get_game_participant_ids(gameID)
+
+        return list(map(lambda playerID: self.get_player(playerID = playerID), participants))
+
+    def get_game_participant_ids(self, gameID) -> List[int]:
+        selection = select([self.tGameParticipants.c.playerID]).where(self.tGameParticipants.c.gameID == gameID)
+
         query = self.engine.execute(selection)
-        return query.scalar()
+        return query.fetchall()
 
-    def get_last_game_id(self):
-        result = self.engine.execute(
-            "SELECT MAX(gameID) from Game"
-        )
-        
-        return result.scalar()
-    def get_game_by_id(self, gameID):
-        result = self.engine.execute(
-            '''
-            SELECT * from Game
-            WHERE gameID = {}
-            '''.format(gameID)
-        )
+    """
+    private helper methods
+    """
+    def __defaultSelection(self, table, kwargs): 
+        selection = select([table])
 
-        return result.first()
-    def get_gameDetails_by_id(self, gameID, playerID):
-        return 
-        #selection = self.tables["GameDetails"].sel
-    def get_player_by_id(self, playerID):
-        players = self.tables["Player"]
-        selection = select([players]).where(players.c.playerID == playerID)
-        
+        for key in kwargs.keys():
+            selection = selection.where(table.c[key] == kwargs[key])
+
         query = self.engine.execute(selection)
-        return query.first()
+        return query
 
-    def get_scoreSum(self, gameID, gameRound, playerID):
-        result = 0
-        scoreSum = self.engine.execute(
-            "SELECT SUM(score) FROM GameDetails WHERE GameDetails.gameID={} AND GameDetails.gameRound <= {} AND GameDetails.playerID={}".format(
-                gameID, gameRound, playerID)
-        )
-        for x in scoreSum:
-            result = x[0]
-        if(result == None):
-            result = 0
-        return result
-
-    def get_last_round_num(self, gameID):
-        result = None
-        num = self.engine.execute(
-            "SELECT MAX(gameRound) from GameDetails WHERE GameDetails.gameID={}".format(
-                gameID)
-        )
-        for x in num:
-            result = x[0]
-
-        return result
-
-    def get_gameDetails(self, gameID):
-        result = None
-        details = self.engine.execute(
-            "SELECT * FROM GameDetails WHERE gameID={}".format(gameID))
-
-        currentDetailsAsDict = {}
-        for x in details:
-            currentDetailsAsDict[x[0]] = (dict(x))
-
-        return currentDetailsAsDict
-
-    def get_GameParticipants(self, gameID):
-        self.engine.execute(
-            '''
-            SELECT distinct playerID 
-            FROM 
-            '''
-        )
-
+    """
+    init method
+    """
     def prefill_database_with_test_values(self):
-        x = database_controller()
-        print("inserting test values")
-        x.add_player('Maddi')
-        x.add_player('Johann')
-        x.add_player('Johan')
-        x.add_player('Friedrich')
-        x.add_player('Jakob')
 
-        x.add_game(str(datetime.now()).split(" ")[0], 1, 4)
-        x.add_gameDetails(1, 1, 1, 144, 'Grand', 'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-        x.add_gameDetails(x.get_last_round_num(1)+1, 1, 3, 1344, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-        x.add_gameDetails(x.get_last_round_num(1)+1, 1, 4, 423, 'Rot',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-        x.add_gameDetails(x.get_last_round_num(1)+1, 1, 2, 144, 'Null',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-        x.add_gameDetails(x.get_last_round_num(1)+1, 1, 2, 1344, 'Grand',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-        x.add_gameDetails(x.get_last_round_num(1)+1, 1, 1, 423, 'Grand',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+        """
+        Players
+        """
+        # create new Player Object
+        maddi = Player(None,'Maddi')
+        # assign previously unassigned ID
+        maddi.playerID = self.add_player(maddi)
 
-        x.add_game(str(datetime.now()).split(" ")[0], 1, 4)
+        # 4 times more
+        johann = Player(None,'Johann')
+        johann.playerID = self.add_player(johann)
+        johan = Player(None,'Johan')
+        johan.playerID = self.add_player(johan)
+        friedrich = Player(None,'Friedrich')
+        friedrich.playerID = self.add_player(friedrich)
+        jakob = Player(None,'Jakob')
+        jakob.playerID = self.add_player(jakob)
+        
+        """
+        Game
+        """
+        # create game
+        game1 = Game(None, datetime.now().isoformat(),2, [johann, jakob, maddi]) # 2 runden
+        # assign gameID
+        game1.gameID = self.add_game(game1)
+        # same as above
+        game2 = Game(None, datetime.now().isoformat(),1, [johan, friedrich, johann]) # 1 runde
+        game2.gameID = self.add_game(game2)
+        
+        """
+        Participants
+        """
+        # add gameParticipants in DB
+        self.add_game_participants(game1.gameID, list(map(lambda player: player.playerID, game1.players)))
+        
+        """
+        Rounds
+        """
+        #game 1
+        round1 = Round(game1.gameID, johann.playerID, self.get_last_round_num(game1.gameID)+1, 144, None, 'Grand', 'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+        self.add_game_details(round1)
+        round2 = Round(game1.gameID, jakob.playerID, self.get_last_round_num(game1.gameID)+1, 1344, None, 'Grün',
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+        self.add_game_details(round2)
+        round3 = Round(game1.gameID, maddi.playerID, self.get_last_round_num(game1.gameID)+1, 1341, None, 'Grün',
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+        self.add_game_details(round3)
+        round4 = Round(game1.gameID, johann.playerID, self.get_last_round_num(game1.gameID)+1, 423, None, 'Rot',
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+        self.add_game_details(round4)
+        round5 = Round(game1.gameID, jakob.playerID, self.get_last_round_num(game1.gameID)+1, 144, None, 'Null',
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+        self.add_game_details(round5)
+        round6 = Round(game1.gameID, maddi.playerID, self.get_last_round_num(game1.gameID)+1, 1344, None, 'Grand',
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+        self.add_game_details(round6)
 
-        x.add_gameDetails(1, 2, 1, 1344, 'Grand',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-        x.add_gameDetails(2, 2, 1, 423, 'Grand',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-        x.add_gameDetails(3, 2, 2, 432, 'Null',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-        x.add_gameDetails(4, 2, 4, 32, 'Grand',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1)
-        x.add_gameDetails(5, 2, 5, 122, 'Grand',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+        # game 2
+        roundA = Round(game2.gameID, johan.playerID, self.get_last_round_num(game2.gameID)+1, 1344, None, 'Grün',
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+        self.add_game_details(roundA)
+        roundB = Round(game2.gameID, friedrich.playerID, self.get_last_round_num(game2.gameID)+1, 1344, None, 'Grün',
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+        self.add_game_details(roundB)
+        roundC = Round(game2.gameID, johann.playerID, self.get_last_round_num(game2.gameID)+1, 1344, None, 'Grün',
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+        self.add_game_details(roundC)
+
+        roundD = Round(game2.gameID, johann.playerID, self.get_last_round_num(game2.gameID)+1, 1344, None, 'Grün',
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+        
+        # validation
+        if (self.add_game_details(roundD) != -1) :
+            print("Something went wrong")
+        else :
+            print("Setup finished without problems")
 
    
 
 
 if __name__ == "__main__":
-     x = database_controller()
-     pid1 = x.add_player("hanno")
-     print(x.get_player_id("hanno"))
+     controller = database_controller()
+     controller.prefill_database_with_test_values()
+
+     
+     
+    
      
     # print(pid1)
     #  pid2 = x.add_player("bob")

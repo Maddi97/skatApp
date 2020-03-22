@@ -1,9 +1,10 @@
 from typing import List
+from datetime import datetime
 
 class Player:
 
     @staticmethod
-    def parse(player: dict):
+    def db_mapping(player: dict):
         return Player(player["playerID"], player["name"])
 
     def __init__(self, playerID, name):
@@ -13,25 +14,25 @@ class Player:
 class Game:
 
     @staticmethod
-    def parse(game: dict, players: List[Player] = []):
-        return Game(game["gameID"], game["date"], game["gameRoundAmount"], game["playerAmount"], players)
+    def db_mapping(game: dict, players: List[Player] = []):
+        return Game(game["gameID"], game["date"], game["gameRoundAmount"], players, game["playerAmount"])
 
-    def __init__(self, gameID, date, gameRoundAmount, playerAmount, players):
+    def __init__(self, gameID, date, gameRoundAmount, players: List[Player], playerAmount = None):
         self.gameID = gameID
-        self.date = date
+        self.date = date if date else datetime.now().isoformat()
         self.gameRoundAmount = gameRoundAmount
-        self.playerAmount = playerAmount
-        self.players = players
+        self.players = players if players else []
+        self.playerAmount = playerAmount if playerAmount else len(players)
 
 class Round:
 
     @staticmethod
-    def parse(roundDetails: dict):
-        return Round(roundDetails["gameID"], roundDetails["gameRound"], roundDetails["playerID"], roundDetails["score"], roundDetails["scoreSum"], 
+    def db_mapping(roundDetails: dict):
+        return Round(roundDetails["gameID"], roundDetails["playerID"], roundDetails["gameRound"], roundDetails["score"], roundDetails["scoreSum"],
         roundDetails["color"], roundDetails["unter"], roundDetails["hand"], roundDetails["schneider"], roundDetails["schwarz"],
         roundDetails["schneider_angesagt"], roundDetails["schwarz_angesagt"], roundDetails["ouvert"], roundDetails["bock"])
 
-    def __init__(self, gameID, gameRound, playerID, score, scoreSum, color, unter, hand, schneider, schwarz,
+    def __init__(self, gameID, playerID, gameRound, score, scoreSum, color, unter, hand, schneider, schwarz,
         schneider_angesagt, schwarz_angesagt, ouvert, bock):
 
         self.gameID = gameID
