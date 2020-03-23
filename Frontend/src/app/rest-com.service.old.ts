@@ -11,124 +11,124 @@ import { data_row } from "./env";
   providedIn: "root"
 })
 export class RestComService {
-  private URL = "http://127.0.0.1:5000/";
+  // private URL = "http://127.0.0.1:5000/";
   
-  constructor(private http: HttpClient) {}
+  // constructor(private http: HttpClient) {}
 
-  getServerHello() {
-    this.http.get(this.URL).subscribe(data => {
+  // getServerHello() {
+  //   this.http.get(this.URL).subscribe(data => {
      
-    });
-  }
+  //   });
+  // }
 
-  sendServerDataRow(DATA_ROW): Observable<string> {
-    this.serverData = JSON.parse(JSON.stringify(DATA_ROW));
-    return this.http.post<string>(
-      `${this.URL}postmethod`,
-      this.serverData,
-      httpOptions
-    );
-  }
+  // sendServerDataRow(DATA_ROW): Observable<string> {
+  //   this.serverData = JSON.parse(JSON.stringify(DATA_ROW));
+  //   return this.http.post<string>(
+  //     `${this.URL}postmethod`,
+  //     this.serverData,
+  //     httpOptions
+  //   );
+  // }
 
-  getPlayerID(playerName){
-    this.serverData = JSON.parse(JSON.stringify(playerName));
-    return this.http.post<string>(
-      `${this.URL}getPlayerID`,
-      this.serverData,
-      httpOptions
-    );
-  }
+  // getPlayerID(playerName){
+  //   this.serverData = JSON.parse(JSON.stringify(playerName));
+  //   return this.http.post<string>(
+  //     `${this.URL}getPlayerID`,
+  //     this.serverData,
+  //     httpOptions
+  //   );
+  // }
 
-  addPlayerOnServer(name): Observable<string> {
-    this.serverData = JSON.parse(JSON.stringify(name));
-    return this.http.post<string>(
-      `${this.URL}addPlayer`,
-      this.serverData,
-      httpOptions
-    );
-  }
-  addGameOnServer(gameData): Observable<string> {
-    this.serverData = JSON.parse(JSON.stringify(gameData));
+  // addPlayerOnServer(name): Observable<string> {
+  //   this.serverData = JSON.parse(JSON.stringify(name));
+  //   return this.http.post<string>(
+  //     `${this.URL}addPlayer`,
+  //     this.serverData,
+  //     httpOptions
+  //   );
+  // }
+  // addGameOnServer(gameData): Observable<string> {
+  //   this.serverData = JSON.parse(JSON.stringify(gameData));
 
-    return this.http.post<string>(
-      `${this.URL}addGame`,
-      this.serverData,
-      httpOptions
-    )
-  }
+  //   return this.http.post<string>(
+  //     `${this.URL}addGame`,
+  //     this.serverData,
+  //     httpOptions
+  //   )
+  // }
 
-  addGameDetailsOnServer(gameData): Observable<string> {
-    this.serverData = JSON.parse(JSON.stringify(gameData));
-    return this.http.post<string>(
-      `${this.URL}addGameDetails`,
-      this.serverData,
-      httpOptions
-    );
-  }
-  getGameDetailsCurrentGame() {
-    this.http
-      .get(`${this.URL}getGameDetailsCurrentGame`)
-      .subscribe(data => {
-        this.serverData = data as JSON;
-      });
-  }
+  // addGameDetailsOnServer(gameData): Observable<string> {
+  //   this.serverData = JSON.parse(JSON.stringify(gameData));
+  //   return this.http.post<string>(
+  //     `${this.URL}addGameDetails`,
+  //     this.serverData,
+  //     httpOptions
+  //   );
+  // }
+  // getGameDetailsCurrentGame() {
+  //   this.http
+  //     .get(`${this.URL}getGameDetailsCurrentGame`)
+  //     .subscribe(data => {
+  //       this.serverData = data as JSON;
+  //     });
+  // }
 
-  getHighScoreCurrentGame() {
-    return this.http.get(`${this.URL}getHighScoreCurrentGame`);
-  }
+  // getHighScoreCurrentGame() {
+  //   return this.http.get(`${this.URL}getHighScoreCurrentGame`);
+  // }
 
-  getPlayerCurrentGame() {
-    this.http
-      .get(`${this.URL}getPlayerOfCurrentGame`)
-      .subscribe(data => {
-        this.serverData = data as JSON;
-        console.log(data);
-      });
-  }
+  // getPlayerCurrentGame() {
+  //   this.http
+  //     .get(`${this.URL}getPlayerOfCurrentGame`)
+  //     .subscribe(data => {
+  //       this.serverData = data as JSON;
+  //       console.log(data);
+  //     });
+  // }
 
-  setGameTable(table: number[]) {
-    this.gameTable.next(table);
-  }
+  // setGameTable(table: number[]) {
+  //   this.gameTable.next(table);
+  // }
 
-  setTableData(dataSource: any) {
-    this.dataSource.next(dataSource);
-  }
+  // setTableData(dataSource: any) {
+  //   this.dataSource.next(dataSource);
+  // }
 
-  getAllRoundsOfAllPlayerPerGame() {
-    this.http
-      .get(`${this.URL}getGameDetailsCurrentGame`)
-      .pipe(catchError(() =>  of({})))
-    return dummyData
-  }
+  // getAllRoundsOfAllPlayerPerGame() {
+  //   this.http
+  //     .get(`${this.URL}getGameDetailsCurrentGame`)
+  //     .pipe(catchError(() =>  of({})))
+  //   return dummyData
+  // }
 
-  getLatestGameId() {
-    return this.http.get(
-      `${this.URL}latestGameID`
-    ).pipe(
-      catchError(() => of({})),
-    )
-  }
+  // getLatestGameId() {
+  //   return this.http.get(
+  //     `${this.URL}latestGameID`
+  //   ).pipe(
+  //     catchError(() => of({})),
+  //   )
+  // }
 
-  addGameParticipants(gameID: string, players: number[]) {
-    var params = new HttpParams()
-    params = params.append("gameID", gameID)
-    return this.http.post(`${this.URL}addGameParticipants`,players)
-  }
+  // addGameParticipants(gameID: string, players: number[]) {
+  //   var params = new HttpParams()
+  //   params = params.append("gameID", gameID)
+  //   return this.http.post(`${this.URL}addGameParticipants`,players)
+  // }
 
-  getHighestScoresOfAllTime() {
-    return dummyData
-  }
-  getBestPlayerScores() {
-    return dummyData
-  }
-  getMostPlayedHands() {
-    var data = {
-      Johann: [22, 55, 31, 11, 43, 20, 34],
-      Maddi: [22, 32, 21, 23, 40, 40, 10],
-      Johan: [55, 31, 42, 21, 12, 24, 12]
-    };
-    return data;
-  }
+  // getHighestScoresOfAllTime() {
+  //   return dummyData
+  // }
+  // getBestPlayerScores() {
+  //   return dummyData
+  // }
+  // getMostPlayedHands() {
+  //   var data = {
+  //     Johann: [22, 55, 31, 11, 43, 20, 34],
+  //     Maddi: [22, 32, 21, 23, 40, 40, 10],
+  //     Johan: [55, 31, 42, 21, 12, 24, 12]
+  //   };
+  //   return data;
+  // }
 }
 
 

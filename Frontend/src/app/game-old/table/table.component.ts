@@ -29,18 +29,18 @@ import {
   ]
 })
 export class TableComponent implements OnInit {
-  @Input() displayedColumns: string[];
+  // @Input() displayedColumns: string[];
 
-  dataSource: any;
+  // dataSource: any;
 
-  ngOnChange() {}
+  // ngOnChange() {}
   
 
-  constructor(private restCom: RestComService) {}
+  // constructor(private restCom: RestComService) {}
 
-  ngOnInit() {
-    this.restCom.currentDataSource.subscribe(data => {
-      this.dataSource = data;
-    });
-  }
+  ngOnInit() { }
+  //   this.restCom.currentDataSource.subscribe(data => {
+  //     this.dataSource = data;
+  //   });
+  // }
 }
