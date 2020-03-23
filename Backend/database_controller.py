@@ -67,7 +67,8 @@ class database_controller:
             scoreSum= self.get_score_sum(gRound.gameID, gRound.gameRound, gRound.playerID)+gRound.score,
             color= gRound.color, unter= gRound.unter, hand= gRound.hand, 
             schwarz= gRound.schwarz, schneider= gRound.schneider,
-            schwarz_angesagt = gRound.schwarz_angesagt, schneider_angesagt= gRound.schneider_angesagt,
+            schwarzAngesagt = gRound.schwarzAngesagt, schneiderAngesagt= gRound.schneiderAngesagt
+,
             ouvert= gRound.ouvert, bock= gRound.bock
         )
 
@@ -218,8 +219,8 @@ class database_controller:
 
 
 if __name__ == "__main__":
-    # controller = database_controller()
-    # controller.prefill_database_with_test_values()
+     controller = database_controller()
+     controller.prefill_database_with_test_values()
 
      
      

@@ -7,6 +7,7 @@ from datetime import datetime
 from typing import List
 import time
 from database_controller import database_controller
+from classes import *
 
 db_controller = database_controller()
 db_controller.prefill_database_with_test_values()
@@ -22,9 +23,7 @@ def index():
 @app.route('/getPlayerID', methods=['POST'])
 def get_player_id():
     player_name = request.get_data()
-    print("trigggeeerrreeees: {}".format(player_name))
     playerID = db_controller.get_player_id(player_name)
-    print("PLLLLLLLLLLLLLLLLAAAAAYER: {}".format(playerID))
     return jsonify({'playerID': playerID})
 1
 @app.route('/addGame', methods=['POST'])
@@ -45,7 +44,7 @@ def add_game_participants():
 
 @app.route('/addGameDetails', methods=['POST'])
 def add_game_details():
-    time.sleep(5)
+    time.sleep(3)
     jsdata = request.json
    # print(jsdata)
     game_data = game_details_datasctrucutre(jsdata)
@@ -63,8 +62,9 @@ def add_game_details():
 @app.route('/addPlayer', methods=['POST'])
 def add_new_player():
     jsdata = request.json
-    db_controller.add_player(jsdata['playerName'])
-    return (jsonify({'success': 'true'}))
+    player_object = Player(None, jsdata['playerName'])
+    playerID = db_controller.add_player(player_object)
+    return (jsonify({'playerID': playerID}))
 
 
 @app.route('/getGameDetailsCurrentGame', methods=['GET'])
