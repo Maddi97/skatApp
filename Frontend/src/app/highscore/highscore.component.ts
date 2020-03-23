@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartsComponent } from '../game/charts/charts.component';
+import { ChartsComponent } from '../game-old/charts/charts.component';
 
 @Component({
   selector: 'app-highscore',

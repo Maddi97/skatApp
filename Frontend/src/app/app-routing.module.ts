@@ -5,7 +5,15 @@ import { BodyComponent } from './body/body.component';
 import { HighscoreComponent } from './highscore/highscore.component';
 
 
+const routes: Routes = [
+  { path: 'game', component: GameComponent },
+  { path: 'index', component: BodyComponent },
+  { path: 'highscore', component: HighscoreComponent },
+  { path: '**', redirectTo: 'index' }
+]
+
 @NgModule({
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

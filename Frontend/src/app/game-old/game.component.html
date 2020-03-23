@@ -1,0 +1,13 @@
+<div class='game'>
+  <div style="width: 90%; margin: auto; padding-top: 2rem;">
+    <!-- <p> {{title}}</p> meine idee: hier einen sich wechselnden satz einbauen. zb in jeder runde anzeigen wer dran ist mit ausgeben.
+    wäre aber auch lustig einfach random sprüche zu haben. vllt welche die im backend gespeichert sind.
+  so sachen wie: sieben neune unter, da kommt keiner drunter. oder Ey, johan spiel mal ne runde :D-->
+    <div>
+      <div *ngIf="!mobile" class="highscore">
+        <!-- TO DO: Highscore anzeigen nebeneinander. -->
+        HIGHSCORE: {{highscore}}
+      </div>
+    </div>
+  </div>
+</div>
