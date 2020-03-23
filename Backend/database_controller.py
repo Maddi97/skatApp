@@ -75,10 +75,11 @@ class database_controller:
         query = self.engine.execute(insertion)
         return query.inserted_primary_key[0]
 
-    def get_game_details(self, **kwargs) -> Round:
+    def get_game_details(self, **kwargs) -> List[Round]:
         query = self.__defaultSelection(self.tGameDetails,kwargs)
 
-        return Round.db_mapping(dict(query.first()))
+        rounds = query.fetchall()
+        return list(rounds.map(lambda gRound: Round.db_mapping(dict(gRound)), rounds))
 
     def get_score_sum(self, gameID, gameRound, playerID) -> int:
         selection = select([func.sum(self.tGameDetails.c.score)]).where(
