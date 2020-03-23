@@ -21,6 +21,7 @@ import { GradientButtonComponent } from './gradient-button/gradient-button.compo
 
 //Charts
 import { ChartsModule } from 'ng2-charts';
+import { PlayerListComponent } from './player-list/player-list.component';
 
 const routes = [
   { path: 'game', component: GameComponent },
@@ -39,7 +40,8 @@ const routes = [
     ChartsComponent,
     TableComponent,
     HighscoreComponent,
-    GradientButtonComponent
+    GradientButtonComponent, 
+    PlayerListComponent
   ],
   imports: [
     HttpClientModule,
@@ -55,6 +57,7 @@ const routes = [
     RouterModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [PlayerListComponent]
 })
 export class AppModule { }
