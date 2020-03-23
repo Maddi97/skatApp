@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material";
 import { HttpClient } from "@angular/common/http";
-import { RestComService } from "../rest-com.service";
+import { RestComService } from "../rest-com.service.old";
 import { GradientButtonComponent } from "../gradient-button/gradient-button.component";
 import { switchMap } from "rxjs/operators";
 

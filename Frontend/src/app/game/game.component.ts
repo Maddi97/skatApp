@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { PlayerListComponent } from '../player-list/player-list.component';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-game',
@@ -9,13 +10,15 @@ import { PlayerListComponent } from '../player-list/player-list.component';
 })
 export class GameComponent implements OnInit {
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private api: ApiService) { }
 
   ngOnInit() {
+    this.api.getGame({gameID: 1}).subscribe(x => console.log(x))
+  //  this.api.getPlayer({name:"maddi"}).subscribe(x => console.log(x))
   }
 
   ngAfterViewInit() {
-    this.dialog.open(PlayerListComponent)
+    // this.dialog.open(PlayerListComponent)
   }
  
 }

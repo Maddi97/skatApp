@@ -2,9 +2,9 @@ import { Player } from './player'
 
 export interface IGame {
     gameID?: number,
-    date: string | Date,
-    gameRoundAmount: number,
-    players: Number[] | Player[]
+    date?: string | Date,
+    gameRoundAmount?: number,
+    players?: Number[] | Player[]
 }
 
 export class Game implements IGame {

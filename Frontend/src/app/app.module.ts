@@ -3,9 +3,8 @@ import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MaterialModule } from './material.module';
 import { CardComponent } from './card/card.component';
 import { GameComponent } from './game/game.component';
@@ -19,6 +18,7 @@ import { GradientButtonComponent } from './gradient-button/gradient-button.compo
 import { ChartsModule } from 'ng2-charts';
 import { PlayerListComponent } from './player-list/player-list.component';
 import { AppRoutingModule } from './app-routing.module';
+import { DefaultInterceptor } from './default-interceptor';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,9 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     ChartsModule,
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent],
   entryComponents: [PlayerListComponent]
 })

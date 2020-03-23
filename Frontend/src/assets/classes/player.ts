@@ -1,6 +1,6 @@
 export interface IPlayer {
     playerID?: number,
-    name: string
+    name?: string
 }
 
 export class Player implements IPlayer {

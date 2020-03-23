@@ -3,7 +3,7 @@
     <input #nameInput matInput type="text" placeholder="Enter playername" 
     maxlength="15"
     [(ngModel)]="playerName" (keyup.enter)="addPlayer()">
-    <button [ngStyle]="{'width':'100%'}" mat-raised-button color="primary" 
+    <button mat-raised-button color="primary" 
     (click)="addPlayer()" [disabled]="!playerName.trim()">Add</button>
   </div>
 

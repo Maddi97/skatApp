@@ -7,35 +7,17 @@ import { catchError, retry, tap } from "rxjs/operators";
 import { stringify } from "@angular/compiler/src/util";
 import { data_row } from "./env";
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    "Content-Type": "application/json",
-    Authorization: "my-auth-token",
-  })
-};
-
 @Injectable({
   providedIn: "root"
 })
 export class RestComService {
   private URL = "http://127.0.0.1:5000/";
-  private serverData: JSON;
-
-  private ELEMENT_DATA = new BehaviorSubject<data_row>(null);
-  currentGameDetails = this.ELEMENT_DATA.asObservable();
-
-  private gameTable = new BehaviorSubject<number[]>([]);
-  currentGameTable = this.gameTable.asObservable();
-
-  private dataSource = new BehaviorSubject<any>(null);
-  currentDataSource = this.dataSource.asObservable();
-
+  
   constructor(private http: HttpClient) {}
 
   getServerHello() {
     this.http.get(this.URL).subscribe(data => {
-      this.serverData = data as JSON;
-      console.log(this.serverData);
+     
     });
   }
 
@@ -90,15 +72,6 @@ export class RestComService {
         this.serverData = data as JSON;
       });
   }
-  // async getGameDetailsCurrentGame() {
-  //   this.http
-  //     .get("http://127.0.0.1:5000/getGameDetailsCurrentGame")
-  //     .toPromise()
-  //     .then(data => {
-  //       this.serverData = data as JSON;
-  //       console.log(this.serverData);
-  //     });
-  // }
 
   getHighScoreCurrentGame() {
     return this.http.get(`${this.URL}getHighScoreCurrentGame`);

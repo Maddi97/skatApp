@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { ChartDataSets, ChartOptions, RadialChartOptions } from "chart.js";
 import { Color, Label } from "ng2-charts";
-import { RestComService } from "../../rest-com.service";
+import { RestComService } from "../../rest-com.service.old";
 import { data_row } from "../../env";
 
 @Component({
