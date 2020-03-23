@@ -7,6 +7,8 @@ from datetime import datetime
 from typing import List
 import time
 from database_controller import database_controller
+from classes import *
+import json
 
 db_controller = database_controller()
 db_controller.prefill_database_with_test_values()
@@ -15,91 +17,77 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/')
+@app.route('/', methods=["GET"])
 def index():
     return jsonify({'text': "Hello, World!"})
 
-@app.route('/getPlayerID', methods=['POST'])
-def get_player_id():
-    player_name = request.get_data()
-    playerID = db_controller.get_player_id(player_name)
-    return jsonify({'playerID': playerID})
-1
-@app.route('/addGame', methods=['POST'])
-def add_new_game():
-    jsdata = request.json
-    print(jsdata)
-    db_controller.add_game(str(datetime.now()).split(" ")[ 
-                           0], 1, len(jsdata['playerList']))
-    return (jsonify({'success': 'true'}))
+@app.route('/player', methods=['GET'])
+def get_player():
+    player_data = request.args
+    player = db_controller.get_player(**player_data)
+    return jsonify(**player.__dict__)
 
-@app.route("/addGameParticipants", methods=["POST"])
+@app.route('/player', methods=['POST'])
+def add_player():
+    playerData = request.get_json()
+    player = Player.from_JSON(playerData)
+    player.playerID = db_controller.add_player(player)
+    return jsonify(**player.__dict__)
+
+# TODO test
+# TODO parse players
+@app.route("/game", methods=["GET"])
+def get_game():
+    game_data = request.args
+    game = db_controller.get_game(**game_data)
+    return jsonify(**game.__dict__)
+
+# TODO test
+# TODO add checks + automatic participant handling
+@app.route('/game', methods=['POST'])
+def add_game():
+    gameData = request.get_json()
+    game = Game.from_JSON(gameData)
+    game.gameID = db_controller.add_game(game)
+    return jsonify(**game.__dict__)
+
+# TODO parse players
+@app.route("/latestGame", methods=["GET"])
+def get_latest_game():
+    latestGameId = db_controller.get_last_game_id()
+    game = db_controller.get_game(id= latestGameId)
+    return jsonify(**game.__dict__)
+
+# TODO test
+@app.route("/hameParticipants", methods=["GET"])
+def get_game_participants():
+    gameID = request.args.get("gameID")
+    players = db_controller.get_game_participants(gameID)
+    return jsonify(**players.__dict__)
+
+# TODO test
+@app.route("/gameParticipants", methods=["POST"])
 def add_game_participants():
     gameId = request.args.get('gameID')
-    playerList = request.json
-    db_controller.add_game_participants(gameId,playerList)
-    return (jsonify({'success': 'true'}))
+    playerList = request.get_json()
+    insertedPlayerAmount = db_controller.add_game_participants(gameId,playerList)
+    return jsonify(playerAmount= insertedPlayerAmount)
 
+# TODO test
+@app.route('/gameDetails', methods=['GET'])
+def get_game_details():
+    game_data = request.args
+    rounds = db_controller.get_game_details(**game_data)
+    return jsonify(**rounds.__dict__)
 
-@app.route('/addGameDetails', methods=['POST'])
+# TODO test
+@app.route('/gameDetails', methods=['POST'])
 def add_game_details():
-    time.sleep(1)
-    jsdata = request.json
-   # print(jsdata)
-    game_data = game_details_datasctrucutre(jsdata)
-    gameID = db_controller.get_last_game_id()
-    playerID = db_controller.get_player_id(game_data['Gespielt'])
+    roundDetails = request.get_json()
+    gRound = Round.from_JSON(roundDetails)
+    db_controller.add_game_details(gRound)
+    return jsonify(**gRound.__dict__)
 
-   # print("game_data= {}".format(game_data))
-
-    db_controller.add_gameDetails(game_data['No'], gameID, playerID, game_data[game_data['Gespielt']], game_data['Farbe'], game_data['Unter'],
-                                  game_data['Hand'], game_data['Schneider'], game_data['Schwarz'], game_data['Schneider_angesagt'], game_data['Schwarz_angesagt'], game_data['Ouvert'], game_data['Bock'])
-
-    return (jsonify({'success': 'true'}))
-
-
-@app.route('/addPlayer', methods=['POST'])
-def add_new_player():
-    jsdata = request.json
-    db_controller.add_player(jsdata['playerName'])
-    return (jsonify({'success': 'true'}))
-
-
-@app.route('/getGameDetailsCurrentGame', methods=['GET'])
-def get_gameDetailsCurrentGame():
-    time.sleep(2)
-    gameID = db_controller.get_last_game_id()
-    gameDetails = db_controller.get_gameDetails(gameID)
-
-    scores =  {}
-
-    # for roundi in gameDetails:
-    #     scores.get(roundi.playerID, )
-
-    
-    return jsonify({'currentGameDetails': gameDetails})
-
-@app.route("/latestGameID", methods=["GET"])
-def get_latestGameId():
-    return jsonify({'gameID':db_controller.get_last_game_id()})
-
-def game_details_datasctrucutre(game_details):
-
-    specs = game_details['Specs']
-    game_details.pop('Specs', None)
-    game_details['Hand'] = 0
-    game_details['Schneider'] = 0
-    game_details['Schwarz'] = 0
-    game_details['Schneider_angesagt'] = 0
-    game_details['Schwarz_angesagt'] = 0
-    game_details['Ouvert'] = 0
-    for i in specs:
-        game_details[i] = 1
-
-    if (game_details['Bock'] == True):
-        game_details['Bock'] = 1
-
-    return game_details
 
 
 if __name__ == '__main__':
