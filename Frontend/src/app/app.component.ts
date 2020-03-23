@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { MatSnackBar, MatDialog } from '@angular/material';
-import { PlayerListComponent } from './player-list/player-list.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,12 +8,9 @@ import { PlayerListComponent } from './player-list/player-list.component';
 export class AppComponent {
   title = 'Skat App';
 
-  constructor(private snackBar: MatDialog) {}
+  constructor() {}
 
   ngOnInit(){
   }
 
-  ngAfterViewInit() {
-    this.snackBar.open(PlayerListComponent)
-  }
 }
