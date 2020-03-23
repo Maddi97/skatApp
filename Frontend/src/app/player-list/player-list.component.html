@@ -1,0 +1,33 @@
+<div [ngStyle]="{'width':'300px'}">
+  <div fxLayout="row">
+    <input #nameInput matInput type="text" placeholder="Enter playername" 
+    maxlength="15"
+    [(ngModel)]="playerName" (keyup.enter)="addPlayer()">
+    <button [ngStyle]="{'width':'100%'}" mat-raised-button color="primary" 
+    (click)="addPlayer()" [disabled]="!playerName.trim()">Add</button>
+  </div>
+
+  <div>
+    <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Playerlist
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <mat-list-item *ngFor="let player of players">
+          <mat-divider></mat-divider>
+          <div [ngStyle]="{'width': '100%'}" fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon>person</mat-icon>
+            <div fxFlexOffset="15" fxLayout="column" fxLayoutAlign="space-between start">
+              <div>{{player.name}}</div>
+              <div *ngIf="player.playerID"><i><small>{{player.playerID}}</small></i></div>
+            </div>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+  </div>
+</div>
