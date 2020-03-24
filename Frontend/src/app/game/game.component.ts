@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ApiService } from '../api.service';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, first } from 'rxjs/operators';
 import { Player, IPlayer } from 'src/assets/classes/player';
 import { Game, IGame } from 'src/assets/classes/game';
 import { Round, IRound } from 'src/assets/classes/round';
+import { GameService } from '../game/game.service';
 
 
 
@@ -19,16 +20,16 @@ export class GameComponent implements OnInit {
   allPlayers: IPlayer[] = []
 
 
-  constructor( private api: ApiService) { 
+  constructor( private api: ApiService, private gameService: GameService) { 
   }
       
   ngOnInit() {
-      this.api.getAllPlayer().subscribe({
-        next: players => {
-          console.log(players)
-          this.allPlayers = players
-        }
-    })
+
+    this.gameService.currentGame$.pipe(first()).subscribe(game => this.currentGame=game)
+    this.allPlayers=this.currentGame.players
+    console.log(this.allPlayers)
+    console.log(this.currentGame)
+
   }
 
   get players(): IPlayer[] {
