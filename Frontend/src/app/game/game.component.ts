@@ -1,19 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { PlayerListComponent } from '../player-list/player-list.component';
+import { Component, OnInit, Input } from '@angular/core';
 import { ApiService } from '../api.service';
 import { switchMap } from 'rxjs/operators';
+import { Player, IPlayer } from 'src/assets/classes/player';
+import { Game, IGame } from 'src/assets/classes/game';
+import { Round, IRound } from 'src/assets/classes/round';
+
 
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.scss']
+  styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
+  
+  currentGame: IGame;
+  currentPlayers: IPlayer[];
+  currentRounds: IRound[];
 
-  constructor(private dialog: MatDialog, private api: ApiService) { }
-
+  constructor( private api: ApiService) { 
+  }
+      
   ngOnInit() {
     const a= this.api.getGame({gameID: 1})
     a.subscribe(x => console.log(x))
@@ -27,8 +34,4 @@ export class GameComponent implements OnInit {
   //  this.api.getPlayer({name:"maddi"}).subscribe(x => console.log(x))
   }
 
-  ngAfterViewInit() {
-    // this.dialog.open(PlayerListComponent)
-  }
- 
 }

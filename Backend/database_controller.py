@@ -34,6 +34,13 @@ class database_controller:
 
         return Player.db_mapping(dict(query.first()))
 
+    def get_all_player(self) -> List[Player]:
+        query = self.__defaultSelection(self.tPlayers, {})
+        players = query.fetchall()
+
+        return list(map(lambda gPlayer: Player.db_mapping(dict(gPlayer)), players))
+
+
     """
     game CRUD
     """
@@ -65,6 +72,7 @@ class database_controller:
 
         query = self.__execute(selection)      
         return query.scalar()
+        
 
     """
     gameDetails CRUD
@@ -290,6 +298,7 @@ if __name__ == "__main__":
     print(controller.get_player(name= "Maddi"))
     print(controller.get_game_details(gameID = 1, playerID = 1))
 
+    
      
      
     

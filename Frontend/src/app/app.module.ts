@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MaterialModule } from './material.module';
 import { CardComponent } from './card/card.component';
-import { GameComponent } from './game/game.component';
+import { NewGameComponent } from './newGame/newGame.component';
 import { BodyComponent } from './body/body.component';
 import { ChartsComponent } from './game-old/charts/charts.component';
 import { TableComponent } from './game-old/table/table.component';
@@ -19,18 +19,19 @@ import { ChartsModule } from 'ng2-charts';
 import { PlayerListComponent } from './player-list/player-list.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DefaultInterceptor } from './default-interceptor';
+import { GameComponent } from './game/game.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CardComponent,
-    GameComponent,
+    NewGameComponent,
     BodyComponent,
     ChartsComponent,
     TableComponent,
     HighscoreComponent,
     GradientButtonComponent, 
-    PlayerListComponent
+    PlayerListComponent, GameComponent
   ],
   imports: [
     AppRoutingModule,

@@ -37,6 +37,14 @@ def add_player():
     player.playerID = db_controller.add_player(player)
     return toJSONResponse(player)
 
+
+@app.route('/getAllPlayer', methods=['GET'])
+def get_all_player():
+    players=db_controller.get_all_player()
+    return jsonify(players)
+
+# TODO test
+# TODO parse players
 @app.route("/game", methods=["GET"])
 def get_game():
     game_data = request.args
@@ -54,14 +62,14 @@ def add_game():
     return toJSONResponse(game)
 
 # TODO parse players
-@app.route("/latestGame", methods=["GET"])
+@app.route("/latestGame", methods=["GET"]) 
 def get_latest_game():
     latestGameId = db_controller.get_last_game_id()
     game = db_controller.get_game(id= latestGameId)
     return toJSONResponse(game)
 
 # TODO test
-@app.route("/hameParticipants", methods=["GET"])
+@app.route("/gameParticipants", methods=["GET"])
 def get_game_participants():
     gameID = request.args.get("gameID")
     players = db_controller.get_game_participants(gameID)

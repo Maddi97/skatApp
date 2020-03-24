@@ -41,6 +41,15 @@ export class ApiService {
     )
   }
 
+  getAllPlayer(): Observable<[IPlayer]> {
+    return this.http.get<[IPlayer]>(
+      `${this.URL}/getAllPlayer`
+            ).pipe(
+      errorProcedure(),
+      map(playerJSON => playerJSON as [Player])
+    )
+  }
+
   getGame(game: IGame): Observable<Game> {
     const params = this._getQueryParams(game)
 
@@ -52,6 +61,15 @@ export class ApiService {
         errorProcedure(),
         map(gameJSON => gameJSON as Game)
       )
+  }
+
+  getLatestGame(): Observable<Game>{
+    return this.http.get<IGame>(
+      `${this.URL}/latestGame`
+    ).pipe(
+      errorProcedure(),
+      map(gameJSON => gameJSON as Game)
+    )
   }
 
   addGame(game: IGame): Observable<Game> {
