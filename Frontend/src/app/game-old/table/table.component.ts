@@ -14,6 +14,7 @@ import {
 import { IPlayer } from 'src/assets/classes/player';
 import { ApiService } from 'src/app/api.service';
 import { IRound } from 'src/assets/classes/round';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: "app-table",
@@ -33,24 +34,19 @@ import { IRound } from 'src/assets/classes/round';
 })
 export class TableComponent implements OnInit {
 
-  @Input() player: IPlayer[];
-  @Input() rounds: IRound[];
+  @Input() players: IPlayer[];
+  @Input() rounds: IRound[] = [];
 
   displayedColumns: string[];
-
-
-  // dataSource: any;
-
-  // ngOnChange() {}
-  
 
    constructor(
      private api: ApiService,
     ) {}
 
   ngOnInit() { 
-    this.displayedColumns = this.player.map(m => m.name);
-    this.rounds[0].score = 24;
+    console.log(this.players);
+    this.displayedColumns = this.players.map(m => m.name);
+    console.log(this.rounds);
+
   }
-  
 }
