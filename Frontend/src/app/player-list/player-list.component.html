@@ -1,11 +1,12 @@
-<div [ngStyle]="{'width':'300px'}">
-  <div fxLayout="row">
-    <input #nameInput matInput type="text" placeholder="register new player" 
+<div style="width: 300px">
+  <!-- <mat-form-field fxLayout="row">
+    <mat-label> register new player</mat-label>
+    <input #nameInput matInput type="text" 
     maxlength="15"
     [(ngModel)]="playerName" (keyup.enter)="addPlayer()">
-    <button mat-raised-button color="primary" 
-    (click)="addPlayer()" [disabled]="!playerName.trim()">Add</button>
-  </div>
+  </mat-form-field>
+  <button mat-raised-button color="primary" 
+  (click)="addPlayer()" [disabled]="!playerName.trim()">Add</button> -->
 
   <div>
     <mat-accordion>
@@ -16,26 +17,24 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <mat-list>
-        <mat-list-item *ngFor="let player of allExistingPlayer">
+        <mat-list-item *ngFor="let player of allPlayers">
           <mat-divider></mat-divider>
-          <div [ngStyle]="{'width': '100%'}" fxLayout="row" fxLayoutAlign="start center">
-            <button variant="outlined" [ngStyle]="{'width': '100%'}" (click)=selectPlayer(player)>
-            <mat-icon>person</mat-icon>
+          <mat-checkbox 
+          (change)="togglePlayer(player)"
+          style="width: 100%;" fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon style="float: left;">person</mat-icon>
             <div fxFlexOffset="15" fxLayout="column" fxLayoutAlign="space-between start">
               <div>{{player.name}}</div>
-              <div *ngIf="player.playerID"><i><small>{{player.playerID}}</small></i></div>
+              <!-- <div *ngIf="player.playerID"><i><small>{{player.playerID}}</small></i></div> -->
             </div>
-          </button>
-
-          </div>
+          </mat-checkbox>
         </mat-list-item>
       </mat-list>
     </mat-expansion-panel>
   </mat-accordion>
   </div>
-
+<!-- 
   <div *ngFor="let player of playerToGamelist">
     <p>{{player.name}}</p>
-  </div>
-
+  </div> -->
 </div>

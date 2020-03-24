@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of, MonoTypeOperatorFunction } from 'rxjs';
+import { Observable, of, MonoTypeOperatorFunction, BehaviorSubject } from 'rxjs';
 import { IPlayer, Player } from 'src/assets/classes/player';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap, shareReplay } from 'rxjs/operators';
 import { Game, IGame } from 'src/assets/classes/game';
 import { Round, IRound } from 'src/assets/classes/round';
 
@@ -12,6 +12,9 @@ import { Round, IRound } from 'src/assets/classes/round';
 export class ApiService {
 
   private URL = "http://127.0.0.1:5000";
+
+  private storedGames = new BehaviorSubject<Map<number, Observable<Game>>>(new Map())
+  storedGames$ = this.storedGames.asObservable()
 
   constructor(private http: HttpClient) { }
 
@@ -41,12 +44,12 @@ export class ApiService {
     )
   }
 
-  getAllPlayer(): Observable<[IPlayer]> {
-    return this.http.get<[IPlayer]>(
+  getAllPlayer(): Observable<Player[]> {
+    return this.http.get<IPlayer[]>(
       `${this.URL}/getAllPlayer`
             ).pipe(
       errorProcedure(),
-      map(playerJSON => playerJSON as [Player])
+      map(playerJSON => playerJSON as Player[])
     )
   }
 
@@ -78,7 +81,12 @@ export class ApiService {
       game
     ).pipe(
       errorProcedure(),
-      map(gameJSON => gameJSON as Game)
+      map(gameJSON => gameJSON as Game),
+      tap(game => {
+        const currentGames = this.storedGames.getValue()
+        currentGames.set(game.gameID, of(game))
+      }),
+      shareReplay()
     )
   }
 
@@ -106,6 +114,9 @@ export class ApiService {
     )
   }
 
+  invalidateGames() {
+    this.storedGames.next(new Map())
+}
 
   private _getQueryParams(object: any): HttpParams {
     let params = new HttpParams()

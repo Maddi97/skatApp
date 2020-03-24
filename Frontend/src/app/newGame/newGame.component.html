@@ -1,7 +1,9 @@
 <div>
 
-<app-player-list [allExistingPlayer]="allExistingPlayer" (playerList)="updatePlayerList($event)"></app-player-list>  
-
+<!-- <app-player-list [allExistingPlayer]="allExistingPlayer" (playerList)="updatePlayerList($event)"></app-player-list>   -->
+<button color="primary" (click)="assignPlayers()">
+  Player
+</button>
 <div>
     <button color="primary" (click)="startNewGame()" routerLink="/game">
       Start New Game

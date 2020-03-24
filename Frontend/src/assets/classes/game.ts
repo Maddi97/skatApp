@@ -1,70 +1,47 @@
-import { Player } from './player'
+import { IPlayer } from './player'
 
 export interface IGame {
-    gameID?: number;
-    date?: string | Date;
-    gameRoundAmount?: number;
-    players?: Number[] | Player[];
-
-    getGameID();
-    setGameID(gameID);
-    getDate();
-    setDate(date);
-    getGameRoundAmount();
-    setGameRoundAmount(gameRoundAmount);
-    getPlayerList();
-    setPlayerList(players)
-
-
+    gameID?: number,
+    date?: Date,
+    gameRoundAmount?: number,
+    players?: IPlayer[]
 }
 
 export class Game implements IGame {
 
-    gameID: number;
-    date: Date;
-    gameRoundAmount: number;  
-    players: Player[]
-
-
-    constructor( gameID: number,  date: Date, 
-         gameRoundAmount: number,  players: Player[] ) { 
-            this.gameID = gameID;
-            this.date = date;
-            this.gameRoundAmount=gameRoundAmount;
-            this.players=players
-
-         }
-
+    constructor(private _gameID: number = -1, private _date: Date = new Date(), 
+        private _gameRoundAmount: number = 0, private _players: IPlayer[] = []) { }
     
-    public getGameID() {
-        return this.gameID;
+    get gameID(): number {
+        return this._gameID
     }
 
-    public setGameID(gameID) {
-        this.gameID = gameID;
+    set gameID(gameID: number) {
+        this._gameID = gameID
     }
 
-    public getDate() {
-        return this.date;
+    get date(): Date {
+        return this._date
     }
 
-    public setDate(date) {
-        this.date = date;
+    set date(date: Date) {
+        this._date = date
     }
 
-    public setGameRoundAmount(gameRoundAmount: number){
-        this.gameRoundAmount=gameRoundAmount;
+    get gameRoundAmount(): number {
+        return this._gameRoundAmount
     }
 
-    public getGameRoundAmount(){
-        return this.gameRoundAmount;
+    set gameRoundAmount(amount: number) {
+        this._gameRoundAmount = amount
     }
-    
-    public getPlayerList(){
-        return this.players;
+
+    get players(): IPlayer[] {
+        return this._players
     }
-    setPlayerList(players){
-        this.players=players
+
+    set players(players: IPlayer[]) {
+        this._players = players
     }
+
 }
- 

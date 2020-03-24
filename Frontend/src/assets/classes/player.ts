@@ -1,32 +1,27 @@
+
 export interface IPlayer {
-     playerID?: number;
-     name?: string;
-     setPlayerID(playerID:number):void;
-     getPlayerID():number;
-     setPlayerName(name: string):void;
-     getplayerName():string;
+    playerID?: number,
+    name?: string
 }
 
 export class Player implements IPlayer {
-    
-    playerID: number;
-    name:string;
 
-    constructor(playerID: number, name: string) {
-        this.playerID=playerID;
-        this.name=name;
-     }
+    constructor(private _playerID: number, private _name: string) { }
 
-     setPlayerID(playerID:number){
-         this.playerID= playerID
-     }
-     getPlayerID(){
-         return this.playerID
-     }
-     setPlayerName(name: string){
-         this.name=name;
-     }
-     getplayerName(){
-         return this.name
-     }
+    get playerID(): number {
+        return this.playerID
+    }
+
+    set playerID(id: number) {
+        this._playerID = id
+    }
+
+    get name(): string {
+        return this._name
+    }
+
+    set name(name: string) {
+        this._name = name
+    }
+
 }

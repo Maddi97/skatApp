@@ -2,9 +2,10 @@ from datetime import datetime
 from flask import jsonify
 from typing import List
 from generate_database import create_database
-from sqlalchemy.sql import select, insert
+from sqlalchemy.sql import select, insert, update
 from sqlalchemy import func, and_
 from classes import *
+from errors import *
 
 class database_controller:
     def __init__(self):
@@ -20,9 +21,12 @@ class database_controller:
     player CRUD
     """
     def add_player(self, player: Player) -> int:
+        if self.__pre_condition_fail(player):
+            raise PreConditionError()
+
         insertion = insert(self.tPlayers).values(name=player.name)
-        
-        query = self.engine.execute(insertion)
+        query = self.__execute(insertion)
+
         return query.inserted_primary_key[0]
 
     def get_player(self, **kwargs) -> Player:
@@ -30,32 +34,43 @@ class database_controller:
 
         return Player.db_mapping(dict(query.first()))
 
-    def get_all_player(self, **kwargs) -> dict:
-        query = self.__defaultSelection(self.tPlayers, kwargs)
+    def get_all_player(self) -> List[Player]:
+        query = self.__defaultSelection(self.tPlayers, {})
         players = query.fetchall()
 
-        return {'allPlayer': [dict(player) for player in players]}
-        #return list(map(lambda gPlayer: Player.db_mapping(dict(gPlayer)), players))
+        return list(map(lambda gPlayer: Player.db_mapping(dict(gPlayer)), players))
 
 
     """
     game CRUD
     """
     def add_game(self, game: Game) -> int :
+        if self.__pre_condition_fail(game):
+            raise PreConditionError()
         insertion = insert(self.tGame).values(date= game.date, gameRoundAmount= game.gameRoundAmount, playerAmount= len(game.players))
 
-        query = self.engine.execute(insertion)
+        query = self.__execute(insertion)
+        gameID = query.inserted_primary_key[0]
+
+        if game.players and len(game.players):
+            try:
+                self.add_game_participants(gameID, list(map(lambda player: player.playerID, game.players)))
+            except Exception as e:
+                raise TransitiveError()
+
         return query.inserted_primary_key[0]
 
     def get_game(self, **kwargs) -> Game:
         query = self.__defaultSelection(self.tGame, kwargs)
 
-        return Game.db_mapping(dict(query.first()))    
+        game = Game.db_mapping(dict(query.first()))
+        game.players = self.get_game_participants(game.gameID)
+        return game     
 
     def get_last_game_id(self) -> int:
         selection = select([func.max(self.tGame.c.gameID)])
 
-        query = self.engine.execute(selection)      
+        query = self.__execute(selection)      
         return query.scalar()
         
 
@@ -63,12 +78,19 @@ class database_controller:
     gameDetails CRUD
     """
     def add_game_details(self, gRound: Round) -> int:
+        if self.__pre_condition_fail(gRound):
+            raise PreConditionError()
+
         game = self.get_game(gameID= gRound.gameID)
+
+        # please add players first
+        if game.playerAmount < 1:
+            raise PreConditionError()
 
         # 1 round -> all players play exactly once
         if gRound.gameRound/game.playerAmount > game.gameRoundAmount:
             print("exceeded maximum game rounds")
-            return -1
+            raise PreConditionError()
 
         insertion = insert(self.tGameDetails).values(
             gameID= gRound.gameID, playerID= gRound.playerID,
@@ -76,21 +98,24 @@ class database_controller:
             scoreSum= self.get_score_sum(gRound.gameID, gRound.gameRound, gRound.playerID)+gRound.score,
             color= gRound.color, unter= gRound.unter, hand= gRound.hand, 
             schwarz= gRound.schwarz, schneider= gRound.schneider,
-            schwarzAngesagt = gRound.schwarzAngesagt, schneiderAngesagt= gRound.schneiderAngesagt
-,
+            schwarzAngesagt = gRound.schwarzAngesagt, schneiderAngesagt= gRound.schneiderAngesagt,
             ouvert= gRound.ouvert, bock= gRound.bock
         )
 
-        query = self.engine.execute(insertion)
+        query = self.__execute(insertion)
         return query.inserted_primary_key[0]
 
     def get_game_details(self, **kwargs) -> List[Round]:
         query = self.__defaultSelection(self.tGameDetails,kwargs)
 
         rounds = query.fetchall()
-        return list(rounds.map(lambda gRound: Round.db_mapping(dict(gRound)), rounds))
+        return list(map(lambda gRound: Round.db_mapping(dict(gRound)), rounds))
 
     def get_score_sum(self, gameID, gameRound, playerID) -> int:
+        if (self.__pre_condition_fail(gameID, gameRound, playerID) 
+        or gameID < 0 or gameRound < 0 or playerID < 0):
+            raise PreConditionError()
+
         selection = select([func.sum(self.tGameDetails.c.score)]).where(
             and_(
                 self.tGameDetails.c.gameID == gameID,
@@ -99,14 +124,17 @@ class database_controller:
             )
         )
         
-        query = self.engine.execute(selection)
+        query = self.__execute(selection)
         scoreSum = query.scalar()
         return scoreSum if scoreSum else 0
 
     def get_last_round_num(self, gameID) -> int:
+        if self.__pre_condition_fail(gameID) or gameID < 0:
+            raise PreConditionError()
+            
         selection = select([func.max(self.tGameDetails.c.gameRound)]).where(self.tGameDetails.c.gameID == gameID)
 
-        query = self.engine.execute(selection)
+        query = self.__execute(selection)
         roundNum = query.scalar()
         return roundNum if roundNum else 0
 
@@ -114,34 +142,60 @@ class database_controller:
     gameParticipants CRUD
     """
     def add_game_participants(self, gameID: int, participants: List[int]) -> int:
+        if self.__pre_condition_fail(gameID, participants) or gameID < 0:
+            raise PreConditionError()
+
         values = list(map(lambda playerID: {'gameID': gameID, 'playerID': playerID}, participants))
         insertion = insert(self.tGameParticipants).values(values)
         
-        query = self.engine.execute(insertion)
+        query = self.__execute(insertion)
+        
+        updateGame = update(self.tGame).values(playerAmount = self.tGame.c["playerAmount"] + len(participants)).where(self.tGame.c["gameID"] == gameID)
+        try:
+            self.__execute(updateGame)
+        except Exception as e:
+            raise TransitiveError()
+
         return query.rowcount
 
     def get_game_participants(self, gameID) -> List[Player]:
+        if self.__pre_condition_fail(gameID) or gameID < 0:
+            raise PreConditionError()
+
         participants = self.get_game_participant_ids(gameID)
 
         return list(map(lambda playerID: self.get_player(playerID = playerID), participants))
 
     def get_game_participant_ids(self, gameID) -> List[int]:
+        if self.__pre_condition_fail(gameID) or gameID < 0:
+            raise PreConditionError()
+
         selection = select([self.tGameParticipants.c.playerID]).where(self.tGameParticipants.c.gameID == gameID)
 
-        query = self.engine.execute(selection)
-        return query.fetchall()
+        query = self.__execute(selection)
+        return list(map(lambda x: x["playerID"], query.fetchall()))
 
     """
     private helper methods
     """
+    def __execute(self, obj):
+        connection = self.engine.connect()
+        return connection.execute(obj) 
+
     def __defaultSelection(self, table, kwargs): 
         selection = select([table])
 
         for key in kwargs.keys():
             selection = selection.where(table.c[key] == kwargs[key])
 
-        query = self.engine.execute(selection)
+        query = self.__execute(selection)
         return query
+
+    def __pre_condition_fail(self, *args):
+        for i in args:
+            if i is None or not i:
+                return True
+        return False
 
     """
     init method
@@ -174,15 +228,22 @@ class database_controller:
         # assign gameID
         game1.gameID = self.add_game(game1)
         # same as above
-        game2 = Game(None, datetime.now().isoformat(),1, [johan, friedrich, johann]) # 1 runde
+        game2 = Game(None, datetime.now().isoformat(),1, []) # 1 runde
         game2.gameID = self.add_game(game2)
         
         """
         Participants
         """
         # add gameParticipants in DB
-        self.add_game_participants(game1.gameID, list(map(lambda player: player.playerID, game1.players)))
-        
+        # validation
+        try:
+            self.add_game_participants(game1.gameID, list(map(lambda player: player.playerID, game1.players)))
+            print("ERROR - this should've failed")
+        except Exception as e:
+            # everything is gucci
+            pass
+
+        self.add_game_participants(game2.gameID, list(map(lambda player: player.playerID, game1.players)))
         """
         Rounds
         """
@@ -220,18 +281,24 @@ class database_controller:
                         'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
         
         # validation
-        if (self.add_game_details(roundD) != -1) :
-            print("Something went wrong")
-        else :
+        try:
+            self.add_game_details(roundD)
+            print("Problems occured during setup")
+        except Exception as e:
             print("Setup finished without problems")
 
    
 
 
 if __name__ == "__main__":
-     controller = database_controller()
-     controller.prefill_database_with_test_values()
+    controller = database_controller()
+    controller.prefill_database_with_test_values()
 
+    print(controller.get_game(gameID= 1))
+    print(controller.get_player(name= "Maddi"))
+    print(controller.get_game_details(gameID = 1, playerID = 1))
+
+    
      
      
     
