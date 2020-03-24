@@ -10,28 +10,28 @@ import { data_row } from "../../env";
   styleUrls: ["./charts.component.css"]
 })
 export class ChartsComponent implements OnInit {
-  // @Input() dataOption: String = "";
-  // @Input() isLabel: boolean = true;
+  @Input() dataOption: String = "";
+  @Input() isLabel: boolean = true;
 
-  // //chart variables
-  // chartOpLine: boolean = false;
-  // chartData: ChartDataSets[] = [];
-  // chartLabels: Label[] = [];
-  // chartOptions: RadialChartOptions = {
-  //   responsive: true
-  // };
-  // chartColors: Color[] = [
-  //   {
-  //     borderColor: "#343a40",
-  //     backgroundColor: "rgba(255,255,0,0.28)"
-  //   }
-  // ];
-  // chartType = "line";
-  // //data
-  // dataType: any;
-  // keyList: string[] = [];
+  //chart variables
+  chartOpLine: boolean = false;
+  chartData: ChartDataSets[] = [];
+  chartLabels: Label[] = [];
+  chartOptions: RadialChartOptions = {
+    responsive: true
+  };
+  chartColors: Color[] = [
+    {
+      borderColor: "#343a40",
+      backgroundColor: "rgba(255,255,0,0.28)"
+    }
+  ];
+  chartType = "line";
+  //data
+  dataType: any;
+  keyList: string[] = [];
 
-  // constructor(private restCom: RestComService) {}
+  constructor(private restCom: RestComService) {}
 
   ngOnInit() {}
   //   switch (this.dataOption) {
