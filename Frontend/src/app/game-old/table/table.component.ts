@@ -11,6 +11,9 @@ import {
   data_row,
   INITIAL_DATA_ROW
 } from "../../env";
+import { IPlayer } from 'src/assets/classes/player';
+import { ApiService } from 'src/app/api.service';
+import { IRound } from 'src/assets/classes/round';
 
 @Component({
   selector: "app-table",
@@ -29,18 +32,25 @@ import {
   ]
 })
 export class TableComponent implements OnInit {
-  // @Input() displayedColumns: string[];
+
+  @Input() player: IPlayer[];
+  @Input() rounds: IRound[];
+
+  displayedColumns: string[];
+
 
   // dataSource: any;
 
   // ngOnChange() {}
   
 
-  // constructor(private restCom: RestComService) {}
+   constructor(
+     private api: ApiService,
+    ) {}
 
-  ngOnInit() { }
-  //   this.restCom.currentDataSource.subscribe(data => {
-  //     this.dataSource = data;
-  //   });
-  // }
+  ngOnInit() { 
+    this.displayedColumns = this.player.map(m => m.name);
+    this.rounds[0].score = 24;
+  }
+  
 }
