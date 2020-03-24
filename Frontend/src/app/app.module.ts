@@ -18,8 +18,9 @@ import { GradientButtonComponent } from './gradient-button/gradient-button.compo
 import { ChartsModule } from 'ng2-charts';
 import { PlayerListComponent } from './player-list/player-list.component';
 import { AppRoutingModule } from './app-routing.module';
-import { DefaultInterceptor } from './default-interceptor';
+import { HeaderInterceptor } from './header-interceptor';
 import { GameComponent } from './game/game.component';
+import { JSONInterceptor } from './json-interceptor';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { GameComponent } from './game/game.component';
     ChartsModule,
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JSONInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
   entryComponents: [PlayerListComponent]

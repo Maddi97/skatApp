@@ -46,7 +46,6 @@ export class ApiService {
       `${this.URL}/getAllPlayer`
             ).pipe(
       errorProcedure(),
-      map(x => JSON.parse(x)),
       tap(x => console.log(x)),
       map(playerJSON => playerJSON as Player[])
     )
