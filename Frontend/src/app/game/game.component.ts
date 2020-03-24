@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { PlayerListComponent } from '../player-list/player-list.component';
 import { ApiService } from '../api.service';
+import { switchMap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-game',
@@ -13,7 +15,15 @@ export class GameComponent implements OnInit {
   constructor(private dialog: MatDialog, private api: ApiService) { }
 
   ngOnInit() {
-    this.api.getGame({gameID: 1}).subscribe(x => console.log(x))
+    const a= this.api.getGame({gameID: 1})
+    a.subscribe(x => console.log(x))
+    const b= a.pipe(
+      switchMap(x => this.api.getPlayer({name: "Maddi"}))
+    )
+    b.subscribe(x => console.log(x))
+    b.pipe(
+      switchMap(x => this.api.getRound({gameID: 1, playerID: 1}))
+    ).subscribe(x => console.log(x))
   //  this.api.getPlayer({name:"maddi"}).subscribe(x => console.log(x))
   }
 
