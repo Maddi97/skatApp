@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, MonoTypeOperatorFunction } from 'rxjs';
 import { IPlayer, Player } from 'src/assets/classes/player';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { Game, IGame } from 'src/assets/classes/game';
 import { Round, IRound } from 'src/assets/classes/round';
 
@@ -46,6 +46,7 @@ export class ApiService {
       `${this.URL}/getAllPlayer`
             ).pipe(
       errorProcedure(),
+      tap(x => console.log(x)),
       map(playerJSON => playerJSON as Player[])
     )
   }

@@ -14,25 +14,28 @@ import { Round, IRound } from 'src/assets/classes/round';
 })
 export class GameComponent implements OnInit {
   
-  currentGame: IGame;
-  currentPlayers: IPlayer[];
-  currentRounds: IRound[];
+  currentGame: IGame = new Game();
+  currentRounds: IRound[] = [];
+  allPlayers: IPlayer[] = []
+
 
   constructor( private api: ApiService) { 
   }
       
   ngOnInit() {
-    const a= this.api.getGame({gameID: 1})
-    a.subscribe(x => console.log(x))
-    const b= a.pipe(
-      switchMap(x => this.api.getPlayer({name: "Maddi"}))
-    )
-    b.subscribe(x => console.log(x))
-    b.pipe(
-      switchMap(x => this.api.getRound({gameID: 1, playerID: 1}))
-    ).subscribe(x => console.log(x))
-  //  this.api.getPlayer({name:"maddi"}).subscribe(x => console.log(x))
-    this.api.getAllPlayer().subscribe(x => console.log(x))
+      this.api.getAllPlayer().subscribe({
+        next: players => {
+          console.log(players)
+          this.allPlayers = players}
+      })
+  }
+
+  get players(): IPlayer[] {
+    return this.currentGame.players
+  }
+
+  set players(players: IPlayer[]) {
+    this.currentGame.players = players
   }
 
 }
