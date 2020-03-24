@@ -21,7 +21,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HeaderInterceptor } from './header-interceptor';
 import { GameComponent } from './game/game.component';
 import { JSONInterceptor } from './json-interceptor';
-import { RoundFormComponent } from './round-form/round-form.component';
+import { RoundFormComponent } from './game/round-form/round-form.component';
 
 @NgModule({
   declarations: [
