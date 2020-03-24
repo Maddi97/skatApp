@@ -19,10 +19,16 @@ class Game:
 
     @staticmethod
     def db_mapping(game: dict, players: List[Player] = []):
+        if not players:
+            players = game.get("players", [])
+
         return Game(game["gameID"], game["date"], game["gameRoundAmount"], players, game["playerAmount"])
 
     @staticmethod
     def from_JSON(game: dict):
+        if ("players" in game.keys()):
+            game["players"] = list(map(lambda player: Player.from_JSON(player), game["players"]))
+
         return Game(
             game.get("gameID", None),
             game.get("date", datetime.now().isoformat()),
