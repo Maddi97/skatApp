@@ -34,7 +34,6 @@ def add_player():
     player.playerID = db_controller.add_player(player)
     return jsonify(**player.__dict__)
 
-<<<<<<< HEAD
 
 @app.route('/getAllPlayer', methods=['GET'])
 def get_all_player():
@@ -42,8 +41,6 @@ def get_all_player():
     return jsonify(players)
 
 
-=======
->>>>>>> develop
 # TODO test
 # TODO parse players
 @app.route("/game", methods=["GET"])
@@ -62,17 +59,10 @@ def add_game():
     return jsonify(**game.__dict__)
 
 # TODO parse players
-<<<<<<< HEAD
 @app.route("/latestGame", methods=["GET"]) 
 def get_latest_game():
     latestGameId = db_controller.get_last_game_id()
     game = db_controller.get_game(gameID= latestGameId)
-=======
-@app.route("/latestGame", methods=["GET"])
-def get_latest_game():
-    latestGameId = db_controller.get_last_game_id()
-    game = db_controller.get_game(id= latestGameId)
->>>>>>> develop
     return jsonify(**game.__dict__)
 
 # TODO test

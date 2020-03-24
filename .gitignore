@@ -1,3 +1,4 @@
 Backend\venv\
 Backend/venv/*
-/home/maddi/workspace/skatApp/Backend/__pycache__
+Backend/__pycache/*
+Backend\__pycache\
