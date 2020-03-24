@@ -5,7 +5,6 @@ import { Player, IPlayer } from 'src/assets/classes/player';
 import { Game, IGame } from 'src/assets/classes/game';
 import { Round, IRound } from 'src/assets/classes/round';
 import { GameService } from '../game/game.service';
-import { TableComponent } from '../game-old/table/table.component';
 
 
 
