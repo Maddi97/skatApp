@@ -30,6 +30,17 @@ class database_controller:
 
         return Player.db_mapping(dict(query.first()))
 
+<<<<<<< HEAD
+    def get_all_player(self, **kwargs) -> dict:
+        query = self.__defaultSelection(self.tPlayers, kwargs)
+        players = query.fetchall()
+
+        return {'allPlayer': [dict(player) for player in players]}
+        #return list(map(lambda gPlayer: Player.db_mapping(dict(gPlayer)), players))
+
+
+=======
+>>>>>>> develop
     """
     game CRUD
     """
@@ -49,6 +60,10 @@ class database_controller:
 
         query = self.engine.execute(selection)      
         return query.scalar()
+<<<<<<< HEAD
+        
+=======
+>>>>>>> develop
 
     """
     gameDetails CRUD
@@ -127,10 +142,17 @@ class database_controller:
     """
     def __defaultSelection(self, table, kwargs): 
         selection = select([table])
+<<<<<<< HEAD
 
         for key in kwargs.keys():
             selection = selection.where(table.c[key] == kwargs[key])
 
+=======
+
+        for key in kwargs.keys():
+            selection = selection.where(table.c[key] == kwargs[key])
+
+>>>>>>> develop
         query = self.engine.execute(selection)
         return query
 

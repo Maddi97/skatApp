@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./body.component.css']
 })
 export class BodyComponent implements OnInit {
-  option: string[] = ['Highscore', 'Neues Spiel'];
+  option: string[] = ['Highscore', 'Neues Spiel', 'Spiel Laden'];
 
   constructor() { }
 

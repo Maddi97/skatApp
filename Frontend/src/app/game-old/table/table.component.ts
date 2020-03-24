@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, Input, HostListener, Output } from "@angular/core";
 import { MatTableDataSource } from "@angular/material";
-import { RestComService } from "../../rest-com.service";
+import { RestComService } from "../../rest-com.service.old";
 import { trigger, transition, state, style, animate } from '@angular/animations';
 
 import {
@@ -29,18 +29,18 @@ import {
   ]
 })
 export class TableComponent implements OnInit {
-  @Input() displayedColumns: string[];
+  // @Input() displayedColumns: string[];
 
-  dataSource: any;
+  // dataSource: any;
 
-  ngOnChange() {}
+  // ngOnChange() {}
   
 
-  constructor(private restCom: RestComService) {}
+  // constructor(private restCom: RestComService) {}
 
-  ngOnInit() {
-    this.restCom.currentDataSource.subscribe(data => {
-      this.dataSource = data;
-    });
-  }
+  ngOnInit() { }
+  //   this.restCom.currentDataSource.subscribe(data => {
+  //     this.dataSource = data;
+  //   });
+  // }
 }

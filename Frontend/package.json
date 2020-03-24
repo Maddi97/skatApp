@@ -25,7 +25,12 @@
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.3",
     "core-js": "^2.5.4",
+<<<<<<< HEAD
+    "hammerjs": "^2.0.8",
+    "jquery": "^1.9.1",
+=======
     "jquery": "^3.4.0",
+>>>>>>> develop
     "ng2-charts": "^2.2.3",
     "popper.js": "^1.16.1",
     "rxjs": "^6.5.4",

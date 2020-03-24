@@ -1,0 +1,38 @@
+
+
+.input-group {
+    width: 50%;
+    padding-bottom: 1rem;
+    float: left;
+  }
+
+.game {
+  width: 95%;
+  margin: auto;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 2px 2px 30px 2px rgb(92, 92, 92);
+  padding-bottom: 1rem;
+}
+
+
+.highscore {
+  border: 1px solid rgb(92, 92, 92);
+  border-radius: 5px;
+  font-family: Monaco;
+  font-size: larger;
+  float: right;
+}
+
+app-gradient-button {
+  width: 100%;
+}
+
+.game-input {
+  display: flex; 
+  flex-direction: column; 
+  width: 100%; 
+  margin-top: 1rem;
+  border-radius: 20px;
+  background-color: rgb(241, 241, 241);
+}

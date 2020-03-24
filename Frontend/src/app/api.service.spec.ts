@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RestComService } from './rest-com.service.old';
+import { ApiService } from './api.service';
 
-describe('RestComService', () => {
+describe('ApiService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: RestComService = TestBed.get(RestComService);
+    const service: ApiService = TestBed.get(ApiService);
     expect(service).toBeTruthy();
   });
 });

@@ -1,0 +1,11 @@
+<div>
+
+<app-player-list [allExistingPlayer]="allExistingPlayer" (playerList)="updatePlayerList($event)"></app-player-list>  
+
+<div>
+    <button color="primary" (click)="startNewGame()" routerLink="/game">
+      Start New Game
+    </button>
+  </div>
+
+</div>
