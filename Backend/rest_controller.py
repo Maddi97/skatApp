@@ -50,8 +50,6 @@ def add_game():
     gameData = request.get_json()
     game = Game.from_JSON(gameData)
     game.gameID = db_controller.add_game(game)
-    if game.players and len(game.players):
-        db_controller.add_game_participants(game.gameID, game.players)
     return toJSONResponse(game)
 
 # TODO parse players

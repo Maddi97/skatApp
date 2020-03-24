@@ -45,10 +45,10 @@ class database_controller:
         query = self.engine.execute(insertion)
         gameID = query.inserted_primary_key[0]
 
-        if game.players:
+        if game.players and len(game.players):
             try:
                 self.add_game_participants(gameID, list(map(lambda player: player.playerID, game.players)))
-            except Error as e:
+            except Exception as e:
                 raise TransitiveError()
 
         return query.inserted_primary_key[0]
@@ -56,7 +56,9 @@ class database_controller:
     def get_game(self, **kwargs) -> Game:
         query = self.__defaultSelection(self.tGame, kwargs)
 
-        return Game.db_mapping(dict(query.first()))    
+        game = Game.db_mapping(dict(query.first()))
+        game.players = self.get_game_participants(game.gameID)
+        return game     
 
     def get_last_game_id(self) -> int:
         selection = select([func.max(self.tGame.c.gameID)])
