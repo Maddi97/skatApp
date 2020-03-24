@@ -1,20 +1,22 @@
 #!flask/bin/python
-from flask import Flask, Response
-from flask_cors import CORS, cross_origin
-from flask import jsonify
-from flask import request
-from datetime import datetime
 from typing import List
-import time
-from database_controller import database_controller
-from classes import *
+from datetime import datetime
+
+from flask import Flask, Response, jsonify, request
+from flask_cors import CORS, cross_origin
+from flask.logging import create_logger
 import json
 import jsonpickle
+
+from database_controller import database_controller
+from classes import *
+
 
 db_controller = database_controller()
 db_controller.prefill_database_with_test_values()
 
 app = Flask(__name__)
+LOG = create_logger(app)
 CORS(app)
 
 
@@ -26,7 +28,6 @@ def index():
 def get_player():
     player_data = request.args
     player = db_controller.get_player(**player_data)
-    raise Exception("YEEEE")
     return toJSONResponse(player)
 
 @app.route('/player', methods=['POST'])
@@ -91,7 +92,8 @@ def add_game_details():
 
 @app.errorhandler(Exception)
 def handleInternalErrors(error):
-    response = toJSONResponse(error)
+    LOG.error(error)
+    response = jsonify(jsonpickle.encode(error))
     response.status_code = 500
     return response 
 """

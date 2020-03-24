@@ -1,19 +1,20 @@
 from os import environ
-from sqlalchemy import create_engine, inspect, schema, MetaData, Table, Column, Integer, String, Boolean, PrimaryKeyConstraint, ForeignKey
+from sqlalchemy import engine, create_engine, inspect, schema, MetaData, Table, Column, Integer, String, Boolean, PrimaryKeyConstraint, ForeignKey
 
 databaseName = "test"
 
-def create_database():
+def create_database(dataBaseName= databaseName, dropOnStart = True):
 
     # ubuntu:password
     # windows:root
-
-    engine = create_engine('mysql+pymysql://root:password@127.0.0.1')
-
-    if databaseName in inspect(engine).get_schema_names():
-        engine.execute(schema.DropSchema(databaseName))
-    engine.execute(schema.CreateSchema(databaseName))  # create db
-    engine.execute("USE {}".format(databaseName))  # select new db
+    if dropOnStart:
+            engine = create_engine('mysql+pymysql://root:password@127.0.0.1')
+            if databaseName in inspect(engine).get_schema_names():
+                engine.execute(schema.DropSchema(databaseName))
+            engine.execute(schema.CreateSchema(databaseName))  # create db
+            del engine
+    
+    engine = create_engine('mysql+pymysql://root:password@127.0.0.1/{}'.format(databaseName))
 
     meta = MetaData()
 
