@@ -106,7 +106,6 @@ export class ApiService {
     )
   }
 
-
   private _getQueryParams(object: any): HttpParams {
     let params = new HttpParams()
     Object.keys(object).forEach(key => {

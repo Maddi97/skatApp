@@ -18,11 +18,9 @@ export class PlayerListComponent implements OnInit {
   @Output()
   newPlayer = new EventEmitter<IPlayer>()
 
-
-
   playerName = ""
 
-  constructor(private api: ApiService) { }
+  constructor() { }
 
   ngOnInit() {
   }
