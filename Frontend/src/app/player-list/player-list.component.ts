@@ -35,7 +35,7 @@ export class PlayerListComponent implements OnInit {
     //create new PlayerObject
     const player: IPlayer = new Player(null,this.playerName.trim())
     //write Player to database and set new playerID to received one
-    this.api.addPlayer(player).subscribe(player_from_server => player.setPlayerID(player_from_server.playerID))
+    // this.api.addPlayer(player).subscribe(player_from_server => player.setPlayerID(player_from_server.playerID))
     this.allExistingPlayer.unshift(player)
     this.newPlayer.next(player)
     this.playersChange.next(this.allExistingPlayer)

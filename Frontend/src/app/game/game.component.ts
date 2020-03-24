@@ -32,6 +32,7 @@ export class GameComponent implements OnInit {
       switchMap(x => this.api.getRound({gameID: 1, playerID: 1}))
     ).subscribe(x => console.log(x))
   //  this.api.getPlayer({name:"maddi"}).subscribe(x => console.log(x))
+    this.api.getAllPlayer().subscribe(x => console.log(x))
   }
 
 }

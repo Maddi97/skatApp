@@ -11,5 +11,5 @@ export class Game implements IGame {
 
     constructor(readonly gameID: number, readonly date: Date, 
         readonly gameRoundAmount: number, readonly players: Player[] ) { }
-
+    
 }

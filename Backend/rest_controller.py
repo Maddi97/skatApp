@@ -40,8 +40,8 @@ def add_player():
 
 @app.route('/getAllPlayer', methods=['GET'])
 def get_all_player():
-    players=db_controller.get_all_player()
-    return jsonify(players)
+    players = db_controller.get_all_player()
+    return toJSONResponse(players)
 
 # TODO test
 # TODO parse players
