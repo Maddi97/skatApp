@@ -8,6 +8,7 @@ import {
   UNTER,
 INITIAL_ROUND
 } from "src/assets/classes/round";
+import { IGame } from 'src/assets/classes/game';
 
 @Component({
   selector: 'app-round-form',
@@ -16,7 +17,7 @@ INITIAL_ROUND
 })
 export class RoundFormComponent implements OnInit {
   @Input() players: IPlayer[];
-
+  @Input() game: IGame;
   currentRound: IRound = INITIAL_ROUND;
 
   // constant definitions
@@ -28,10 +29,10 @@ export class RoundFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log()
+    this.currentRound.gameID=this.game.gameID;
   }
-  game_select(key, event){
-    console.log(event)
+  form_submit(){
+    console.log(this.game)
     console.log(this.currentRound)
   }
 
