@@ -10,7 +10,7 @@ import { shareReplay, tap } from 'rxjs/operators';
 })
 export class GameService {
 
-    storedGames = new BehaviorSubject<Map<number, Observable<Game>>>(new Map())
+    currentGame$: Observable<Game> = null
 
     constructor(private api: ApiService) { }
 
@@ -19,18 +19,15 @@ export class GameService {
             date: new Date(),
             players: players,
         }
-   
-        return this.api.addGame(game).pipe(
-            tap(game => {
-                const currentGames = this.storedGames.getValue()
-                currentGames.set(game.gameID, of(game))
-            }),
-            shareReplay()
-        )
+        this.currentGame$ =  this.api.addGame(game)
+        return this.currentGame$
     }
 
-    invalidateGames() {
-        this.storedGames.next(new Map())
+    getGameByID(id: number): Observable<Game> {
+        this.currentGame$ = this.api.getGame({gameID: id})
+        return this.currentGame$
     }
+
+
 
 }

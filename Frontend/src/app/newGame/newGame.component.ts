@@ -6,7 +6,7 @@ import { Game, IGame } from 'src/assets/classes/game';
 import { GameService } from '../game/game.service';
 import { Observable, Subject } from 'rxjs';
 import { Player } from 'src/assets/classes/player';
-import { takeUntil, switchMap } from 'rxjs/operators';
+import { takeUntil, switchMap, first } from 'rxjs/operators';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class NewGameComponent implements OnInit {
 
   //gets player selected in playerList
   startNewGame() {
-
+    this.gameService.currentGame$.pipe(first()).subscribe(x => console.log(x))
   }
 
   updatePlayerList(players) {
@@ -51,13 +51,18 @@ export class NewGameComponent implements OnInit {
     // get list + push
     const newGame = instance.afterClosed().pipe(
       takeUntil(unsubscribe),
-      switchMap(() => this.gameService.newGame(playerList.players))
+      switchMap(() => {
+        return this.gameService.newGame(playerList.players)
+      })
     ) 
 
     playerList.allPlayers = this.allExistingPlayer
     
     newGame.subscribe(game => {
+
       console.log(game)
+      unsubscribe.next()
+      unsubscribe.complete()
     })
 
 
