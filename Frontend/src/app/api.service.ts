@@ -41,11 +41,12 @@ export class ApiService {
     )
   }
 
-  getAllPlayer(): Observable<IPlayer[]> {
-    return this.http.get<[IPlayer]>(
+  getAllPlayer(): Observable<Player[]> {
+    return this.http.get<IPlayer[]>(
       `${this.URL}/getAllPlayer`
             ).pipe(
       errorProcedure(),
+      map(x => JSON.parse(x)),
       tap(x => console.log(x)),
       map(playerJSON => playerJSON as Player[])
     )

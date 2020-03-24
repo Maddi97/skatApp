@@ -26,8 +26,9 @@ export class GameComponent implements OnInit {
       this.api.getAllPlayer().subscribe({
         next: players => {
           console.log(players)
-          this.allPlayers = players}
-      })
+          this.allPlayers = players
+        }
+    })
   }
 
   get players(): IPlayer[] {
