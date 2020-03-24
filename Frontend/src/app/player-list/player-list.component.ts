@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Player, IPlayer } from 'src/assets/classes/player';
-import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-player-list',
@@ -25,18 +24,27 @@ export class PlayerListComponent implements OnInit {
   ngOnInit() {
   }
 
-  addPlayer() {
-    if (!this.playerName.trim()) {
-      return;
-    }
-    //create new PlayerObject
-    const player: IPlayer = new Player(null,this.playerName.trim())
-    this.players.unshift(player)
-    this.newPlayer.next(player)
-    this.playersChange.next(this.players)
-    this.playerName = ""
-  }
+  // addPlayer() {
+  //   if (!this.playerName.trim()) {
+  //     return;
+  //   }
+  //   //create new PlayerObject
+  //   const player: IPlayer = new Player(null,this.playerName.trim())
+  //   this.players.unshift(player)
+  //   this.newPlayer.next(player)
+  //   this.playersChange.next(this.players)
+  //   this.playerName = ""
+  // }
 
+  togglePlayer(player: IPlayer) {
+    const index = this.players.indexOf(player)
+
+    if (index > -1 ) {
+      this.players.splice(index, 1)
+    } else {
+      this.players.push(player)
+    }
+  }
 //   selectPlayer(player: IPlayer){
 //     var playerInList: Boolean = false;
 

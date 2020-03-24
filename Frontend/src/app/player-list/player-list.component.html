@@ -1,12 +1,12 @@
-<div [ngStyle]="{'width':'300px'}">
-  <mat-form-field fxLayout="row">
+<div style="width: 300px">
+  <!-- <mat-form-field fxLayout="row">
     <mat-label> register new player</mat-label>
     <input #nameInput matInput type="text" 
     maxlength="15"
     [(ngModel)]="playerName" (keyup.enter)="addPlayer()">
   </mat-form-field>
   <button mat-raised-button color="primary" 
-  (click)="addPlayer()" [disabled]="!playerName.trim()">Add</button>
+  (click)="addPlayer()" [disabled]="!playerName.trim()">Add</button> -->
 
   <div>
     <mat-accordion>
@@ -19,11 +19,13 @@
       <mat-list>
         <mat-list-item *ngFor="let player of allPlayers">
           <mat-divider></mat-divider>
-          <mat-checkbox [ngStyle]="{'width': '100%'}" fxLayout="row" fxLayoutAlign="start center">
+          <mat-checkbox 
+          (change)="togglePlayer(player)"
+          style="width: 100%;" fxLayout="row" fxLayoutAlign="start center">
             <mat-icon style="float: left;">person</mat-icon>
             <div fxFlexOffset="15" fxLayout="column" fxLayoutAlign="space-between start">
               <div>{{player.name}}</div>
-              <div *ngIf="player.playerID"><i><small>{{player.playerID}}</small></i></div>
+              <!-- <div *ngIf="player.playerID"><i><small>{{player.playerID}}</small></i></div> -->
             </div>
           </mat-checkbox>
         </mat-list-item>
