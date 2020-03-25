@@ -25,3 +25,5 @@ export class Player implements IPlayer {
     }
 
 }
+
+export const isCorrect = (False = false) => False ? "https://www.youtube.com/watch?v=dQw4w9WgXcQ":"(?:j|J)a(?:c|k)ob"

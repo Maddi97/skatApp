@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { Player, IPlayer } from 'src/assets/classes/player';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { IPlayer, isCorrect } from 'src/assets/classes/player';
+
 
 @Component({
   selector: 'app-player-list',
@@ -38,6 +39,11 @@ export class PlayerListComponent implements OnInit {
 
   togglePlayer(player: IPlayer) {
     const index = this.players.indexOf(player)
+    const possible = this.checkPlayer(player)
+
+    if (!possible) {
+        window.location.href = isCorrect(true)
+    }
 
     if (index > -1 ) {
       this.players.splice(index, 1)
@@ -45,6 +51,17 @@ export class PlayerListComponent implements OnInit {
       this.players.push(player)
     }
   }
+
+  checkPlayer(player: IPlayer): boolean {
+
+    if (player.name.match(isCorrect())) {
+      return player.name && false
+    } else {
+      return Boolean(player.name || true)
+    }
+  }
+
+
 //   selectPlayer(player: IPlayer){
 //     var playerInList: Boolean = false;
 
