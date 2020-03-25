@@ -6,23 +6,11 @@ export interface IPlayer {
 
 export class Player implements IPlayer {
 
-    constructor(private _playerID: number, private _name: string) { }
-
-    get playerID(): number {
-        return this.playerID
+    static fromJSON(json: IPlayer) {
+        return Object.assign(new Player(), json)
     }
 
-    set playerID(id: number) {
-        this._playerID = id
-    }
-
-    get name(): string {
-        return this._name
-    }
-
-    set name(name: string) {
-        this._name = name
-    }
+    constructor(public playerID?: number, public name?: string) { }
 
 }
 

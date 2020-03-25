@@ -1,14 +1,14 @@
 <div class="game">
     <mat-tab-group class="shadow rounded" style="width: 100%;" color="accent">
         <mat-tab label="Table">
-            <app-table [(players)]="allPlayers" [rounds]="testRound"> </app-table>
+            <app-table [players]="players$" [rounds]="rounds$"> </app-table>
         </mat-tab>
         <mat-tab label="Charts">
             <p> some charts </p>
         </mat-tab>
     </mat-tab-group>
     <div style="width: 97%; margin: auto;">
-        <app-round-form [players]="allPlayers" [game]=currentGame (roundFinished)="addRound($event)"></app-round-form>
+        <app-round-form [players]="players$ | async" [game]="currentGame$ | async" (roundFinished)="addRound($event)"></app-round-form>
     </div>
 </div>
 

@@ -17,10 +17,12 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./round-form.component.css']
 })
 export class RoundFormComponent implements OnInit {
-  @Input() players: IPlayer[];
+  @Input() players: IPlayer[] = [];
   @Input() set game(game: Game) {
-    this.currentRound.gameID = game.gameID ? game.gameID : -1
-}
+    if (game) {
+      this.currentRound.gameID = game.gameID ? game.gameID : -1
+    }
+  }
 
   @Output() roundFinished = new EventEmitter<IRound>(); 
 
@@ -46,7 +48,6 @@ export class RoundFormComponent implements OnInit {
 
 
   formSubmit(){
-
     this.currentRound = this.setSelctedSpecsToCurrentRound(this.currentRound)
     this.specs_control.reset()
 

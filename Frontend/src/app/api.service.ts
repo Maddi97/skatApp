@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, MonoTypeOperatorFunction, BehaviorSubject } from 'rxjs';
 import { IPlayer, Player } from 'src/assets/classes/player';
-import { map, catchError, tap, shareReplay } from 'rxjs/operators';
+import { map, catchError, tap, shareReplay, switchMap } from 'rxjs/operators';
 import { Game, IGame } from 'src/assets/classes/game';
 import { Round, IRound } from 'src/assets/classes/round';
 
@@ -13,8 +13,7 @@ export class ApiService {
 
   private URL = "http://127.0.0.1:5000";
 
-  private storedGames = new BehaviorSubject<Map<number, Observable<Game>>>(new Map())
-  storedGames$ = this.storedGames.asObservable()
+  private _storedGames$ = new BehaviorSubject<Map<number, Observable<Game>>>(new Map())
 
   constructor(private http: HttpClient) { }
 
@@ -30,7 +29,7 @@ export class ApiService {
       { params: params }
     ).pipe(
       errorProcedure(),
-      map(playerJSON => playerJSON as Player)
+      map(playerJSON => Player.fromJSON(playerJSON))
     )
   }
 
@@ -40,7 +39,7 @@ export class ApiService {
       player
     ).pipe(
       errorProcedure(),
-      map(playerJSON => playerJSON as Player)
+      map(playerJSON => Player.fromJSON(playerJSON))
     )
   }
 
@@ -49,21 +48,39 @@ export class ApiService {
       `${this.URL}/getAllPlayer`
             ).pipe(
       errorProcedure(),
-      map(playerJSON => playerJSON as Player[])
+      map(playerJSON => playerJSON.map(player => Player.fromJSON(player)))
     )
   }
 
-  getGame(game: IGame): Observable<Game> {
-    const params = this._getQueryParams(game)
+  getGame(game: number): Observable<Game> 
+  getGame(game: IGame): Observable<Game>
+  getGame(game: IGame | number): Observable<Game> {
+    let gameID: number
+    if (typeof game ==  "number") {
+      gameID = game
+      game = {gameID: game}
+    } else {
+      gameID = game.gameID
+    }
 
-    return this.http.get<IGame>(
-      `${this.URL}/game`,
-      { params: params }
-    )
-      .pipe(
-        errorProcedure(),
-        map(gameJSON => gameJSON as Game)
-      )
+    if (this._storedGames$.getValue().has(gameID)) {
+      return this._getStoredGame(gameID)
+    } else {
+      const params = this._getQueryParams(game)
+      return this.http.get<IGame>(
+        `${this.URL}/game`,
+        { params: params }
+      ).pipe(
+          errorProcedure(),
+          map(gameJSON => Game.fromJSON(gameJSON)),
+          tap(game => this._storeGame(game)),
+          switchMap(() => this._getStoredGame(gameID))
+        )
+    }
+
+    
+
+    
   }
 
   getLatestGame(): Observable<Game>{
@@ -71,7 +88,7 @@ export class ApiService {
       `${this.URL}/latestGame`
     ).pipe(
       errorProcedure(),
-      map(gameJSON => gameJSON as Game)
+      map(gameJSON => Game.fromJSON(gameJSON))
     )
   }
 
@@ -81,10 +98,11 @@ export class ApiService {
       game
     ).pipe(
       errorProcedure(),
-      map(gameJSON => gameJSON as Game),
+      map(gameJSON => Game.fromJSON(gameJSON)),
       tap(game => {
-        const currentGames = this.storedGames.getValue()
+        const currentGames = this._storedGames$.getValue()
         currentGames.set(game.gameID, of(game))
+        this._storedGames$.next(currentGames)
       }),
       shareReplay()
     )
@@ -100,7 +118,7 @@ export class ApiService {
       )
       .pipe(
         errorProcedure(),
-        map(roundJSON => roundJSON as Round)
+        map(roundJSON => Round.fromJSON(roundJSON))
       )
   }
 
@@ -110,13 +128,13 @@ export class ApiService {
       round
     ).pipe(
       errorProcedure(),
-      map(roundJSON => roundJSON as Round)
+      map(roundJSON => Round.fromJSON(roundJSON))
     )
   }
 
   invalidateGames() {
-    this.storedGames.next(new Map())
-}
+    this._storedGames$.next(new Map())
+  }
 
   private _getQueryParams(object: any): HttpParams {
     let params = new HttpParams()
@@ -127,6 +145,17 @@ export class ApiService {
     return params
   }
 
+  private _storeGame(game: Game) {
+    const games = this._storedGames$.getValue()
+    games.set(game.gameID, of(game))
+    this._storedGames$.next(games)
+  }
+
+  private _getStoredGame(gameID: number): Observable<Game> {
+    return this._storedGames$.pipe(
+      switchMap(games => games.get(gameID))
+    )
+  }
 
 
 }

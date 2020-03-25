@@ -1,11 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ApiService } from '../api.service';
-import { switchMap, first } from 'rxjs/operators';
+import { switchMap, first, shareReplay, catchError, filter, map, tap, takeUntil } from 'rxjs/operators';
 import { Player, IPlayer } from 'src/assets/classes/player';
 import { Game, IGame } from 'src/assets/classes/game';
 import { Round, IRound } from 'src/assets/classes/round';
 import { GameService } from '../game/game.service';
 import { log } from 'util';
+import { Observable, of, NEVER, Subject } from 'rxjs';
 
 
 
@@ -14,69 +15,51 @@ import { log } from 'util';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
   
-  currentGame: IGame = new Game();
-  currentRounds: IRound[] = [];
-  allPlayers: IPlayer[] = []
+  currentGame$: Observable<Game> = NEVER
 
-
-  testRound= [{
-    GameID: 1,
-    gameRound: 1,
-    Johann: 420,
-    Maddi: 0,
-    Johan: 0,
-  },
-  {
-    GameID: 1,
-    gameRound: 2,
-    Johann: 0,
-    Maddi: 0,
-    Johan: 18,
-  },
-  {
-    GameID: 1,
-    gameRound: 3,
-    Johann: 0,
-    Maddi: 68,
-    Johan: 0,
-  }];
+  private _unsubscribe = new Subject<void>()
 
   constructor( 
-    private api: ApiService, 
     private gameService: GameService
-    ){ 
-  }
+    ){ }
       
   ngOnInit() {
-
-    this.gameService.currentGame$.pipe(first()).subscribe(game => {this.currentGame=game;this.allPlayers=this.currentGame.players
-    })
-    console.log(this.allPlayers)
-    console.log(this.currentGame)
-    console.log(this.testRound);
+    this.currentGame$ = this.gameService.currentGame$.pipe(
+      takeUntil(this._unsubscribe),
+      catchError(() => of(undefined)),
+      filter(game => game != undefined && game instanceof Game),
+      tap(x => console.log(x)),
+      shareReplay(),
+    )
     //this.addRound()
 
   }
 
-  get players(): IPlayer[] {
-    return this.currentGame.players
+  ngOnDestroy() {
+    this._unsubscribe.next()
+    this._unsubscribe.complete()
   }
 
-  set players(players: IPlayer[]) {
-    this.currentGame.players = players
+  get players$(): Observable<IPlayer[]> {
+    return this.currentGame$.pipe(
+      map(game => game.players)
+    )
   }
 
+  get rounds$(): Observable<IRound[]> {
+    return this.currentGame$.pipe(
+      map(game => game.rounds),
+    )
+  }
   
   addRound(roundFinished){
 
     roundFinished.score=999;
     roundFinished.scoreSum=999;
     var testRound:IRound = {
-      "gameID":this.currentGame.gameID,
       "playerID":4, 
-      "gameRound":1,
       "score": 99999,
       "scoreSum": 999999,
       "color":"Grün",
@@ -89,8 +72,9 @@ export class GameComponent implements OnInit {
       "ouvert":false,
       "bock":true
   }
-    this.api.addRound(roundFinished).subscribe(round => this.currentRounds.push(round))
-    console.log(this.currentRounds)
+    this.gameService.addRound(roundFinished).pipe(first()).subscribe({
+      next: round => console.log("added new round", round)
+    })
   }
   
 }

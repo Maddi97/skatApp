@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { ApiService } from '../api.service';
 import { IPlayer, Player } from 'src/assets/classes/player';
 
@@ -9,35 +9,28 @@ import { IPlayer, Player } from 'src/assets/classes/player';
 })
 export class AddPlayerComponent implements OnInit {
 
-  inputName: string;
-  newPlayer: IPlayer = {};
-  newPlayers: Player[] = [];
-  allPlayer: Player[] = [];
+  @Output()
+  newPlayer = new EventEmitter<IPlayer>()
 
-  constructor(
-    private api: ApiService,
-  ) { }
+  playerName = ""
 
-  ngOnInit() {
-    this.api.getAllPlayer().subscribe(res => {
-      this.allPlayer = res;
-    })
-  }
+  constructor( ) { }
+
+  ngOnInit() { }
 
   addPlayer(){
     //Jacob is never valid lol
-    if ( this.inputName.toLowerCase().includes('acob') ) {
-      this.inputName = "Jakob";
+    if (this.playerName.toLowerCase().includes('acob')) {
+      this.playerName = "Jakob";
     }
-    if ( this.allPlayer.map(m => m.name.toLowerCase()).includes(this.inputName.toLowerCase()) ){
-      console.warn('username already in use');
-      return;
+
+    if (this.playerName.trim() == "") {
+      return
     }
-    this.newPlayer.name = this.inputName;
-    this.api.addPlayer(this.newPlayer).subscribe((res: Player) => {
-      this.newPlayers.push(res);
-    });
-    this.inputName = "";
+
+    const newPlayer: IPlayer = {name: this.playerName.trim()}
+    this.newPlayer.emit(newPlayer)
+    this.playerName = "";
   }
 
 }
