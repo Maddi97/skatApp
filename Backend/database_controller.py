@@ -92,17 +92,7 @@ class database_controller:
         #     print("exceeded maximum game rounds")
         #     raise PreConditionError()
 
-
-
-        insertion = insert(self.tGameDetails).values(
-            gameID= gRound.gameID, playerID= gRound.playerID,
-            gameRound= gRound.gameRound , score= gRound.score,
-            scoreSum= gRound.scoreSum,
-            color= gRound.color, unter= gRound.unter, hand= gRound.hand, 
-            schwarz= gRound.schwarz, schneider= gRound.schneider,
-            schwarzAngesagt = gRound.schwarzAngesagt, schneiderAngesagt= gRound.schneiderAngesagt,
-            ouvert= gRound.ouvert, bock= gRound.bock
-        )
+        insertion = insert(self.tGameDetails).values(**gRound.__dict__)
 
         query = self.__execute(insertion)
         return query.inserted_primary_key[0]
@@ -152,7 +142,10 @@ class database_controller:
         
         query = self.__execute(insertion)
         
-        updateGame = update(self.tGame).values(playerAmount = self.tGame.c["playerAmount"] + len(participants)).where(self.tGame.c["gameID"] == gameID)
+        updateGame = update(self.tGame)\
+            .values(playerAmount = self.tGame.c["playerAmount"] + len(participants))\
+            .where(self.tGame.c["gameID"] == gameID)
+            
         try:
             self.__execute(updateGame)
         except Exception as e:
