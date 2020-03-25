@@ -40,6 +40,8 @@ export class NewGameComponent implements OnInit {
     const instance = this.dialog.open(AddPlayerComponent);
     const newPlayers = instance.componentInstance;
     
+    newPlayers.restrictedNames = this.allExistingPlayer.map(player => player.name)
+
     newPlayers.newPlayer
     .pipe(
       takeUntil(instance.afterClosed()),
@@ -48,6 +50,7 @@ export class NewGameComponent implements OnInit {
       next: player => {
         console.log("added player", player)
         this.allExistingPlayer.unshift(player)
+        newPlayers.restrictedNames = this.allExistingPlayer.map(player => player.name)
       }
     })
   }

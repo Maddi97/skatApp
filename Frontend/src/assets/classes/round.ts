@@ -23,7 +23,8 @@ export const EMPTY_ROUND:IRound= {
     schneiderAngesagt: false,
     schwarzAngesagt: false,
     ouvert: false,
-    bock: false
+    bock: false,
+    loss: false
 };                    
 
 
@@ -41,7 +42,8 @@ export interface IRound {
     schneiderAngesagt?: boolean,
     schwarzAngesagt?: boolean,
     ouvert?: boolean,
-    bock?: boolean
+    bock?: boolean,
+    loss?: boolean,
 }
 
 export class Round implements IRound {
@@ -54,6 +56,6 @@ export class Round implements IRound {
         public score?: number, public scoreSum?: number, public color?: Color,
         public unter?: Unter, public hand?: boolean, public schneider?: boolean,
         public schwarz?: boolean, public schneiderAngesagt?: boolean, public schwarzAngesagt?: boolean,
-        public ouvert?: boolean, public bock?: boolean) { }
+        public ouvert?: boolean, public bock?: boolean, public loss?: boolean) { }
         
 }

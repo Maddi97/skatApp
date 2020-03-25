@@ -1,6 +1,7 @@
-import { Component, OnInit, Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter, Input } from '@angular/core';
 import { ApiService } from '../api.service';
 import { IPlayer, Player } from 'src/assets/classes/player';
+import { FormControl, Validators, ValidationErrors } from '@angular/forms';
 
 @Component({
   selector: 'app-add-player',
@@ -11,8 +12,20 @@ export class AddPlayerComponent implements OnInit {
 
   @Output()
   newPlayer = new EventEmitter<IPlayer>()
+  
+  @Input()
+  restrictedNames: string[] = []
 
-  playerName = ""
+  playerName = new FormControl("", {
+    validators: (control) => {
+      const errors: ValidationErrors = {}
+      if (control.value.trim() == "" || this.restrictedNames.includes(control.value)) {
+        errors["error"] = "true";
+      }
+      return errors
+       
+    }
+  })
 
   constructor( ) { }
 
@@ -20,17 +33,13 @@ export class AddPlayerComponent implements OnInit {
 
   addPlayer(){
     //Jacob is never valid lol
-    if (this.playerName.toLowerCase().includes('acob')) {
-      this.playerName = "Jakob";
+    if (this.playerName.value.toLowerCase().includes('acob')) {
+      this.playerName.setValue("Jakob");
     }
 
-    if (this.playerName.trim() == "") {
-      return
-    }
-
-    const newPlayer: IPlayer = {name: this.playerName.trim()}
+    const newPlayer: IPlayer = {name: this.playerName.value.trim()}
     this.newPlayer.emit(newPlayer)
-    this.playerName = "";
+    this.playerName.setValue("");
   }
 
 }
