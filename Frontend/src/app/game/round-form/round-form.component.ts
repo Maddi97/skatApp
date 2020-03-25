@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IPlayer, Player } from 'src/assets/classes/player';
 import { IRound, Color, Unter } from 'src/assets/classes/round';
+
 import {
   SPECS,
   COLUMNS,
@@ -9,6 +10,7 @@ import {
 INITIAL_ROUND
 } from "src/assets/classes/round";
 import { IGame } from 'src/assets/classes/game';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-round-form',
@@ -19,6 +21,8 @@ export class RoundFormComponent implements OnInit {
   @Input() players: IPlayer[];
   @Input() game: IGame;
   currentRound: IRound = INITIAL_ROUND;
+
+  test = new FormControl();
 
   // constant definitions
   specs = SPECS;

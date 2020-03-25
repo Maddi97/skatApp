@@ -4,8 +4,8 @@
     <mat-card-header>
       <mat-card-title style="font-family: color_basics; color: #343a40; font-size: 11;">{{option}}</mat-card-title>
     </mat-card-header>
-    <img *ngIf="!mobile" mat-card-image [src]="source" style="width: 30rem; height: 30rem; overflow: hidden;"alt="Photo of a Shiba Inu">
-    <img *ngIf="mobile" mat-card-image [src]="source" style="width: 300px; height: 300px; overflow: hidden;"alt="Photo of a Shiba Inu">
+    <img *ngIf="!mobile" mat-card-image [src]="source" style="width: 30rem; height: 30rem; overflow: hidden;">
+    <img *ngIf="mobile" mat-card-image [src]="source" style="width: 300px; height: 300px; overflow: hidden;">
   </button>
 </mat-card>
 
