@@ -6,7 +6,7 @@ export const SPECS: string[] = ['hand', 'schneider', 'schneiderAngesagt', 'schwa
 export const COLUMNS: string[] = ['Unter', 'Farbe', 'Specs', 'Bock', 'Gespielt']
 export const FARBE: string[] = ['Eichel', 'Grün', 'Rot', 'Schell', 'Grand', 'Null', 'Ramsch']
 export const UNTER: string[] = ['Mit 1', 'Mit 2', 'Mit 3', 'Mit 4', 'Ohne 1', 'Ohne 2', 'Ohne 3', 'Ohne 4']
-export const INITIAL_ROUND:IRound={"gameID":null,"playerID":null, "gameRound":null,"score": null,"scoreSum": null,"color":null,"unter":null, "hand":false,"schneider":false,"schwarz":false,
+export const EMPTY_ROUND:IRound={"gameID":null,"playerID":null, "gameRound":null,"score": null,"scoreSum": null,"color":null,"unter":null, "hand":false,"schneider":false,"schwarz":false,
 "schneiderAngesagt": false,"schwarzAngesagt":false,"ouvert":false,"bock":false};                    
 
 export interface IRound {
@@ -119,4 +119,6 @@ export class Round implements IRound {
         set bock(bock: boolean) {
             this._bock = bock
         }
+
+        
 }

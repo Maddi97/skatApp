@@ -33,13 +33,9 @@
     <ng-container>
         <mat-form-field color="accent" >
           <mat-label style="font-family: Monaco;">Specs:</mat-label>
-          <mat-select multiple>
-            <mat-checkbox [(ngModel)]="currentRound.hand" style="font-family: Monaco;">Hand</mat-checkbox>
-            <mat-checkbox [(ngModel)]="currentRound.schneider" style="font-family: Monaco;">Schneider</mat-checkbox>
-            <mat-checkbox [(ngModel)]="currentRound.schneiderAngesagt" style="font-family: Monaco;">Schneider angesagt</mat-checkbox>
-            <mat-checkbox [(ngModel)]="currentRound.schwarz" style="font-family: Monaco;">Schwarz</mat-checkbox>
-            <mat-checkbox [(ngModel)]="currentRound.schwarzAngesagt" style="font-family: Monaco;">Schwarz Angesagt</mat-checkbox>
-            <mat-checkbox [(ngModel)]="currentRound.ouvert" style="font-family: Monaco;">Ouvert</mat-checkbox>
+          <mat-select [formControl]="specs_control" multiple  (selectionChange)="observeSelectedSpecs($event.value)"> 
+            <mat-option *ngFor="let spec of specs" [value]="spec"  style="font-family: Monaco;">{{spec}}</mat-option>
+            
           </mat-select>
         </mat-form-field> 
     </ng-container>
@@ -48,7 +44,7 @@
     </ng-container>
     <p style="color: red; font-family: Monaco;"> {{ errorMessage }}</p>
     <span style="display: flex;">
-    <app-gradient-button (click)="form_submit()">
+    <app-gradient-button (click)="formSubmit()">
       Submit
     </app-gradient-button>
   </span>
