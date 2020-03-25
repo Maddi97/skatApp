@@ -95,6 +95,8 @@ def get_game_details():
 def add_game_details():
     roundDetails = request.get_json()
     gRound = Round.from_JSON(roundDetails)
+    gRound.gameRound= db_controller.get_last_round_num(game.gameID)+1
+    gRound.scoreSum = db_controller.get_score_sum(gRound.gameID, gRound.gameRound, gRound.playerID)+gRound.score
     db_controller.add_game_details(gRound)
     return toJSONResponse(gRound)
 
