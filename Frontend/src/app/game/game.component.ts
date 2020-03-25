@@ -21,6 +21,28 @@ export class GameComponent implements OnInit {
   allPlayers: IPlayer[] = []
 
 
+  testRound= [{
+    GameID: 1,
+    gameRound: 1,
+    Johann: 420,
+    Maddi: 0,
+    Johan: 0,
+  },
+  {
+    GameID: 1,
+    gameRound: 2,
+    Johann: 0,
+    Maddi: 0,
+    Johan: 18,
+  },
+  {
+    GameID: 1,
+    gameRound: 3,
+    Johann: 0,
+    Maddi: 68,
+    Johan: 0,
+  }];
+
   constructor( 
     private api: ApiService, 
     private gameService: GameService
@@ -33,6 +55,7 @@ export class GameComponent implements OnInit {
     })
     console.log(this.allPlayers)
     console.log(this.currentGame)
+    console.log(this.testRound);
     //this.addRound()
 
   }

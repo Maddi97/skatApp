@@ -11,7 +11,17 @@
   </table> -->
 
 
-  <table mat-table [dataSource]="table" class="mat-elevation-z8" style="width: 100%; background-color: #f3f3f3;">
+  <table mat-table [dataSource]="rounds" class="mat-elevation-z8" style="width: 100%; background-color: #f3f3f3;">
+
+    <!-- Round Number -->
+    <ng-container matColumnDef="gameRound">
+      <th mat-header-cell *matHeaderCellDef>
+        <h5 class="table-header">
+          Round
+        </h5>
+      </th>
+      <td class="table-entry" *matCellDef="let element"> {{ element.gameRound }} </td>
+    </ng-container>
 
     <!-- Name Column -->
     <div *ngFor="let name of players">
@@ -21,7 +31,7 @@
             {{name.name}} 
           </h5>
         </th>
-          <td class="table-entry" *matCellDef="let element"> {{element}}</td>
+          <td class="table-entry" *matCellDef="let element"> {{ element[name.name] }}</td>
       </ng-container>
     
     </div>

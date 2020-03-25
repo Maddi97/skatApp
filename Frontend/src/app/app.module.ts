@@ -13,6 +13,7 @@ import { ChartsComponent } from './game-old/charts/charts.component';
 import { TableComponent } from './game-old/table/table.component';
 import { HighscoreComponent } from './highscore/highscore.component';
 import { GradientButtonComponent } from './gradient-button/gradient-button.component';
+import { AddPlayerComponent } from './add-player/add-player.component';
 
 //Charts
 import { ChartsModule } from 'ng2-charts';
@@ -34,9 +35,10 @@ import { SpecPipe } from './spec.pipe';
     TableComponent,
     HighscoreComponent,
     GradientButtonComponent, 
-    PlayerListComponent, 
+    PlayerListComponent,
     GameComponent, 
     RoundFormComponent,
+    AddPlayerComponent,
     SpecPipe
   ],
   imports: [
@@ -55,6 +57,6 @@ import { SpecPipe } from './spec.pipe';
     SpecPipe
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PlayerListComponent]
+  entryComponents: [PlayerListComponent, AddPlayerComponent]
 })
 export class AppModule { }

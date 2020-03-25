@@ -8,6 +8,7 @@ import { Observable, Subject } from 'rxjs';
 import { Player, IPlayer } from 'src/assets/classes/player';
 import { takeUntil, switchMap, first } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AddPlayerComponent } from '../add-player/add-player.component';
 
 
 @Component({
@@ -51,13 +52,24 @@ export class NewGameComponent implements OnInit {
     
   }
 
+  addPlayers(){
+    const instance = this.dialog.open(AddPlayerComponent);
+    const newPlayers = instance.componentInstance;
+    instance.afterClosed().subscribe(() => {
+      newPlayers.newPlayers.forEach(element => {
+        this.allExistingPlayer.push(element);
+      })
+      this.assignPlayers();
+    })
+  }
+
   assignPlayers() {
     const unsubscribe = new Subject<void>()
     // prevent early closing
     const instance = this.dialog.open(PlayerListComponent, {disableClose: true})
     const playerList = instance.componentInstance
 
-    // close only if  atleast 3 players selected
+    // close when clicked outside
     instance.backdropClick().pipe(takeUntil(unsubscribe)).subscribe(() => {
       instance.close()
     })
