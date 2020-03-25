@@ -59,6 +59,7 @@ export class NewGameComponent implements OnInit {
       newPlayers.newPlayers.forEach(element => {
         this.allExistingPlayer.push(element);
       })
+      this.assignPlayers();
     })
   }
 
