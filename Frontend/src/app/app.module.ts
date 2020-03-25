@@ -13,6 +13,7 @@ import { ChartsComponent } from './game-old/charts/charts.component';
 import { TableComponent } from './game-old/table/table.component';
 import { HighscoreComponent } from './highscore/highscore.component';
 import { GradientButtonComponent } from './gradient-button/gradient-button.component';
+import { AddPlayerComponent } from './add-player/add-player.component';
 
 //Charts
 import { ChartsModule } from 'ng2-charts';
@@ -33,7 +34,11 @@ import { RoundFormComponent } from './game/round-form/round-form.component';
     TableComponent,
     HighscoreComponent,
     GradientButtonComponent, 
-    PlayerListComponent, GameComponent, RoundFormComponent
+    PlayerListComponent,
+    GameComponent, 
+    RoundFormComponent,
+    AddPlayerComponent,
+
   ],
   imports: [
     AppRoutingModule,
@@ -50,6 +55,6 @@ import { RoundFormComponent } from './game/round-form/round-form.component';
     {provide: HTTP_INTERCEPTORS, useClass: JSONInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PlayerListComponent]
+  entryComponents: [PlayerListComponent, AddPlayerComponent]
 })
 export class AppModule { }

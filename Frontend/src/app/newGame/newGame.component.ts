@@ -8,6 +8,7 @@ import { Observable, Subject } from 'rxjs';
 import { Player, IPlayer } from 'src/assets/classes/player';
 import { takeUntil, switchMap, first } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AddPlayerComponent } from '../add-player/add-player.component';
 
 
 @Component({
@@ -48,6 +49,11 @@ export class NewGameComponent implements OnInit {
   }
 
   updatePlayerList(players) {
+    
+  }
+
+  addPlayers(){
+    const instance = this.dialog.open(AddPlayerComponent);
     
   }
 
