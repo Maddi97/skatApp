@@ -25,7 +25,7 @@ import { trigger, transition, state, style, animate } from '@angular/animations'
 })
 export class CardComponent implements OnInit {
   @Input() option: string;
-  @Input() source: string;
+  @Input() source?: string;
 
   ani: string;
   mobile: boolean = false;

@@ -1,0 +1,55 @@
+<div class="game-input">
+  <div>
+    <ng-container>
+        <mat-form-field color="accent">
+          <mat-label style="font-family: Monaco;">Gespielt:</mat-label>
+          <mat-select [(value)]="currentRound.playerID">
+            <mat-option *ngFor="let player of players" [value]="player.playerID" style="font-family: Monaco;">
+              {{player.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </ng-container>
+    <ng-container>
+        <mat-form-field color="accent">
+          <mat-label style="font-family: Monaco;">Farbe:</mat-label>
+          <mat-select [(value)]="currentRound.color">
+            <mat-option *ngFor="let color of farbe" [value]="color" style="font-family: Monaco;">
+              {{color}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </ng-container>
+    <ng-container>
+        <mat-form-field color="accent">
+          <mat-label style="font-family: Monaco;">Unter</mat-label>
+          <mat-select [(value)]="currentRound.unter">
+            <mat-option *ngFor="let u of unter" [value]="u" style="font-family: Monaco;">
+              {{u}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </ng-container>
+    <ng-container>
+        <mat-form-field color="accent" >
+          <mat-label style="font-family: Monaco;">Specs:</mat-label>
+          <mat-select multiple>
+            <mat-checkbox [(ngModel)]="currentRound.hand" style="font-family: Monaco;">Hand</mat-checkbox>
+            <mat-checkbox [(ngModel)]="currentRound.schneider" style="font-family: Monaco;">Schneider</mat-checkbox>
+            <mat-checkbox [(ngModel)]="currentRound.schneiderAngesagt" style="font-family: Monaco;">Schneider angesagt</mat-checkbox>
+            <mat-checkbox [(ngModel)]="currentRound.schwarz" style="font-family: Monaco;">Schwarz</mat-checkbox>
+            <mat-checkbox [(ngModel)]="currentRound.schwarzAngesagt" style="font-family: Monaco;">Schwarz Angesagt</mat-checkbox>
+            <mat-checkbox [(ngModel)]="currentRound.ouvert" style="font-family: Monaco;">Ouvert</mat-checkbox>
+          </mat-select>
+        </mat-form-field> 
+    </ng-container>
+    <ng-container>
+        <mat-checkbox [(ngModel)]="currentRound.bock" style="font-family: Monaco; margin: 1%">Bock</mat-checkbox>
+    </ng-container>
+    <p style="color: red; font-family: Monaco;"> {{ errorMessage }}</p>
+    <span style="display: flex;">
+    <app-gradient-button (click)="form_submit()">
+      Submit
+    </app-gradient-button>
+  </span>
+  </div>

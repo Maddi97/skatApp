@@ -1,3 +1,12 @@
-<!-- <app-player-list [(players)]="players" [allPlayers]="allPlayers"></app-player-list> -->
+<div class="game">
+    <mat-tab-group class="shadow rounded" style="width: 100%;" color="accent">
+        <mat-tab label="Table">
+            <app-table [(players)]="allPlayers" [(rounds)]="currentRounds"> </app-table>
+        </mat-tab>
+        <mat-tab label="Charts">
+            <p> some charts </p>
+        </mat-tab>
+    </mat-tab-group>
+    <app-round-form [(players)]="allPlayers" [(game)]=currentGame></app-round-form>
+</div>
 
-<div><p>HALLO JOHANN HIER KOMMT UNSERE TABELLE HIN :))))))))))))))</p></div>

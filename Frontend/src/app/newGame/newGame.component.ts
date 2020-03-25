@@ -5,8 +5,10 @@ import { ApiService } from '../api.service';
 import { Game, IGame } from 'src/assets/classes/game';
 import { GameService } from '../game/game.service';
 import { Observable, Subject } from 'rxjs';
-import { Player } from 'src/assets/classes/player';
+import { Player, IPlayer } from 'src/assets/classes/player';
 import { takeUntil, switchMap, first } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { AddPlayerComponent } from '../add-player/add-player.component';
 
 
 @Component({
@@ -17,8 +19,16 @@ import { takeUntil, switchMap, first } from 'rxjs/operators';
 export class NewGameComponent implements OnInit {
 
   allExistingPlayer: Player[] = [];
+  playersOfGame: IPlayer[] = [];
 
-  constructor(private dialog: MatDialog, private api: ApiService, private gameService: GameService) { }
+  errorMessage: string;
+
+  constructor(
+    private dialog: MatDialog,
+    private api: ApiService, 
+    private gameService: GameService,
+    private router: Router,
+    ) { }
 
   ngOnInit() {
     this.api.getAllPlayer().subscribe({
@@ -28,11 +38,29 @@ export class NewGameComponent implements OnInit {
 
   //gets player selected in playerList
   startNewGame() {
-    this.gameService.currentGame$.pipe(first()).subscribe(x => console.log(x))
+    if (this.playersOfGame.length >= 3){
+      this.gameService.currentGame$.pipe(first()).subscribe(x => console.log(x));
+      this.router.navigate(['/game'])
+    }
+    else {
+      console.warn('less then 3 players selected');
+      this.errorMessage = 'select at least 3 players';
+    }
   }
 
   updatePlayerList(players) {
     
+  }
+
+  addPlayers(){
+    const instance = this.dialog.open(AddPlayerComponent);
+    const newPlayers = instance.componentInstance;
+    instance.afterClosed().subscribe(() => {
+      newPlayers.newPlayers.forEach(element => {
+        this.allExistingPlayer.push(element);
+      })
+      this.assignPlayers();
+    })
   }
 
   assignPlayers() {
@@ -41,18 +69,18 @@ export class NewGameComponent implements OnInit {
     const instance = this.dialog.open(PlayerListComponent, {disableClose: true})
     const playerList = instance.componentInstance
 
-    // close only if  atleast 3 players selected
+    // close when clicked outside
     instance.backdropClick().pipe(takeUntil(unsubscribe)).subscribe(() => {
-      if (playerList.players.length < 3) {
-        return;
-      }
       instance.close()
     })
+
+
     // get list + push
     const newGame = instance.afterClosed().pipe(
       takeUntil(unsubscribe),
       switchMap(() => {
-        return this.gameService.newGame(playerList.players)
+        this.playersOfGame = playerList.players;
+        return this.gameService.newGame(playerList.players);
       })
     ) 
 

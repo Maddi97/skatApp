@@ -1,5 +1,5 @@
 
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; background-color: #f3f3f3;">
+  <!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; background-color: #f3f3f3;">
     <div *ngFor="let name of displayedColumns">
       <ng-container matColumnDef="{{name}}">
         <th @fade mat-header-cell *matHeaderCellDef> <h5 style="font-family: Monaco; color: #343a40; font-size: 11;">{{name}}</h5> </th>
@@ -8,4 +8,23 @@
     </div>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table> -->
+
+
+  <table mat-table [dataSource]="table" class="mat-elevation-z8" style="width: 100%; background-color: #f3f3f3;">
+
+    <!-- Name Column -->
+    <div *ngFor="let name of players">
+      <ng-container matColumnDef="{{name.name}}">
+        <th mat-header-cell *matHeaderCellDef>
+          <h5 class="table-header">
+            {{name.name}} 
+          </h5>
+        </th>
+          <td class="table-entry" *matCellDef="let element"> {{element}}</td>
+      </ng-container>
+    
+    </div>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>

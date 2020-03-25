@@ -1,13 +1,18 @@
 <div>
-
-<!-- <app-player-list [allExistingPlayer]="allExistingPlayer" (playerList)="updatePlayerList($event)"></app-player-list>   -->
-<button color="primary" (click)="assignPlayers()">
-  Player
-</button>
-<div>
-    <button color="primary" (click)="startNewGame()" routerLink="/game">
-      Start New Game
-    </button>
-  </div>
-
+  <mat-card class="card" (click)="addPlayers()">
+    <mat-card-header>
+      <mat-card-title> Add Player </mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <mat-card class="card" (click)="assignPlayers()">
+    <mat-card-header>
+      <mat-card-title> Select Player </mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <mat-card class="card" (click)="startNewGame()" [routerLink]="link">
+    <mat-card-header>
+      <mat-card-title> New Game </mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <p style="color: red;"> {{errorMessage}} </p>
 </div>

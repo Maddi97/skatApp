@@ -13,6 +13,7 @@ import { ChartsComponent } from './game-old/charts/charts.component';
 import { TableComponent } from './game-old/table/table.component';
 import { HighscoreComponent } from './highscore/highscore.component';
 import { GradientButtonComponent } from './gradient-button/gradient-button.component';
+import { AddPlayerComponent } from './add-player/add-player.component';
 
 //Charts
 import { ChartsModule } from 'ng2-charts';
@@ -21,6 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HeaderInterceptor } from './header-interceptor';
 import { GameComponent } from './game/game.component';
 import { JSONInterceptor } from './json-interceptor';
+import { RoundFormComponent } from './game/round-form/round-form.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,11 @@ import { JSONInterceptor } from './json-interceptor';
     TableComponent,
     HighscoreComponent,
     GradientButtonComponent, 
-    PlayerListComponent, GameComponent
+    PlayerListComponent,
+    GameComponent, 
+    RoundFormComponent,
+    AddPlayerComponent,
+
   ],
   imports: [
     AppRoutingModule,
@@ -49,6 +55,6 @@ import { JSONInterceptor } from './json-interceptor';
     {provide: HTTP_INTERCEPTORS, useClass: JSONInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [PlayerListComponent]
+  entryComponents: [PlayerListComponent, AddPlayerComponent]
 })
 export class AppModule { }

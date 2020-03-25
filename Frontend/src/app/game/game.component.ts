@@ -20,7 +20,10 @@ export class GameComponent implements OnInit {
   allPlayers: IPlayer[] = []
 
 
-  constructor( private api: ApiService, private gameService: GameService) { 
+  constructor( 
+    private api: ApiService, 
+    private gameService: GameService
+    ){ 
   }
       
   ngOnInit() {
@@ -29,6 +32,7 @@ export class GameComponent implements OnInit {
     this.allPlayers=this.currentGame.players
     console.log(this.allPlayers)
     console.log(this.currentGame)
+    this.addRound()
 
   }
 
@@ -38,6 +42,27 @@ export class GameComponent implements OnInit {
 
   set players(players: IPlayer[]) {
     this.currentGame.players = players
+  }
+
+  
+  addRound(){
+    var testRound:IRound = {
+      "gameID":this.currentGame.gameID,
+      "playerID":4, 
+      "gameRound":1,
+      "score": 99999,
+      "scoreSum": 999999,
+      "color":"Grün",
+      "unter":"Mit 2", 
+      "hand":true,
+      "schneider":false,
+      "schwarz":true,
+      "schneiderAngesagt": true,
+      "schwarzAngesagt":false,
+      "ouvert":false,
+      "bock":true
+  }
+    this.api.addRound(testRound).subscribe(round => this.currentRounds.push(round))
   }
 
 }
