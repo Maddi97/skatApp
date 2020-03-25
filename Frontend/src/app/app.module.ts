@@ -23,6 +23,7 @@ import { HeaderInterceptor } from './header-interceptor';
 import { GameComponent } from './game/game.component';
 import { JSONInterceptor } from './json-interceptor';
 import { RoundFormComponent } from './game/round-form/round-form.component';
+import { SpecPipe } from './spec.pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { RoundFormComponent } from './game/round-form/round-form.component';
     GameComponent, 
     RoundFormComponent,
     AddPlayerComponent,
-
+    SpecPipe
   ],
   imports: [
     AppRoutingModule,
@@ -52,7 +53,8 @@ import { RoundFormComponent } from './game/round-form/round-form.component';
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: JSONInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: JSONInterceptor, multi: true},
+    SpecPipe
   ],
   bootstrap: [AppComponent],
   entryComponents: [PlayerListComponent, AddPlayerComponent]

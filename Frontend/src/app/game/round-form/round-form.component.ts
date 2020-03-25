@@ -4,7 +4,6 @@ import { IRound, Color, Unter, Round } from 'src/assets/classes/round';
 
 import {
   SPECS,
-  COLUMNS,
   FARBE,
   UNTER,
   EMPTY_ROUND
@@ -32,7 +31,7 @@ export class RoundFormComponent implements OnInit {
   specs_control = new FormControl()
   // constant definitions
   specs = SPECS;
-  columns = COLUMNS;
+  columns = ['Unter', 'Farbe', 'Specs', 'Bock', 'Gespielt'];
   farbe = FARBE;
   unter = UNTER;
 

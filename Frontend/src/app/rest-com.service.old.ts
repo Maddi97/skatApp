@@ -5,7 +5,7 @@ import { HttpHeaders } from "@angular/common/http";
 import { Observable, throwError, BehaviorSubject, of } from "rxjs";
 import { catchError, retry, tap } from "rxjs/operators";
 import { stringify } from "@angular/compiler/src/util";
-import { data_row } from "./env";
+
 
 @Injectable({
   providedIn: "root"

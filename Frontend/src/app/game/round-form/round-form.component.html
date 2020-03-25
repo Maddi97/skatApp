@@ -34,15 +34,14 @@
         <mat-form-field color="accent" >
           <mat-label style="font-family: Monaco;">Specs:</mat-label>
           <mat-select [formControl]="specs_control" multiple  (selectionChange)="observeSelectedSpecs($event.value)"> 
-            <mat-option *ngFor="let spec of specs" [value]="spec"  style="font-family: Monaco;">{{spec}}</mat-option>
-            
+            <mat-option *ngFor="let possibleSpec of specs" [value]="possibleSpec"  style="font-family: Monaco;">{{possibleSpec | spec}}</mat-option>
           </mat-select>
         </mat-form-field> 
     </ng-container>
     <ng-container>
         <mat-checkbox [(ngModel)]="currentRound.bock" style="font-family: Monaco; margin: 1%">Bock</mat-checkbox>
     </ng-container>
-    <p style="color: red; font-family: Monaco;"> {{ errorMessage }}</p>
+    <!-- <p style="color: red; font-family: Monaco;"> {{ errorMessage }}</p> -->
     <span style="display: flex;">
       <app-gradient-button (click)="formSubmit()" style="width: 95%; margin: auto;">
         Submit

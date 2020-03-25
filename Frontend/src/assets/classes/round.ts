@@ -1,13 +1,30 @@
-export type Color = "Eichel" | "Grün" | "Rot" | "Shell" | "Grand" | "Null" | "Ramsch"
+export type Color = "Eichel" | "Grün" | "Rot" | "Schell" | "Grand" | "Null" | "Ramsch"
+export const FARBE: Color[] = ["Eichel", "Grün", "Rot", "Schell", "Grand", "Null", "Ramsch"]
+
 export type Unter = "Mit 1" | "Mit 2" | "Mit 3" | "Mit 4" |
                     "Ohne 1" | "Ohne 2" | "Ohne 3" | "Ohne 4" 
+export const UNTER: Unter[] = ["Mit 1", "Mit 2", "Mit 3", "Mit 4", "Ohne 1", "Ohne 2", "Ohne 3", "Ohne 4"]
 
-export const SPECS: string[] = ['hand', 'schneider', 'schneiderAngesagt', 'schwarz', 'schwarzAngesagt', 'ouvert']
-export const COLUMNS: string[] = ['Unter', 'Farbe', 'Specs', 'Bock', 'Gespielt']
-export const FARBE: string[] = ['Eichel', 'Grün', 'Rot', 'Schell', 'Grand', 'Null', 'Ramsch']
-export const UNTER: string[] = ['Mit 1', 'Mit 2', 'Mit 3', 'Mit 4', 'Ohne 1', 'Ohne 2', 'Ohne 3', 'Ohne 4']
-export const EMPTY_ROUND:IRound={"gameID":null,"playerID":null, "gameRound":null,"score": null,"scoreSum": null,"color":null,"unter":null, "hand":false,"schneider":false,"schwarz":false,
-"schneiderAngesagt": false,"schwarzAngesagt":false,"ouvert":false,"bock":false};                    
+export type Specs = "Hand" | "Schneider" | "schneiderAngesagt" | "Schwarz" | "schwarzAngesagt" | "Ouvert"
+export const SPECS: Specs[] = ["Hand", "Schneider", "schneiderAngesagt", "Schwarz", "schwarzAngesagt", "Ouvert"]
+
+
+export const EMPTY_ROUND:IRound= {
+    gameID:null,
+    playerID:null, 
+    gameRound:0,
+    score: 0,
+    scoreSum: 0,
+    color: null,
+    unter: null,
+    hand: false,
+    schneider: false,
+    schwarz: false,
+    schneiderAngesagt: false,
+    schwarzAngesagt: false,
+    ouvert: false,
+    bock: false
+};                    
 
 
 export interface IRound {
