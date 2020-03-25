@@ -7,7 +7,7 @@ import {
   COLUMNS,
   FARBE,
   UNTER,
-EMPTY_ROUND
+  EMPTY_ROUND
 } from "src/assets/classes/round";
 import { IGame, Game } from 'src/assets/classes/game';
 import { FormControl } from '@angular/forms';

@@ -35,7 +35,7 @@ import { Observable } from 'rxjs';
 export class TableComponent implements OnInit {
 
   @Input() players: IPlayer[];
-  @Input() rounds: IRound[] = [];
+  @Input() rounds = []; //IRound[] = [];
 
   displayedColumns: string[];
 
@@ -46,6 +46,7 @@ export class TableComponent implements OnInit {
   ngOnInit() { 
     console.log(this.players);
     this.displayedColumns = this.players.map(m => m.name);
+    this.displayedColumns.unshift('gameRound');
     console.log(this.rounds);
 
   }
