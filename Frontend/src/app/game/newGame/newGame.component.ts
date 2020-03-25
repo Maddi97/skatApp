@@ -47,6 +47,7 @@ export class NewGameComponent implements OnInit {
     ).subscribe({
       next: player => {
         console.log("added player", player)
+        this.allExistingPlayer.unshift(player)
       }
     })
   }
