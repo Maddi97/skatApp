@@ -2,15 +2,6 @@ import { Component, OnInit, OnChanges, Input, HostListener, Output } from "@angu
 import { MatTableDataSource } from "@angular/material";
 import { RestComService } from "../../rest-com.service.old";
 import { trigger, transition, state, style, animate } from '@angular/animations';
-
-import {
-  SPECS,
-  COLUMNS,
-  FARBE,
-  UNTER,
-  data_row,
-  INITIAL_DATA_ROW
-} from "../../env";
 import { IPlayer } from 'src/assets/classes/player';
 import { ApiService } from 'src/app/api.service';
 import { IRound } from 'src/assets/classes/round';

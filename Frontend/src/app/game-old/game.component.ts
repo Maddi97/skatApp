@@ -8,14 +8,6 @@ import { switchMap } from "rxjs/operators";
 
 //constants import
 
-import {
-  SPECS,
-  COLUMNS,
-  FARBE,
-  UNTER,
-  data_row,
-  INITIAL_DATA_ROW
-} from "../env";
 import { forkJoin } from 'rxjs';
 
 @Component({
