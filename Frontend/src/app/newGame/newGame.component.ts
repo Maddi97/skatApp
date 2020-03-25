@@ -54,7 +54,12 @@ export class NewGameComponent implements OnInit {
 
   addPlayers(){
     const instance = this.dialog.open(AddPlayerComponent);
-    
+    const newPlayers = instance.componentInstance;
+    instance.afterClosed().subscribe(() => {
+      newPlayers.newPlayers.forEach(element => {
+        this.allExistingPlayer.push(element);
+      })
+    })
   }
 
   assignPlayers() {
@@ -63,7 +68,7 @@ export class NewGameComponent implements OnInit {
     const instance = this.dialog.open(PlayerListComponent, {disableClose: true})
     const playerList = instance.componentInstance
 
-    // close only if  atleast 3 players selected
+    // close when clicked outside
     instance.backdropClick().pipe(takeUntil(unsubscribe)).subscribe(() => {
       instance.close()
     })

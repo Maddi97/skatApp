@@ -1,7 +1,9 @@
 <div>
   <mat-form-field>
-    <mat-label> Add Playersss</mat-label>
-    <input matInput type="text" [(ngModel)]="value">
+    <mat-label> Add Player</mat-label>
+    <input matInput type="text" [(ngModel)]="inputName">
     <mat-hint> name </mat-hint>
+    <!-- <mat-error> Username Already taken</mat-error> --> <!-- is not working yet-->
   </mat-form-field>
+  <button mat-raised-button color="primary" (click)="addPlayer()"> Add</button>
 </div>
