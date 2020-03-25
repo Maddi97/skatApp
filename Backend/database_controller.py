@@ -81,15 +81,12 @@ class database_controller:
         if self.__pre_condition_fail(gRound):
             raise PreConditionError()
 
-        game = self.get_game(gameID= gRound.gameID)
+        # game = self.get_game(gameID= gRound.gameID)
 
         # please add players first
-        if game.playerAmount < 1:
-            raise PreConditionError()
-
-        
-        gRound.gameRound=self.get_last_round_num(game.gameID)+1
-            
+        # if game.playerAmount < 1:
+        #     raise PreConditionError()
+           
         # 1 round -> all players play exactly once
         # if gRound.gameRound/game.playerAmount > game.gameRoundAmount:
         #     print("exceeded maximum game rounds")
@@ -100,7 +97,7 @@ class database_controller:
         insertion = insert(self.tGameDetails).values(
             gameID= gRound.gameID, playerID= gRound.playerID,
             gameRound= gRound.gameRound , score= gRound.score,
-            scoreSum= self.get_score_sum(gRound.gameID, gRound.gameRound, gRound.playerID)+gRound.score,
+            scoreSum= gRound.scoreSum,
             color= gRound.color, unter= gRound.unter, hand= gRound.hand, 
             schwarz= gRound.schwarz, schneider= gRound.schneider,
             schwarzAngesagt = gRound.schwarzAngesagt, schneiderAngesagt= gRound.schneiderAngesagt,
