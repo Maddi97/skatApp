@@ -55,6 +55,7 @@ def create_database(dataBaseName= databaseName, dropOnStart = True):
         Column('schwarzAngesagt', Boolean),
         Column('ouvert', Boolean),
         Column('bock', Boolean),
+        Column('loss', Boolean),
         PrimaryKeyConstraint('gameID', 'gameRound', name='gameDetails')
     )
 

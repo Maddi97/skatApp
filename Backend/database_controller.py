@@ -243,37 +243,38 @@ class database_controller:
         Rounds
         """
         #game 1
-        round1 = Round(game1.gameID, johann.playerID, self.get_last_round_num(game1.gameID)+1, 144, None, 'Grand', 'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+        round1 = Round(game1.gameID, johann.playerID, self.get_last_round_num(game1.gameID)+1, 144, None, 'Grand', 
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1)
         self.add_game_details(round1)
         round2 = Round(game1.gameID, jakob.playerID, self.get_last_round_num(game1.gameID)+1, 1344, None, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(round2)
         round3 = Round(game1.gameID, maddi.playerID, self.get_last_round_num(game1.gameID)+1, 1341, None, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(round3)
         round4 = Round(game1.gameID, johann.playerID, self.get_last_round_num(game1.gameID)+1, 423, None, 'Rot',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(round4)
         round5 = Round(game1.gameID, jakob.playerID, self.get_last_round_num(game1.gameID)+1, 144, None, 'Null',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(round5)
         round6 = Round(game1.gameID, maddi.playerID, self.get_last_round_num(game1.gameID)+1, 1344, None, 'Grand',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(round6)
 
         # game 2
         roundA = Round(game2.gameID, johan.playerID, self.get_last_round_num(game2.gameID)+1, 1344, None, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(roundA)
         roundB = Round(game2.gameID, friedrich.playerID, self.get_last_round_num(game2.gameID)+1, 1344, None, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(roundB)
         roundC = Round(game2.gameID, johann.playerID, self.get_last_round_num(game2.gameID)+1, 1344, None, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(roundC)
 
         roundD = Round(game2.gameID, johann.playerID, self.get_last_round_num(game2.gameID)+1, 1344, None, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         
         # validation
         # try:

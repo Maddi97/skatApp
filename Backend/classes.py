@@ -50,7 +50,7 @@ class Round:
     def db_mapping(roundDetails: dict):
         return Round(roundDetails["gameID"], roundDetails["playerID"], roundDetails["gameRound"], roundDetails["score"], roundDetails["scoreSum"],
         roundDetails["color"], roundDetails["unter"], roundDetails["hand"], roundDetails["schneider"], roundDetails["schwarz"],
-        roundDetails["schneiderAngesagt"], roundDetails["schwarzAngesagt"], roundDetails["ouvert"], roundDetails["bock"])
+        roundDetails["schneiderAngesagt"], roundDetails["schwarzAngesagt"], roundDetails["ouvert"], roundDetails["bock"], roundDetails["loss"])
 
     @staticmethod
     def from_JSON(gRound: dict):
@@ -68,12 +68,13 @@ class Round:
             gRound.get("schneiderAngesagt", False),
             gRound.get("schwarzAngesagt", False),
             gRound.get("ouvert", False),
-            gRound.get("bock", False)
+            gRound.get("bock", False),
+            gRound.get("loss", False)
         )
 
 
     def __init__(self, gameID, playerID, gameRound, score, scoreSum, color, unter, hand, schneider, schwarz,
-        schneiderAngesagt, schwarzAngesagt, ouvert, bock):
+        schneiderAngesagt, schwarzAngesagt, ouvert, bock, loss):
 
         self.gameID = gameID
         self.gameRound = gameRound
@@ -89,3 +90,4 @@ class Round:
         self.schwarzAngesagt = bool(schwarzAngesagt)
         self.ouvert = bool(ouvert)
         self.bock = bool(bock)
+        self.loss = bool(loss)
