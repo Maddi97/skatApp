@@ -1,7 +1,12 @@
 <div>
+  <mat-card class="card" (click)="addPlayers()">
+    <mat-card-header>
+      <mat-card-title> Add Player </mat-card-title>
+    </mat-card-header>
+  </mat-card>
   <mat-card class="card" (click)="assignPlayers()">
     <mat-card-header>
-      <mat-card-title> Player </mat-card-title>
+      <mat-card-title> Select Player </mat-card-title>
     </mat-card-header>
   </mat-card>
   <mat-card class="card" (click)="startNewGame()" [routerLink]="link">
