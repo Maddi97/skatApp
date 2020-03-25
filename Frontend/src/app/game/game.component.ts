@@ -5,6 +5,7 @@ import { Player, IPlayer } from 'src/assets/classes/player';
 import { Game, IGame } from 'src/assets/classes/game';
 import { Round, IRound } from 'src/assets/classes/round';
 import { GameService } from '../game/game.service';
+import { log } from 'util';
 
 
 
@@ -28,8 +29,8 @@ export class GameComponent implements OnInit {
       
   ngOnInit() {
 
-    this.gameService.currentGame$.pipe(first()).subscribe(game => this.currentGame=game)
-    this.allPlayers=this.currentGame.players
+    this.gameService.currentGame$.pipe(first()).subscribe(game => {this.currentGame=game;this.allPlayers=this.currentGame.players
+    })
     console.log(this.allPlayers)
     console.log(this.currentGame)
     this.addRound()
@@ -46,6 +47,8 @@ export class GameComponent implements OnInit {
 
   
   addRound(){
+
+    
     var testRound:IRound = {
       "gameID":this.currentGame.gameID,
       "playerID":4, 
@@ -64,5 +67,9 @@ export class GameComponent implements OnInit {
   }
     this.api.addRound(testRound).subscribe(round => this.currentRounds.push(round))
   }
+
+  log(evenvt) {
+    console.log(event)
+    }
 
 }

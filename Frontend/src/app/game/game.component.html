@@ -7,6 +7,6 @@
             <p> some charts </p>
         </mat-tab>
     </mat-tab-group>
-    <app-round-form [(players)]="allPlayers" [(game)]=currentGame></app-round-form>
+    <app-round-form [players]="allPlayers" [game]=currentGame (roundFinished)="log($event.value)"></app-round-form>
 </div>
 

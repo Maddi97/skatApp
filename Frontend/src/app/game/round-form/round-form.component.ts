@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { IPlayer, Player } from 'src/assets/classes/player';
 import { IRound, Color, Unter, Round } from 'src/assets/classes/round';
 
@@ -9,7 +9,7 @@ import {
   UNTER,
 EMPTY_ROUND
 } from "src/assets/classes/round";
-import { IGame } from 'src/assets/classes/game';
+import { IGame, Game } from 'src/assets/classes/game';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -19,8 +19,13 @@ import { FormControl } from '@angular/forms';
 })
 export class RoundFormComponent implements OnInit {
   @Input() players: IPlayer[];
-  @Input() game: IGame;
-  currentRound: IRound = EMPTY_ROUND;
+  @Input() set game(game: Game) {
+    this.currentRound.gameID = game.gameID ? game.gameID : -1
+}
+
+  @Output() roundFinished = new EventEmitter<IRound>(); 
+
+  currentRound: IRound = {...EMPTY_ROUND};
   
   //watches selected specs
   selected_specs:string[]=[]
@@ -34,7 +39,6 @@ export class RoundFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.currentRound.gameID=this.game.gameID;
   }
 
   observeSelectedSpecs(selected_specs){
@@ -48,8 +52,11 @@ export class RoundFormComponent implements OnInit {
     this.specs_control.reset()
 
     console.log(this.currentRound)
+    
+    this.roundFinished.next(this.currentRound)
 
-    //this.resetCurrentRound()
+    this.currentRound = {...EMPTY_ROUND, gameID: this.currentRound.gameID};
+
 
   }
 
@@ -61,22 +68,5 @@ export class RoundFormComponent implements OnInit {
     return currentRound;
   }
 
-  resetCurrentRound(){
-    
-    this.currentRound.gameRound=null
-    this.currentRound.playerID=null
-    this.currentRound.score=null
-    this.currentRound.scoreSum=null
-    this.currentRound.unter=null
-    this.currentRound.color=null
-    this.currentRound.hand=false
-    this.currentRound.schneider=false
-    this.currentRound.schneiderAngesagt=false
-    this.currentRound.schwarz=false
-    this.currentRound.schwarzAngesagt=false
-    this.currentRound.ouvert=false
-    this.currentRound.bock=false
-
-  }
 
 }
