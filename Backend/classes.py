@@ -56,8 +56,8 @@ class Round:
     def from_JSON(gRound: dict):
         return Round(
             gRound.get("gameID", None),
-            gRound.get("gameRound", 0),
             gRound.get("playerID", None),
+            gRound.get("gameRound", 0),
             gRound.get("score", 0),
             gRound.get("scoreSum", 0),
             gRound.get("color", None),

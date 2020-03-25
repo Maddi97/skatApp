@@ -87,10 +87,15 @@ class database_controller:
         if game.playerAmount < 1:
             raise PreConditionError()
 
+        
+        gRound.gameRound=self.get_last_round_num(game.gameID)+1
+            
         # 1 round -> all players play exactly once
-        if gRound.gameRound/game.playerAmount > game.gameRoundAmount:
-            print("exceeded maximum game rounds")
-            raise PreConditionError()
+        # if gRound.gameRound/game.playerAmount > game.gameRoundAmount:
+        #     print("exceeded maximum game rounds")
+        #     raise PreConditionError()
+
+
 
         insertion = insert(self.tGameDetails).values(
             gameID= gRound.gameID, playerID= gRound.playerID,
@@ -281,11 +286,11 @@ class database_controller:
                         'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
         
         # validation
-        try:
-            self.add_game_details(roundD)
-            print("Problems occured during setup")
-        except Exception as e:
-            print("Setup finished without problems")
+        # try:
+        #     self.add_game_details(roundD)
+        #     print("Problems occured during setup")
+        # except Exception as e:
+        #     print("Setup finished without problems")
 
    
 

@@ -33,7 +33,7 @@ export class GameComponent implements OnInit {
     })
     console.log(this.allPlayers)
     console.log(this.currentGame)
-    this.addRound()
+    //this.addRound()
 
   }
 
@@ -46,9 +46,10 @@ export class GameComponent implements OnInit {
   }
 
   
-  addRound(){
+  addRound(roundFinished){
 
-    
+    roundFinished.score=999;
+    roundFinished.scoreSum=999;
     var testRound:IRound = {
       "gameID":this.currentGame.gameID,
       "playerID":4, 
@@ -65,11 +66,8 @@ export class GameComponent implements OnInit {
       "ouvert":false,
       "bock":true
   }
-    this.api.addRound(testRound).subscribe(round => this.currentRounds.push(round))
+    this.api.addRound(roundFinished).subscribe(round => this.currentRounds.push(round))
+    console.log(this.currentRounds)
   }
-
-  log(evenvt) {
-    console.log(event)
-    }
-
+  
 }

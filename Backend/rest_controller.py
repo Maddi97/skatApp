@@ -98,7 +98,7 @@ def add_game_details():
     db_controller.add_game_details(gRound)
     return toJSONResponse(gRound)
 
-@app.errorhandler(Exception)
+#@app.errorhandler(Exception)
 def handleInternalErrors(error):
     LOG.error(error)
     response = jsonify(jsonpickle.encode(error))
