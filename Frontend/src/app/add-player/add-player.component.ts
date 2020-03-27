@@ -33,7 +33,7 @@ export class AddPlayerComponent implements OnInit {
 
   addPlayer(){
     //Jacob is never valid lol
-    if (this.playerName.value.toLowerCase().includes('acob')) {
+    if (this.playerName.value.toLowerCase().includes('jacob')) {
       this.playerName.setValue("Jakob");
     }
 

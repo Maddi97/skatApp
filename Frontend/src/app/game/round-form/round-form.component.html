@@ -3,7 +3,7 @@
     <ng-container>
         <mat-form-field color="accent">
           <mat-label style="font-family: Monaco;">Gespielt:</mat-label>
-          <mat-select [(value)]="currentRound.playerID">
+          <mat-select [(ngModel)]="currentRound.playerID">
             <mat-option *ngFor="let player of players" [value]="player.playerID" style="font-family: Monaco;">
               {{player.name}}
             </mat-option>
@@ -13,7 +13,7 @@
     <ng-container>
         <mat-form-field color="accent">
           <mat-label style="font-family: Monaco;">Farbe:</mat-label>
-          <mat-select [(value)]="currentRound.color">
+          <mat-select [(ngModel)]="currentRound.color">
             <mat-option *ngFor="let color of farbe" [value]="color" style="font-family: Monaco;">
               {{color}}
             </mat-option>
@@ -38,9 +38,15 @@
           </mat-select>
         </mat-form-field> 
     </ng-container>
-    <ng-container>
+    <ng-container id="checkbox" *ngIf="currentRound.color!='Ramsch'">
+    <ng-container >
         <mat-checkbox [(ngModel)]="currentRound.bock" style="font-family: Monaco; margin: 1%">Bock</mat-checkbox>
     </ng-container>
+    <ng-container>
+      <mat-checkbox [(ngModel)]="currentRound.loss" style="font-family: Monaco; margin: 1%">Verloren</mat-checkbox>
+  </ng-container>
+</ng-container>
+    <input *ngIf="currentRound.color == 'Ramsch'" [(ngModel)]="currentRound.score" style="font-family: Monaco; margin: 1%"/>
     <!-- <p style="color: red; font-family: Monaco;"> {{ errorMessage }}</p> -->
     <span style="display: flex;">
       <app-gradient-button (click)="formSubmit()" style="width: 95%; margin: auto;">

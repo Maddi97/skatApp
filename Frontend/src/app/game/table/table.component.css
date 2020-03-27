@@ -26,3 +26,6 @@ table-entry {
   color: #343a40; 
   font-size: 9;
 }
+tr.mat-footer-row {
+  font-weight: bold;
+}

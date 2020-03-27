@@ -13,7 +13,6 @@ export class GameService {
     count = 0
     private _currentGame$: BehaviorSubject<Game> = new BehaviorSubject(undefined)
     get currentGame$(): Observable<Game> {
-        console.log(this.count++)
         return this._currentGame$.asObservable().pipe(shareReplay())
     }
 

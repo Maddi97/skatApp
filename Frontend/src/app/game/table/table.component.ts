@@ -31,7 +31,7 @@ export class TableComponent implements OnInit {
 
   @Input()
   set rounds(rounds: Observable<IRound[]>) {
-    this._rounds = rounds.pipe(tap(x=> console.log(x)))
+    this._rounds = rounds.pipe()
   }
 
   get rounds() {
@@ -56,4 +56,7 @@ export class TableComponent implements OnInit {
     }
     return 0 
   }
-}
+  getScoreSum() {
+    return "TODO"
+    }
+  }
