@@ -1,6 +1,7 @@
 #!flask/bin/python
 from typing import List
 from datetime import datetime
+import traceback
 
 from flask import Flask, Response, jsonify, request
 from flask_cors import CORS, cross_origin
@@ -95,11 +96,14 @@ def get_game_details():
 def add_game_details():
     roundDetails = request.get_json()
     gRound = Round.from_JSON(roundDetails)
+    gRound.gameRound= db_controller.get_last_round_num(gRound.gameID)+1
+    gRound.scoreSum = db_controller.get_score_sum(gRound.gameID, gRound.gameRound, gRound.playerID)+gRound.score
     db_controller.add_game_details(gRound)
     return toJSONResponse(gRound)
 
 @app.errorhandler(Exception)
 def handleInternalErrors(error):
+    traceback.print_exc()
     LOG.error(error)
     response = jsonify(jsonpickle.encode(error))
     response.status_code = 500

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter, Input } from '@angular/core';
 import { ApiService } from '../api.service';
 import { IPlayer, Player } from 'src/assets/classes/player';
+import { FormControl, Validators, ValidationErrors } from '@angular/forms';
 
 @Component({
   selector: 'app-add-player',
@@ -9,35 +10,36 @@ import { IPlayer, Player } from 'src/assets/classes/player';
 })
 export class AddPlayerComponent implements OnInit {
 
-  inputName: string;
-  newPlayer: IPlayer = {};
-  newPlayers: Player[] = [];
-  allPlayer: Player[] = [];
+  @Output()
+  newPlayer = new EventEmitter<IPlayer>()
+  
+  @Input()
+  restrictedNames: string[] = []
 
-  constructor(
-    private api: ApiService,
-  ) { }
+  playerName = new FormControl("", {
+    validators: (control) => {
+      const errors: ValidationErrors = {}
+      if (control.value.trim() == "" || this.restrictedNames.includes(control.value)) {
+        errors["error"] = "true";
+      }
+      return errors
+       
+    }
+  })
 
-  ngOnInit() {
-    this.api.getAllPlayer().subscribe(res => {
-      this.allPlayer = res;
-    })
-  }
+  constructor( ) { }
+
+  ngOnInit() { }
 
   addPlayer(){
     //Jacob is never valid lol
-    if ( this.inputName.toLowerCase().includes('acob') ) {
-      this.inputName = "Jakob";
+    if (this.playerName.value.toLowerCase().includes('jacob')) {
+      this.playerName.setValue("Jakob");
     }
-    if ( this.allPlayer.map(m => m.name.toLowerCase()).includes(this.inputName.toLowerCase()) ){
-      console.warn('username already in use');
-      return;
-    }
-    this.newPlayer.name = this.inputName;
-    this.api.addPlayer(this.newPlayer).subscribe((res: Player) => {
-      this.newPlayers.push(res);
-    });
-    this.inputName = "";
+
+    const newPlayer: IPlayer = {name: this.playerName.value.trim()}
+    this.newPlayer.emit(newPlayer)
+    this.playerName.setValue("");
   }
 
 }

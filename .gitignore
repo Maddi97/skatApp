@@ -1,4 +1,3 @@
 Backend\venv\
 Backend/venv/*
-Backend/__pycache/*
-Backend\__pycache\
+/Backend/__pycache__/

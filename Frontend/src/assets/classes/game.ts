@@ -1,47 +1,34 @@
-import { IPlayer } from './player'
+import { IPlayer, Player } from './player'
+import { IRound, Round } from './round'
 
 export interface IGame {
     gameID?: number,
-    date?: Date,
+    date?: string | Date,
     gameRoundAmount?: number,
-    players?: IPlayer[]
+    players?: IPlayer[],
+    gameDetails?: IRound[]
 }
 
 export class Game implements IGame {
 
-    constructor(private _gameID: number = -1, private _date: Date = new Date(), 
-        private _gameRoundAmount: number = 0, private _players: IPlayer[] = []) { }
-    
-    get gameID(): number {
-        return this._gameID
+    static fromJSON(json: IGame) {
+        // immutability
+        json = {...json}
+
+        if (json.date) {
+            json.date = json.date instanceof Date ? json.date : new Date(Date.parse(json.date))
+        }
+        if (json.players) {
+            json.players = json.players.map(player => Player.fromJSON(player))
+        }
+        if (json.gameDetails) {
+            json.gameDetails = json.gameDetails.map(round => Round.fromJSON(round))
+        }
+        return Object.assign(new Game(), json)
     }
 
-    set gameID(gameID: number) {
-        this._gameID = gameID
-    }
+    constructor(public gameID: number = -1, public date: Date = new Date(), 
+    public gameRoundAmount: number = 0, public players: Player[] = [], public rounds: Round[] = []) { }
 
-    get date(): Date {
-        return this._date
-    }
-
-    set date(date: Date) {
-        this._date = date
-    }
-
-    get gameRoundAmount(): number {
-        return this._gameRoundAmount
-    }
-
-    set gameRoundAmount(amount: number) {
-        this._gameRoundAmount = amount
-    }
-
-    get players(): IPlayer[] {
-        return this._players
-    }
-
-    set players(players: IPlayer[]) {
-        this._players = players
-    }
 
 }

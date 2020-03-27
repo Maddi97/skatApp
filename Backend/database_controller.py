@@ -81,26 +81,18 @@ class database_controller:
         if self.__pre_condition_fail(gRound):
             raise PreConditionError()
 
-        game = self.get_game(gameID= gRound.gameID)
+        # game = self.get_game(gameID= gRound.gameID)
 
         # please add players first
-        if game.playerAmount < 1:
-            raise PreConditionError()
-
+        # if game.playerAmount < 1:
+        #     raise PreConditionError()
+           
         # 1 round -> all players play exactly once
-        if gRound.gameRound/game.playerAmount > game.gameRoundAmount:
-            print("exceeded maximum game rounds")
-            raise PreConditionError()
+        # if gRound.gameRound/game.playerAmount > game.gameRoundAmount:
+        #     print("exceeded maximum game rounds")
+        #     raise PreConditionError()
 
-        insertion = insert(self.tGameDetails).values(
-            gameID= gRound.gameID, playerID= gRound.playerID,
-            gameRound= gRound.gameRound , score= gRound.score,
-            scoreSum= self.get_score_sum(gRound.gameID, gRound.gameRound, gRound.playerID)+gRound.score,
-            color= gRound.color, unter= gRound.unter, hand= gRound.hand, 
-            schwarz= gRound.schwarz, schneider= gRound.schneider,
-            schwarzAngesagt = gRound.schwarzAngesagt, schneiderAngesagt= gRound.schneiderAngesagt,
-            ouvert= gRound.ouvert, bock= gRound.bock
-        )
+        insertion = insert(self.tGameDetails).values(**gRound.__dict__)
 
         query = self.__execute(insertion)
         return query.inserted_primary_key[0]
@@ -150,7 +142,10 @@ class database_controller:
         
         query = self.__execute(insertion)
         
-        updateGame = update(self.tGame).values(playerAmount = self.tGame.c["playerAmount"] + len(participants)).where(self.tGame.c["gameID"] == gameID)
+        updateGame = update(self.tGame)\
+            .values(playerAmount = self.tGame.c["playerAmount"] + len(participants))\
+            .where(self.tGame.c["gameID"] == gameID)
+            
         try:
             self.__execute(updateGame)
         except Exception as e:
@@ -248,44 +243,45 @@ class database_controller:
         Rounds
         """
         #game 1
-        round1 = Round(game1.gameID, johann.playerID, self.get_last_round_num(game1.gameID)+1, 144, None, 'Grand', 'Mit 4', 1, 0, 0, 1, 1, 0, 1)
+        round1 = Round(game1.gameID, johann.playerID, self.get_last_round_num(game1.gameID)+1, 144, None, 'Grand', 
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1)
         self.add_game_details(round1)
         round2 = Round(game1.gameID, jakob.playerID, self.get_last_round_num(game1.gameID)+1, 1344, None, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(round2)
         round3 = Round(game1.gameID, maddi.playerID, self.get_last_round_num(game1.gameID)+1, 1341, None, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(round3)
         round4 = Round(game1.gameID, johann.playerID, self.get_last_round_num(game1.gameID)+1, 423, None, 'Rot',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(round4)
         round5 = Round(game1.gameID, jakob.playerID, self.get_last_round_num(game1.gameID)+1, 144, None, 'Null',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(round5)
         round6 = Round(game1.gameID, maddi.playerID, self.get_last_round_num(game1.gameID)+1, 1344, None, 'Grand',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(round6)
 
         # game 2
         roundA = Round(game2.gameID, johan.playerID, self.get_last_round_num(game2.gameID)+1, 1344, None, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(roundA)
         roundB = Round(game2.gameID, friedrich.playerID, self.get_last_round_num(game2.gameID)+1, 1344, None, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(roundB)
         roundC = Round(game2.gameID, johann.playerID, self.get_last_round_num(game2.gameID)+1, 1344, None, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         self.add_game_details(roundC)
 
         roundD = Round(game2.gameID, johann.playerID, self.get_last_round_num(game2.gameID)+1, 1344, None, 'Grün',
-                        'Mit 4', 1, 0, 0, 1, 1, 0, 1 )
+                        'Mit 4', 1, 0, 0, 1, 1, 0, 1, 1 )
         
         # validation
-        try:
-            self.add_game_details(roundD)
-            print("Problems occured during setup")
-        except Exception as e:
-            print("Setup finished without problems")
+        # try:
+        #     self.add_game_details(roundD)
+        #     print("Problems occured during setup")
+        # except Exception as e:
+        #     print("Setup finished without problems")
 
    
 

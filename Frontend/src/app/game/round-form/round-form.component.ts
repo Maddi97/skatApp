@@ -1,15 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { IPlayer, Player } from 'src/assets/classes/player';
-import { IRound, Color, Unter } from 'src/assets/classes/round';
+import { IRound, Color, Unter, Round } from 'src/assets/classes/round';
 
 import {
   SPECS,
-  COLUMNS,
   FARBE,
   UNTER,
-INITIAL_ROUND
+  EMPTY_ROUND
 } from "src/assets/classes/round";
-import { IGame } from 'src/assets/classes/game';
+import { IGame, Game } from 'src/assets/classes/game';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -18,26 +17,56 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./round-form.component.css']
 })
 export class RoundFormComponent implements OnInit {
-  @Input() players: IPlayer[];
-  @Input() game: IGame;
-  currentRound: IRound = INITIAL_ROUND;
+  @Input() players: IPlayer[] = [];
+  @Input() set game(game: Game) {
+    if (game) {
+      this.currentRound.gameID = game.gameID ? game.gameID : -1
+    }
+  }
 
-  test = new FormControl();
+  @Output() roundFinished = new EventEmitter<IRound>(); 
 
+  currentRound: IRound = {...EMPTY_ROUND};
+  
+  //watches selected specs
+  selected_specs:string[]=[]
+  specs_control = new FormControl()
   // constant definitions
   specs = SPECS;
-  columns = COLUMNS;
+  columns = ['Unter', 'Farbe', 'Specs', 'Bock', 'Gespielt'];
   farbe = FARBE;
   unter = UNTER;
 
   constructor() { }
 
   ngOnInit() {
-    this.currentRound.gameID=this.game.gameID;
   }
-  form_submit(){
-    console.log(this.game)
+
+  observeSelectedSpecs(selected_specs){
+    this.selected_specs=selected_specs
+  }
+
+
+  formSubmit(){
+    this.currentRound = this.setSelctedSpecsToCurrentRound(this.currentRound)
+    this.specs_control.reset()
+
     console.log(this.currentRound)
+    
+    this.roundFinished.next(this.currentRound)
+
+    this.currentRound = {...EMPTY_ROUND, gameID: this.currentRound.gameID};
+
+
   }
+
+  setSelctedSpecsToCurrentRound(currentRound){
+    this.selected_specs.forEach(function (spec){
+      currentRound[spec] = !currentRound[spec]  //switches boolean
+    })
+    this.selected_specs= []
+    return currentRound;
+  }
+
 
 }

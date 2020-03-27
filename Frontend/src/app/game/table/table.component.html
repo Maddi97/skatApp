@@ -1,0 +1,23 @@
+  <table mat-table [dataSource]="rounds" class="mat-elevation-z8" style="width: 100%; background-color: #f3f3f3;">
+
+      <!-- Number Column -->
+    <ng-container matColumnDef="number">
+      <th mat-header-cell *matHeaderCellDef> Runde </th>
+      <td mat-cell *matCellDef="let round"> {{round.gameRound}} </td>
+      <td mat-footer-cell *matFooterCellDef> Total </td>
+
+    </ng-container>
+
+      <!-- Score Columns -->
+    <ng-container *ngFor="let player of (players | async)" [matColumnDef]="player.name">
+      <th mat-header-cell *matHeaderCellDef> {{player.name}} </th>
+      <td mat-cell *matCellDef="let round"> {{getScore(round, player)}} </td>
+      <td mat-footer-cell *matFooterCellDef="let round">{{getScoreSum()}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="(displayedColumns | async)"></tr>
+    <tr mat-row *matRowDef="let round; columns: (displayedColumns| async);"></tr>
+    <tr mat-footer-row *matFooterRowDef="(displayedColumns | async)"></tr>
+
+    
+  </table>
